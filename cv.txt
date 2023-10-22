@@ -1,0 +1,27 @@
+Đề: 
+Trang bán chuyên về bàn ghế 
+
+Nội dung công việc:
+- Phân chia công việc:
+	+ Tạo thêm giao diện cho trang: Nhật, Long, Nguyên - jsp
+		. login
+		. Trang chi tiết sản phẩm
+		. Trang user
+		. Giỏ hàng
+		. Trang admin (quản lý người dùng, quản lý hàng hóa, ...)
+	+ Soạn sẵn dữ liệu để ghi vào database: Lâm, Nguyên - mockaroo
+	+ Phân tích thiết kế database và xây dựng các hàm theo yêu cầu: Nam, Quân
+	+ backend: Khương, Lâm, Quốc
+	+ jdbc: Nam
+
+Yêu cầu bên backend:
+	form - thêm <input type=hidden name=action value=...>
+
+Hạn: 3 tuần, mỗi tuần tham gia báo cáo
+
+- vấn đề cần nói:
++ Giải đáp thắc mắc -ok
++ Kêu gọi đóng góp ý tưởng - ok
++ Yêu cầu - ok
++ Thời hạn - ok
++ Nói về quy tắc đã đưa trên github - ok
