@@ -1,4 +1,4 @@
-package model.database;
+package database;
 
 /**
  * Định nghĩa các dữ liệu khi kết nối

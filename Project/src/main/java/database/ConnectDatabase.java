@@ -1,6 +1,6 @@
-package model.database;
+package database;
 
-import static model.database.IManagementDB.*;
+import static database.IManagementDB.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
