@@ -1,4 +1,4 @@
-package model.database;
+package database;
 
 public class test {
 	public static void main(String[] args) {
