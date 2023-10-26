@@ -1,3 +1,4 @@
+import java.util.Objects;
 
 public class Account {
 private String name;
@@ -75,4 +76,23 @@ public void addCart() {
 public void getOrder () {
 	
 }
+
+@Override
+public int hashCode() {
+	return Objects.hash(access, email, name, password, phone);
+}
+
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
+		return true;
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	Account other = (Account) obj;
+	return access == other.access && Objects.equals(email, other.email) && Objects.equals(name, other.name)
+			&& Objects.equals(password, other.password) && phone == other.phone;
+}
+
 }

@@ -37,7 +37,5 @@ public void placeOrder() {
     orderHistory.add(new ArrayList<>(cart));
     cart.clear(); // Empty the cart after placing the order
 }
-public static void main(String[] args) {
-	System.out.println('a');
-}
+
 }
