@@ -59,6 +59,6 @@ public class UserController extends HttpServlet {
     }
 
     private void signup(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email
+        String email;
     }
 }

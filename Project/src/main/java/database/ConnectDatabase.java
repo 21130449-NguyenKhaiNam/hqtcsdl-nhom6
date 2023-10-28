@@ -33,7 +33,7 @@ public class ConnectDatabase {
 	/**
 	 * Ngắt kết nối
 	 */
-	public static void closeConnectio(Connection connect) {
+	public static void closeConnection(Connection connect) {
 		try {
 			if (connect != null)
 				connect.close();

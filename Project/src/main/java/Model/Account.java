@@ -9,8 +9,19 @@ private int phone;
 private String password;
 private int access;
 
+public Account(String name, String email, int phone, String password, int access) {
+	this.name = name;
+	this.email = email;
+	this.phone = phone;
+	this.password = password;
+	this.access = access;
+}
+
+public Account() {
+}
+
 public String getName() {
-	return name;
+return name;
 }
 
 public void setName(String name) {
