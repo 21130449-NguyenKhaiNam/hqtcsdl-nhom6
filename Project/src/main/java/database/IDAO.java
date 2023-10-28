@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * @param <E>
  */
 public interface IDAO<E> {
+
 	int insert(E e);
 
 	int update(E e);
