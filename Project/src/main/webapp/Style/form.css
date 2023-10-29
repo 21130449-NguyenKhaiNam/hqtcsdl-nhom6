@@ -1,0 +1,230 @@
+/* Common */
+#app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px
+}
+
+.form-login {
+    width: 440px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 8px #ccc;
+    padding: 32px;
+    min-height: unset;
+}
+
+.form-login_header {
+    font-size: 24px;
+    text-align: center;
+    position: relative;
+    color: var(--backgroud-color);
+}
+
+.form-login_header::before {
+    display: block;
+    content: "";
+    border-bottom: 1px solid #ccc;
+    position: absolute;
+    width: 90px;
+    top: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.infor {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+/* Start: Form Login */
+.infor_tele,
+.infor_password {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.input_tele,
+.input_password {
+    padding: 12px;
+    font-size: 0.875rem;
+    outline: none;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input_tele:focus,
+.input_password:focus {
+    border: 1px solid var(--background-button);
+    border-radius: 4px;
+}
+
+.infor_label-tele,
+.infor_label-password {
+    margin: 12px 0 4px;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.reset-password {
+    font-size: 0.875rem;
+    margin-top: 12px;
+    width: 25%;
+}
+
+.reset-password:hover {
+    color: rgb(48, 107, 217, 0.8);
+}
+
+.login-btn {
+    width: 100%;
+    color: #fff;
+    outline: none;
+    border: none;
+    background-color: var(--background-button);
+    padding: 12px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.login-btn:hover {
+    cursor: pointer;
+    background-color: #ffb057;
+}
+
+.form-note {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.form-note>a {
+    text-decoration: none;
+    color: #306bd9;
+    font-weight: 700;
+}
+/* End: Form Login */
+
+/* Begin: Form Register */
+.infor_name {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.input_name {
+    padding: 12px;
+    font-size: 0.875rem;
+    outline: none;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input_name:focus {
+    border: 1px solid var(--background-button);
+    border-radius: 4px;
+}
+
+.infor_label-name {
+    margin: 12px 0 4px;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.register-btn {
+    width: 100%;
+    color: #fff;
+    outline: none;
+    border: none;
+    background-color: var(--background-button);
+    padding: 12px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.register-btn:hover {
+    cursor: pointer;
+    background-color: #ffb057;
+}
+
+.form-note {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.form-note>a {
+    text-decoration: none;
+    color: #306bd9;
+    font-weight: 700;
+}
+
+.form-policy {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.form-policy>label {
+    padding-bottom: 16px;
+}
+
+.form-policy>p {
+    margin-left: 4px;
+}
+/* End: Form Register */
+
+/* Begin: Form Forget */
+.forget-btn {
+    width: 100%;
+    color: #fff;
+    outline: none;
+    border: none;
+    background-color: var(--background-button);
+    padding: 12px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.forget-btn:hover {
+    cursor: pointer;
+    background-color: #ffb057;
+}
+/* End: Form Forget */
+
+/* Begin: Form Reset */
+.infor_new-password,
+.infor_confirm-password {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.reset-btn {
+    width: 100%;
+    color: #fff;
+    outline: none;
+    border: none;
+    background-color: var(--background-button);
+    padding: 12px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.reset-btn:hover {
+    cursor: pointer;
+    background-color: #ffb057;
+}
+/* End: Form Reset */
