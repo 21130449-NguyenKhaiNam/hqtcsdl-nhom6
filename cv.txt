@@ -19,6 +19,14 @@ Yêu cầu bên backend:
 
 Hạn: 3 tuần, mỗi tuần tham gia báo cáo
 
+Tuần 1:
+- Cách đặt tên: thư mục viết thường
+- Dữ liệu: Chưa có dữ liệu test
+- Database: Hoàn thành nhưng hơi chậm
+- Xử lý dữ liệu lên frontend: Có hình dung ra được thông qua sơ đồ
+- Đẩy nhanh tiến độ: Tăng tốc
+- Phân chia công việc: Ai chưa có việc
+
 - vấn đề cần nói:
 + Giải đáp thắc mắc -ok
 + Kêu gọi đóng góp ý tưởng - ok
