@@ -1,6 +1,6 @@
-package Controller;
+package controller;
 
-import Model.User;
+import model.User;
 import database.DAO_User;
 
 import javax.servlet.RequestDispatcher;
