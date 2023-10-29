@@ -1,6 +1,8 @@
 package Controller;
 
+import Model.Account;
 import Model.User;
+import Utils.Encryption;
 import database.DAO_User;
 
 import javax.servlet.RequestDispatcher;
@@ -40,7 +42,7 @@ public class UserController extends HttpServlet {
         //find in DB
         User user = new User();
         user.setEmail(email);
-        user.setPassword(password);
+        user.setPassword(Encryption.encrypt(password));
         user = DAO_User.getDao_User().selectByEnP(user);
 
         String url = "";
@@ -57,7 +59,36 @@ public class UserController extends HttpServlet {
         rd.forward(req, resp);
     }
 
+    /**
+     * Are Email n Passwd already exists?
+     * <ul>
+     *     <li><b>False</b> if it's exits</li>
+     *     <li><b>True</b> if not</li>
+     * </ul>
+     * <b>Why return false if it's exists?</b></br>
+     * Cause if an Account exist, we will return FALSE n forwards request to SIGN IN, else we need create Account n send verify email
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     private void signup(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email;
+
+        String url;
+
+        User user = new User();
+        user.setEmail(req.getParameter("email"));
+        user.setPassword(Encryption.encrypt(req.getParameter("password")));
+        if (DAO_User.getDao_User().selectByEnP(user) == null) {
+            DAO_User.getDao_User().insert(user);
+            url = "/User/success.jsp"; // forward to success page or something like that
+        } else {
+            req.setAttribute("err", "Your account already exist! Please change to Sign In or Forget Password.");
+            url = "/User/signup.jsp";
+        }
+
+        RequestDispatcher rd = req.getServletContext().getRequestDispatcher(url);
+        rd.forward(req, resp);
     }
 }

@@ -11,8 +11,10 @@ public class DAO_User implements IDAO<User> {
     }
 
     /**
-     * @param user
-     * @return user account
+     * Searching in Database an object like <b>user</b>
+     *
+     * @param user an user just has Email n Password
+     * @return an object instance of User, or return null if can't find it.
      */
     public User selectByEnP(User user) {
 
