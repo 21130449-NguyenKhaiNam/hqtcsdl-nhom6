@@ -124,8 +124,8 @@
                                     <label for="repeat-new_password">Nhập lại mật khẩu mới</label>
                                 </div>
 
-                                <div id="btn-change_password" class="col-12 mb-3 ">
-                                    <button type="submit" class="bg-origin col-3 disable" disabled>Lưu thay đổi</button>
+                                <div class="col-12 mb-3 ">
+                                    <button id="btn-change_password" type="submit" class="bg-origin col-3 disabled" disabled >Lưu thay đổi</button>
                                 </div>
                             </form>
 
