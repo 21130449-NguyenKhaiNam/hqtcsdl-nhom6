@@ -17,23 +17,16 @@ Nội dung công việc:
 Yêu cầu bên backend:
 	form - thêm <input type=hidden name=action value=...>
 
-Hạn: 3 tuần, mỗi tuần tham gia báo cáo
+Hạn: 4 tuần, mỗi tuần tham gia báo cáo
 
 Tuần 1:
-- Cách đặt tên: thư mục viết thường
-- Dữ liệu: Chưa có dữ liệu test
-- Database: Hơi chậm
-- Xử lý dữ liệu lên frontend: Có hình dung ra được thông qua sơ đồ
-- Đẩy nhanh tiến độ: Tăng tốc
-- Phân chia công việc: Ai chưa có việc
-- Github: Tạo branch riêng
-- Giao diện: Chưa phân trang, thiếu trang index
-
 - github: Tạo branch, thống nhất câus trúc, không push lên master
-- Backend: Gửi email, khôi phục tài khoản, access (Bị khóa, Chưa xác thực, Thông thường, admin)
-- Frontend: 
-- Database: 
-
+- Backend: Gửi email, khôi phục tài khoản, access (Bị khóa: số -1, Chưa xác thực: số 0, Thông thường: 1, admin: 2)
+- Frontend: Chưa có index, Ghi action = pay trong form, cấu trúc file, gửi mã
+- Database: Mỗi người đóng góp 1, 2 câu proc, view, trigger, function
+- Data: Chưa có dữ liệu
+- Dao: Xóa list bên admin - mỗi lần gọi trực tiếp vào db, 
+- Phân chia công việc: Lâm làm dao chung với quốc
 
 - vấn đề cần nói:
 + Giải đáp thắc mắc -ok
