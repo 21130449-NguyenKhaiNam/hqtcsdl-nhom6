@@ -393,12 +393,13 @@ body{
     border: none;
     border-radius: 0.4rem;
     padding: 1rem 1rem;
+    cursor: pointer;
 }
 
-#btn-change_password > .disable{
-    background-color: #c0c0c0;
-    color: #fff;
-    cursor: context-menu;
+.disabled{
+    background-color: #c0c0c0 !important;
+    color: #fff !important;
+    cursor: context-menu !important;
 }
 
 input[type="radio"]{
