@@ -1,6 +1,5 @@
 package database;
 
-import Model.Account;
 import Model.User;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ public class DAO_User implements IDAO<User> {
     }
 
     /**
-     *
      * @param user
      * @return user account
      */

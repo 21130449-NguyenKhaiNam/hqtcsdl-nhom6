@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Account;
 import Model.User;
 import database.DAO_User;
 

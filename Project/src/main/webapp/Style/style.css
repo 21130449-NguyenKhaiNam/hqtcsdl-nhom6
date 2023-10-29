@@ -352,15 +352,15 @@ template {
 * Add color :
 */
 
-:root{
-    --backgroud-color :  #ffba00 ;
-    --background-button : #ff8800 ;
-    --font-color_text : #d0021b;
-    --font-color_detail : #777777;
-    --font-color_title : #222222 ;
+:root {
+    --backgroud-color: #ffba00;
+    --background-button: #ff8800;
+    --font-color_text: #d0021b;
+    --font-color_detail: #777777;
+    --font-color_title: #222222;
 }
 
-*{
-   font-family: Roboto , sans-serif;
+* {
+    font-family: Roboto, sans-serif;
 }
 
