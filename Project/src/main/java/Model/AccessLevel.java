@@ -1,4 +1,4 @@
-package model;
+package Model;
 
 public class AccessLevel {
     private Account c1;

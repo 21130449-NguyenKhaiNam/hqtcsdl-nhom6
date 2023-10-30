@@ -1,15 +1,13 @@
-package model;
+package Model;
 
 import java.util.Objects;
 
-public class Account {
-    private String name;
-    private String email;
-    private int phone;
-    private String password;
-    private int access;
+public abstract class Account {
+    protected String id, name, email, phone, password;
+    protected int access;
 
-    public Account(String name, String email, int phone, String password, int access) {
+    public Account(String id, String name, String email, String phone, String password, int access) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -18,6 +16,14 @@ public class Account {
     }
 
     public Account() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -36,11 +42,11 @@ public class Account {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -70,28 +76,10 @@ public class Account {
         System.out.println();
     }
 
-    public void vertifiAcount() {
-
-    }
-
-    public void getCart() {
-
-    }
-
-    public void addCart() {
-
-    }
-
-    public void getOrder() {
-
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(access, email, name, password, phone);
     }
 
-    @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
@@ -103,5 +91,6 @@ public class Account {
         return access == other.access && Objects.equals(email, other.email) && Objects.equals(name, other.name)
                 && Objects.equals(password, other.password) && phone == other.phone;
     }
+
 
 }
