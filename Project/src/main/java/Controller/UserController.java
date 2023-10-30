@@ -1,8 +1,8 @@
-package controller;
+package Controller;
 
 import Utils.Encryption;
 import Utils.SendEmail;
-import model.User;
+import Model.User;
 import database.DAO_User;
 
 import javax.servlet.RequestDispatcher;
@@ -57,10 +57,9 @@ public class UserController extends HttpServlet {
         user.setPassword(Encryption.encrypt(password));
         user = DAO_User.getDao_User().selectByEnP(user);
 
-        String url = "";
+        String url = "/User/signin.jsp";
         if (user == null) {
             req.setAttribute("err_sign_in", "Email or Password is incorrect!");
-            url = "/User/signin.jsp";
         } else {
             // xw ly voi access cua tk user
 
@@ -71,23 +70,18 @@ public class UserController extends HttpServlet {
                     break;
                 case 0:
                     // chua xac thuc
-req.setAttribute("err", "Please check your mailbox n click on the link sent to you.");
+                    req.setAttribute("err", "Please check your mailbox n click on the link sent to you.");
                     break;
                 case 1:
                     // thong thuong
-
-                    break;
                 case 2:
                     // admin
-
+                    HttpSession session = req.getSession();
+                    session.setAttribute("User", user);
+                    url = "/index.jsp";
                     break;
             }
-
-            HttpSession session = req.getSession();
-            session.setAttribute("User", user);
-            url = "/index.jsp";
         }
-
         RequestDispatcher rd = req.getServletContext().getRequestDispatcher(url);
         rd.forward(req, resp);
     }
