@@ -352,15 +352,60 @@ template {
 * Add color :
 */
 
-:root {
-    --backgroud-color: #ffba00;
-    --background-button: #ff8800;
-    --font-color_text: #d0021b;
-    --font-color_detail: #777777;
-    --font-color_title: #222222;
+:root{
+    --background-color-white : #fff;
+    --background-color-grey : #f4f4f4;
+    --background-color-orange :  #ffba00 ;
+    --background-button : #ff8800 ;
+    --font-color_text : #d0021b;
+    --font-color_detail : #777777;
+    --font-color_title : #222222 ;
+
 }
 
-* {
-    font-family: Roboto, sans-serif;
+*{
+   font-family: Roboto , sans-serif;
 }
 
+body{
+    background-color: var(--background-color-grey);
+}
+
+#per-form{
+    background-color: var(--background-color-white);
+}
+
+.list-function{
+    list-style: none;
+    background-color: var(--background-color-white) ;
+    height: 10rem;
+}
+
+.item-function{
+    padding: 0.5rem 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--font-color_detail);
+}
+
+.bg-origin{
+    background-color: var(--background-color-orange);
+    border: none;
+    border-radius: 0.4rem;
+    padding: 1rem 1rem;
+    cursor: pointer;
+}
+
+.disabled{
+    background-color: #c0c0c0 !important;
+    color: #fff !important;
+    cursor: context-menu !important;
+}
+
+input[type="radio"]{
+    display: none;
+}
+
+input[type="radio"]:checked + label{
+    color: black;
+}

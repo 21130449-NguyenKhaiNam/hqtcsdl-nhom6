@@ -1,9 +1,8 @@
-package Controller;
+package controller;
 
-import Model.Account;
-import Model.User;
 import Utils.Encryption;
 import Utils.SendEmail;
+import model.User;
 import database.DAO_User;
 
 import javax.servlet.RequestDispatcher;
