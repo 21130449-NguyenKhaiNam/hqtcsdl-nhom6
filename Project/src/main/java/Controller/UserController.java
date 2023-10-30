@@ -3,6 +3,7 @@ package Controller;
 import Model.Account;
 import Model.User;
 import Utils.Encryption;
+import Utils.SendEmail;
 import database.DAO_User;
 
 import javax.servlet.RequestDispatcher;
@@ -28,6 +29,18 @@ public class UserController extends HttpServlet {
             case "sign-up":
                 signup(req, resp);
                 break;
+            case "logout":
+                logout(req, resp);
+                break;
+            case "forgot":
+                forgotPw(req, resp);
+                break;
+            case "verify":
+                verify(req, resp);
+                break;
+            case "reset-password":
+                resetPwd(req, resp);
+                break;
         }
     }
 
@@ -50,6 +63,27 @@ public class UserController extends HttpServlet {
             req.setAttribute("err_sign_in", "Email or Password is incorrect!");
             url = "/User/signin.jsp";
         } else {
+            // xw ly voi access cua tk user
+
+            switch (user.getAccess()) {
+                case -1:
+                    // bi khoa
+                    req.setAttribute("err", "Your account has violated our policies and terms. If you believe this is a misunderstanding, please contact us at 21130449@st.hcmuaf.edu.vn. Thank you so much.");
+                    break;
+                case 0:
+                    // chua xac thuc
+req.setAttribute("err", "Please check your mailbox n click on the link sent to you.");
+                    break;
+                case 1:
+                    // thong thuong
+
+                    break;
+                case 2:
+                    // admin
+
+                    break;
+            }
+
             HttpSession session = req.getSession();
             session.setAttribute("User", user);
             url = "/index.jsp";
@@ -66,7 +100,7 @@ public class UserController extends HttpServlet {
      *     <li><b>True</b> if not</li>
      * </ul>
      * <b>Why return false if it's exists?</b></br>
-     * Cause if an Account exist, we will return FALSE n forwards request to SIGN IN, else we need create Account n send verify email
+     * Cause if an Account exist, we will return FALSE n forwards request to SIGN IN, else we need create Account (n send verify email)?
      *
      * @param req
      * @param resp
@@ -81,7 +115,8 @@ public class UserController extends HttpServlet {
         user.setEmail(req.getParameter("email"));
         user.setPassword(Encryption.encrypt(req.getParameter("password")));
         if (DAO_User.getDao_User().selectByEnP(user) == null) {
-            DAO_User.getDao_User().insert(user);
+//            DAO_User.getDao_User().insert(user);
+            SendEmail.verify(user);
             url = "/User/success.jsp"; // forward to success page or something like that
         } else {
             req.setAttribute("err", "Your account already exist! Please change to Sign In or Forget Password.");
@@ -91,4 +126,44 @@ public class UserController extends HttpServlet {
         RequestDispatcher rd = req.getServletContext().getRequestDispatcher(url);
         rd.forward(req, resp);
     }
+
+    private void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        //destroy this session
+        session.invalidate();
+        // in this case, i will redirect it to index.jsp. If u want to change, u can overwrite /index.jsp
+        resp.sendRedirect(req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/index.jsp");
+    }
+
+    /**
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void forgotPw(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String url = "";
+
+        User user = new User();
+        user.setEmail(req.getParameter("email"));
+
+        if (DAO_User.getDao_User().selectByEmail(user) == null) {
+            req.setAttribute("err", "Email incorrect! Please try again.");
+            url = "/User/signin.jsp";
+        } else {
+            // send email for reset password
+            // ... code at here
+            url = "/User/success.jsp";
+        }
+        RequestDispatcher rd = req.getServletContext().getRequestDispatcher(url);
+        rd.forward(req, resp);
+    }
+
+    private void resetPwd(HttpServletRequest req, HttpServletResponse resp) {
+    }
+
+    private void verify(HttpServletRequest req, HttpServletResponse resp) {
+    }
+
 }

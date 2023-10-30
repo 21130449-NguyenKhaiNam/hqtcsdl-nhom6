@@ -1,24 +1,57 @@
 package Model;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class User extends Account {
+
+    private String code;
+    private Date expiredTime;
     private List<Product> cart = new ArrayList<>();
     private List<List<Product>> orderHistory = new ArrayList<>();
 
-    public User(String name, String email, int phone, String password, int access) {
-        super();
-        // TODO Auto-generated constructor stub
+    public User(String id, String name, String email, String phone, String password, int access, String code, Date expiredTime, List<Product> cart, List<List<Product>> orderHistory) {
+        super(id, name, email, phone, password, access);
+        this.code = code;
+        this.expiredTime = expiredTime;
+        this.cart = cart;
+        this.orderHistory = orderHistory;
     }
 
     public User() {
-        super();
     }
 
-    public void checkAcount() {
-        // TODO Auto-generated method stub
-        super.checkAcount();
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Date getExpiredTime() {
+        return expiredTime;
+    }
+
+    public void setExpiredTime(Date expiredTime) {
+        this.expiredTime = expiredTime;
+    }
+
+    public List<Product> getCart() {
+        return cart;
+    }
+
+    public void setCart(List<Product> cart) {
+        this.cart = cart;
+    }
+
+    public List<List<Product>> getOrderHistory() {
+        return orderHistory;
+    }
+
+    public void setOrderHistory(List<List<Product>> orderHistory) {
+        this.orderHistory = orderHistory;
     }
 
     public void vertifiAcount() {
@@ -29,10 +62,6 @@ public class User extends Account {
             if (getAccess() > 2)
                 System.out.println("Account hasn been vertifi.");
         }
-    }
-
-    public List<Product> getCarts() {
-        return cart;
     }
 
     public void addCarts(Product product) {
@@ -48,5 +77,4 @@ public class User extends Account {
         orderHistory.add(new ArrayList<>(cart));
         cart.clear(); // Empty the cart after placing the order
     }
-
 }

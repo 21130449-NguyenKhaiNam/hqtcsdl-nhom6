@@ -9,9 +9,14 @@ public class Admin extends Account {
     private List<User> users = new ArrayList<>(); // A list of user accounts
     private List<String> vouchers = new ArrayList<>();
 
-    public Admin(String name, String email, int phone, String password, int access) {
-        super(name, email, phone, password, access);
-        // TODO Auto-generated constructor stub
+    public Admin(String id, String name, String email, String phone, String password, int access, List<Product> systemProducts, List<User> users, List<String> vouchers) {
+        super(id, name, email, phone, password, access);
+        this.systemProducts = systemProducts;
+        this.users = users;
+        this.vouchers = vouchers;
+    }
+
+    public Admin() {
     }
 
     @Override
