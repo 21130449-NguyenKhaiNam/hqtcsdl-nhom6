@@ -1,9 +1,9 @@
 package Controller;
 
+import Model.UserDao;
 import Utils.Encryption;
 import Utils.SendEmail;
 import Model.User;
-import database.DAO_User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/user-controller")
 public class UserController extends HttpServlet {
@@ -48,14 +49,14 @@ public class UserController extends HttpServlet {
         doGet(req, resp);
     }
 
-    private void signin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void signin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
         //get username, password from FE
         String email = req.getParameter("email"), password = req.getParameter("password");
         //find in DB
         User user = new User();
         user.setEmail(email);
         user.setPassword(Encryption.encrypt(password));
-        user = DAO_User.getDao_User().selectByEnP(user);
+        user = UserDao.selectByEnP(user);
 
         String url = "/User/signin.jsp";
         if (user == null) {

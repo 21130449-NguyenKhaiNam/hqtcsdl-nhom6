@@ -1,29 +1,30 @@
 package Model;
 
-import java.util.Objects;
+import Utils.Encryption;
 
-public abstract class Account {
-    protected String id, name, email, phone, password;
-    protected int access;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-    public Account(String id, String name, String email, String phone, String password, int access) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-        this.access = access;
-    }
+public class Account {
+    private String id, name, email, phone, password;
+    private int access;
+    private String code;
+    private Date expiredTime;
 
-    public Account() {
+    public Account(ResultSet result) throws SQLException {
+        if(result != null) {
+            id = result.getString("ID");
+            name = result.getString("USERNAME");
+            email = result.getString("EMAIL");
+            phone = result.getString("PHONE");
+            password = result.getString("PASSWORD");
+            access = Integer.parseInt(result.getString("ACCESS"));
+        }
     }
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -66,31 +67,19 @@ public abstract class Account {
         this.access = access;
     }
 
-    public void checkAcount() {
-        System.out.println(name);
-        System.out.println(email);
-        System.out.println(phone);
-        if (access == 1) {
-            System.out.println("Admin");
-        }
-        System.out.println();
+    public String getCode() {
+        return code;
     }
 
-    public int hashCode() {
-        return Objects.hash(access, email, name, password, phone);
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Account other = (Account) obj;
-        return access == other.access && Objects.equals(email, other.email) && Objects.equals(name, other.name)
-                && Objects.equals(password, other.password) && phone == other.phone;
+    public Date getExpiredTime() {
+        return expiredTime;
     }
 
-
+    public void setExpiredTime(Date expiredTime) {
+        this.expiredTime = expiredTime;
+    }
 }
