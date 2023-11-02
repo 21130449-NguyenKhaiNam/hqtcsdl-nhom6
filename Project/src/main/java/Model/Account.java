@@ -1,19 +1,18 @@
 package Model;
 
-import Utils.Encryption;
-
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class Account {
-    private String id, name, email, phone, password;
-    private int access;
+    protected String id, name, email, phone, password;
+    protected int access;
     private String code;
     private Date expiredTime;
 
     public Account(ResultSet result) throws SQLException {
-        if(result != null) {
+        if (result != null) {
             id = result.getString("ID");
             name = result.getString("USERNAME");
             email = result.getString("EMAIL");
@@ -84,11 +83,12 @@ public class Account {
     }
 
     /**
-     * Kiểm tra một tài khoản nhận vào có đúng cú pháp
+     * Kiểm tra tài khoản nhận vào có đúng cú pháp
+     *
      * @return
      */
     public boolean validAccount() {
         return !(id == null || id.isEmpty() || name == null || name.isEmpty() || email == null || email.isEmpty()
-            || phone == null || phone.isEmpty() || password == null || password.isEmpty() || Access.validAccess(access));
+                || phone == null || phone.isEmpty() || password == null || password.isEmpty() || Access.validAccess(access));
     }
 }

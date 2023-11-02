@@ -22,31 +22,21 @@ public class RealismQuery {
         nameDBs = nameDBs.trim();
 
         // Lấy ra các trường không có mặc định là toàn bộ
-        String filed = ((fields == null || fields.length == 0) ? "*" :
-                Arrays.toString(fields).replaceAll("[\\[\\]]", ""));
+        String field = convertField(fields);
 
         EncryptQuery encryptQuery = encryptConditions(conditions);
-        String condition = encryptQuery.getCondition();
+        String condition = encryptQuery.getQuery();
         List<String> listConditons = encryptQuery.getListConditions();
 
-        String sql = "SELECT " + filed + " FROM " + nameDBs + " " + condition;
+        String sql = "SELECT " + field + " FROM " + nameDBs + " " + condition;
 
         // Tiến hành truy vấn
-        Connection connection = ConnectDatabase.C;
-        PreparedStatement query = connection.prepareStatement(sql);
-        if(listConditons != null)
-            for (int i = 0; i < listConditons.size(); i++)
-                query.setString(i + 1, listConditons.get(i));
-        ConnectDatabase.closeConnection(connection);
-        return query.executeQuery();
+        return exec(sql, listConditons);
     }
 
     /**
      * Câu lệnh select này cho phép tự viết query theo ý,
      * nhưng sẽ không có mã hóa do đó cần cẩn thận trong quá trình gọi
-     * @param sql
-     * @return
-     * @throws SQLException
      */
     public static ResultSet select(String sql) throws SQLException {
         Connection connection = ConnectDatabase.C;
@@ -60,16 +50,57 @@ public class RealismQuery {
     }
 
     /**
-     * Hàm insert này sẽ mã hóa dữ liệu đưa vào db tránh tình trạng bị đưa vào mã độc
+     * Hàm insert này sẽ mã hóa dữ liệu đưa vào db tránh tình trạng bị đưa vào mã độc.
+     * Trả về số dòng insert thành công, ngoại lệ:
+     * -1 - Lỗi câu lệnh
      */
-    public static void insert(String nameDBs, String[] fields, String... values) {
+    public static int insert(String nameDBs, String[] fields, String[] values) throws SQLException {
+        if(nameDBs == null || nameDBs.isEmpty()) {
+            System.out.println("[RealismQuery-insert] >> Câu lệnh insert có vấn đề");
+            return -1;
+        }
 
+        nameDBs = nameDBs.trim();
+
+        String field = convertField(fields);
+        field = field.equals("*") ? field : ("(" + field + ")");
+
+        EncryptQuery encryptQuery = encryptValues(values);
+        String value = encryptQuery.getQuery();
+        List<String> listValues = encryptQuery.getListConditions();
+
+        String sql = "INSERT INTO " + nameDBs + field + " VALUES " + value;
+
+        return execUpdate(sql, listValues);
     }
 
     /**
-     * Mã hóa câu lệnh sql
-     * @param conditions
-     * @return
+     * Mã hóa dữ liệu insert
+     */
+    private static EncryptQuery encryptValues(String[] values) {
+        if(values == null || values.length == 0) {
+            System.out.println("[RealismQuery-encryptValues] >> Lỗi giá trị nhận vào");
+            return null;
+        }
+        StringBuilder value = new StringBuilder();
+        List<String> listValues = new ArrayList<>();
+
+        for (String v: values) {
+            String[] vs = v.replaceAll("[()]","").trim().split(",");
+            for (String vsi : vs) {
+                v = v.replace(vsi, "?");
+                vsi = vsi.replaceAll("'", "");
+                listValues.add(vsi);
+            }
+            value.append(v).append(", ");
+        }
+        value.deleteCharAt(value.lastIndexOf(","));
+
+        return new EncryptQuery(value.toString(), listValues);
+    }
+
+    /**
+     * Mã hóa câu lệnh điều kiện sql
      */
     private static EncryptQuery encryptConditions(String conditions) {
         String condition = "";
@@ -93,5 +124,38 @@ public class RealismQuery {
             condition = "WHERE " + condition;
         }
         return new EncryptQuery(condition, listCondition);
+    }
+
+    /**
+     * Chuyển mảng các trường thành một truy xuất trong sql,
+     * nếu không có trường thì mặc định là toàn bộ
+     */
+    private static String convertField(String[] fields) {
+        return ((fields == null || fields.length == 0) ? "*" :
+                Arrays.toString(fields).replaceAll("[\\[\\]]", ""));
+    }
+
+    /**
+     * Thực thi câu lệnh được mã hóa, kết quả trả về các cột trong trường
+     */
+    private static ResultSet exec(String sql, List<String> list) throws SQLException {
+        Connection connection = ConnectDatabase.C;
+        PreparedStatement query = connection.prepareStatement(sql);
+        if(list != null)
+            for (int i = 0; i < list.size(); i++)
+                query.setString(i + 1, list.get(i));
+        return query.executeQuery();
+    }
+
+    /**
+     * Thực thi các câu lệnh insert, update, delete kết quả trả về số dòng thực thi thành công
+     */
+    private static int execUpdate(String sql, List<String> list) throws SQLException {
+        Connection connection = ConnectDatabase.C;
+        PreparedStatement query = connection.prepareStatement(sql);
+        if(list != null)
+            for (int i = 0; i < list.size(); i++)
+                query.setString(i + 1, list.get(i));
+        return query.executeUpdate();
     }
 }

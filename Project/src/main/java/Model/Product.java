@@ -11,7 +11,7 @@ public class Product {
     private Date dateAdded;
 
     public Product(ResultSet resultSet) throws SQLException {
-        if(resultSet != null) {
+        if (resultSet != null) {
             this.id = resultSet.getString("ID");
             this.name = resultSet.getString("NAME");
             this.material = resultSet.getString("MATERIAL");
@@ -25,5 +25,20 @@ public class Product {
             this.amount = resultSet.getInt("AMOUNT");
             this.dateAdded = resultSet.getDate("DATE_ADDED");
         }
+    }
+
+    public String convertToSQL() {
+        return "(" + "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", material='" + material + '\'' +
+                ", img='" + img + '\'' +
+                ", kind='" + kind + '\'' +
+                ", trademark='" + trademark + '\'' +
+                ", description='" + description + '\'' +
+                ", color='" + color + '\'' +
+                ", dimension=" + dimension +
+                ", price=" + price +
+                ", amount=" + amount +
+                ", dateAdded=" + dateAdded + ")";
     }
 }

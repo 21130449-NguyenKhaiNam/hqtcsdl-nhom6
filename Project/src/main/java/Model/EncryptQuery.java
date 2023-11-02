@@ -3,16 +3,16 @@ package Model;
 import java.util.List;
 
 public class EncryptQuery {
-    private String condition;
+    private String query;
     private List<String> listConditions;
 
-    public EncryptQuery(String condition, List<String> listConditions) {
-        this.condition = condition;
+    public EncryptQuery(String query, List<String> listConditions) {
+        this.query = query;
         this.listConditions = listConditions;
     }
 
-    public String getCondition() {
-        return condition;
+    public String getQuery() {
+        return query;
     }
 
     public List<String> getListConditions() {
