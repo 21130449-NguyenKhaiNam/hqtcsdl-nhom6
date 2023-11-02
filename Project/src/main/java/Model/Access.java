@@ -9,4 +9,15 @@ public class Access {
     public static final  int ADMIN = 2;
 
     public static final int[] ACCESS = {NOT_EXIST, LOCKED, UNAUTHENTICATED, NORMAL, ADMIN};
+
+    /**
+     * Một con số chỉ hợp lệ khi nó khi nó tôn tại trong khoảng giới hạn
+     */
+    public static boolean validAccess(int access) {
+        for (int ac: ACCESS) {
+            if(access == ac)
+                return true;
+        }
+        return false;
+    }
 }

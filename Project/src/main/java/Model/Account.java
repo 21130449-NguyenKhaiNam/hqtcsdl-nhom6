@@ -82,4 +82,13 @@ public class Account {
     public void setExpiredTime(Date expiredTime) {
         this.expiredTime = expiredTime;
     }
+
+    /**
+     * Kiểm tra một tài khoản nhận vào có đúng cú pháp
+     * @return
+     */
+    public boolean validAccount() {
+        return !(id == null || id.isEmpty() || name == null || name.isEmpty() || email == null || email.isEmpty()
+            || phone == null || phone.isEmpty() || password == null || password.isEmpty() || Access.validAccess(access));
+    }
 }
