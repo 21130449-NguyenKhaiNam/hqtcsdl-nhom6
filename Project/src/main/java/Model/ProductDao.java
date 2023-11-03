@@ -10,14 +10,8 @@ public class ProductDao {
      * Lấy danh sách sản phẩm: admin thì lấy hết
      */
     public static List<Product> getCarts(Account user) throws SQLException {
-        List<Account> accounts = AccountDao.selectByEnP(user);
+        Account ac = AccountDao.selectByEnP(user);
         List<Product> products = new ArrayList<>();
-        if(accounts.size() > 1) {
-            System.out.println("[Products-getCarts] >> Đã có vấn đề trong cơ sở dữ liệu " +
-                    "hãy kiểm tra câu lệnh insert hoặc dữ liệu trong DB");
-            return products;
-        }
-        Account ac = accounts.get(0);
         int access = ac.getAccess();
         ResultSet result = null;
         if(access == Access.ADMIN) {
@@ -32,7 +26,17 @@ public class ProductDao {
         return products;
     }
 
-    public static boolean updateProduct(Admin admin, Product product) {
-        return false;
+    /**
+     * Cập nhật thông tin sản phẩm
+     */
+    public static int updateProduct(Product product) {
+        return -1;
+    }
+
+    /**
+     * Lấy danh sách sản phẩm yêu thích
+     */
+    public static List<Product> getWishList(User user) {
+        return null;
     }
 }

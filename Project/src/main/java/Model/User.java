@@ -8,12 +8,17 @@ public class User extends Account {
         super(result);
     }
 
+    @Override
+    public void setAccess(int access) {
+        super.setAccess(access);
+    }
+
     public String convertToSql() {
-        return "(" + "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", password='" + password + '\'' +
-                ", access=" + access + ")";
+        return "(" + "ID='" + id + '\'' +
+                ", NAME='" + name + '\'' +
+                ", EMAIL='" + email + '\'' +
+                ", PHONE='" + phone + '\'' +
+                ", PASSWORD='" + password + '\'' +
+                ", ACCESS=" + access + ")";
     }
 }

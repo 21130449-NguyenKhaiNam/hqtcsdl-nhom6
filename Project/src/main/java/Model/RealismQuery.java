@@ -2,19 +2,23 @@ package Model;
 
 import database.ConnectDatabase;
 
-import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Conditions có dạng: EX - "NAME='A' AND FIRST='B' OR LAST='C'"
+ * Fields có dạng: EX - {"a", "b", "c"}
+ * Data có dạng: EX - "NAME='A', FIRST='B'"
+ */
 public class RealismQuery {
     /**
      * Tự động sinh ra câu lệnh sql mã hóa,
      * kết quả trả về là một kết quả table sql
      */
     public static ResultSet select(String nameDBs, String[] fields, String conditions) throws SQLException {
-        if(nameDBs == null || nameDBs.isEmpty()) {
+        if (nameDBs == null || nameDBs.isEmpty()) {
             System.out.println("[RealismQuery-select] >> Câu lệnh select có vấn đề");
             return null;
         }
@@ -42,7 +46,7 @@ public class RealismQuery {
         Connection connection = ConnectDatabase.C;
         Statement query = connection.createStatement();
         boolean check = query.execute(sql);
-        if(check) {
+        if (check) {
             System.out.println("[RealismQuery-select: sql] >> Có lỗi xảy ra trong tự viết select");
         }
         ConnectDatabase.closeConnection(connection);
@@ -55,7 +59,7 @@ public class RealismQuery {
      * -1 - Lỗi câu lệnh
      */
     public static int insert(String nameDBs, String[] fields, String[] values) throws SQLException {
-        if(nameDBs == null || nameDBs.isEmpty()) {
+        if (nameDBs == null || nameDBs.isEmpty()) {
             System.out.println("[RealismQuery-insert] >> Câu lệnh insert có vấn đề");
             return -1;
         }
@@ -75,18 +79,25 @@ public class RealismQuery {
     }
 
     /**
+     * Cập nhật dữ liệu
+     */
+    public static ResultSet update(String nameDBs, String data, String conditions) throws SQLException {
+       return null;
+    }
+
+    /**
      * Mã hóa dữ liệu insert
      */
     private static EncryptQuery encryptValues(String[] values) {
-        if(values == null || values.length == 0) {
+        if (values == null || values.length == 0) {
             System.out.println("[RealismQuery-encryptValues] >> Lỗi giá trị nhận vào");
             return null;
         }
         StringBuilder value = new StringBuilder();
         List<String> listValues = new ArrayList<>();
 
-        for (String v: values) {
-            String[] vs = v.replaceAll("[()]","").trim().split(",");
+        for (String v : values) {
+            String[] vs = v.replaceAll("[()]", "").trim().split(",");
             for (String vsi : vs) {
                 v = v.replace(vsi, "?");
                 vsi = vsi.replaceAll("'", "");
@@ -106,7 +117,7 @@ public class RealismQuery {
         String condition = "";
         List<String> listCondition = null;
         // Nếu tồn tại điều kiện
-        if(!(conditions == null || conditions.isEmpty())) {
+        if (!(conditions == null || conditions.isEmpty())) {
             listCondition = new ArrayList<>();
             condition = conditions;
             int iEqual = conditions.indexOf("=");
@@ -141,7 +152,7 @@ public class RealismQuery {
     private static ResultSet exec(String sql, List<String> list) throws SQLException {
         Connection connection = ConnectDatabase.C;
         PreparedStatement query = connection.prepareStatement(sql);
-        if(list != null)
+        if (list != null)
             for (int i = 0; i < list.size(); i++)
                 query.setString(i + 1, list.get(i));
         return query.executeQuery();
@@ -153,7 +164,7 @@ public class RealismQuery {
     private static int execUpdate(String sql, List<String> list) throws SQLException {
         Connection connection = ConnectDatabase.C;
         PreparedStatement query = connection.prepareStatement(sql);
-        if(list != null)
+        if (list != null)
             for (int i = 0; i < list.size(); i++)
                 query.setString(i + 1, list.get(i));
         return query.executeUpdate();

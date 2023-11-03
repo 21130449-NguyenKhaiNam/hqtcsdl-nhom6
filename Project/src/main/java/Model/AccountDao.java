@@ -1,6 +1,5 @@
 package Model;
 
-import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,15 +11,14 @@ public class AccountDao {
      * giả sử trường hợp có từ 2 tài khoản thì là đã thiết kế sai việc insert trong csdl,
      * không tài tại thì nghĩa là chưa có tài khoản
      */
-    public static List<Account> selectByEnP(Account user) throws SQLException {
+    public static Account selectByEnP(Account user) throws SQLException {
         ResultSet result = RealismQuery.select(INameDB.USERS, null, "EMAIL=" + user.getEmail()
                 + " AND PASSWORD=" + user.getPassword());
         Account ac = null;
-        List<Account> accounts = new ArrayList<>();
-        while (result.next()) {
-            accounts.add(new Account(result));
+        if (result.next()) {
+            ac = new Account(result);
         }
-        return accounts;
+        return ac;
     }
 
     /**
@@ -31,7 +29,7 @@ public class AccountDao {
      * = -1 - Có lỗi xảy ra
      */
     public static int insertUser(User user) throws SQLException {
-        if(user.getAccess() == Access.ADMIN) {
+        if (user.getAccess() == Access.ADMIN) {
             return -1;
         }
         return RealismQuery.insert(INameDB.USERS, null, new String[]{user.convertToSql()});
@@ -46,7 +44,7 @@ public class AccountDao {
         List<User> accounts = new ArrayList<>();
         while (result.next()) {
             User account = new User(result);
-            if(account.getAccess() != Access.ADMIN) {
+            if (account.getAccess() != Access.ADMIN) {
                 account.setPassword("****");
                 accounts.add(account);
             }
@@ -55,9 +53,25 @@ public class AccountDao {
     }
 
     /**
-     *
+     * Cập nhật thông tin của account
      */
-    public static boolean updateInfo(Account account) {
-        return false;
+    public static Account updateInfo(Account account, String name, String email,
+                                     String phone, String password, int access) throws SQLException {
+        String data = "";
+        if (name != null || name.isEmpty())
+            data += "NAME='" + name + '\'';
+        if (email != null || email.isEmpty())
+            data += ", EMAIL='" + email + '\'';
+        if (phone != null || phone.isEmpty())
+            data += ", PHONE='" + phone + '\'';
+        if (password != null || password.isEmpty())
+            data += ", PASSWORD='" + password + '\'';
+        if (Access.validAccess(access) && access != Access.ADMIN)
+            data += ", ACCESS=" + access;
+        ResultSet result = RealismQuery.update("USERS", data, "ID=" + account.getId());
+        if (result.next()) {
+            account = new Account(result);
+        }
+        return account;
     }
 }
