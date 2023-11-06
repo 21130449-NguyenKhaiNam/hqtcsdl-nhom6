@@ -15,6 +15,6 @@ public class VoucherDao {
      * Kiểm tra voucher có sài được cho sản phẩm
      */
     public static boolean checkVoucher(Voucher voucher, Product product) {
-
+        return false;
     }
 }

@@ -13,7 +13,7 @@ public class AccountDao {
      */
     public static Account selectByEnP(Account user) throws SQLException {
         ResultSet result = RealismQuery.select(INameDB.USERS, null, "EMAIL=" + user.getEmail()
-                + " AND PASSWORD=" + user.getPassword());
+                + " AND USER_PASSWORD=" + user.getPassword());
         Account ac = null;
         if (result.next()) {
             ac = new Account(result);

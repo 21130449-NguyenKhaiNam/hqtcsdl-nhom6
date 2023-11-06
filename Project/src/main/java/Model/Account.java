@@ -11,14 +11,23 @@ public class Account {
     private String code;
     private Date expiredTime;
 
+    public Account(String id, String name, String email, String phone, String password, int access) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.access = access;
+    }
+
     public Account(ResultSet result) throws SQLException {
         if (result != null) {
-            id = result.getString("ID");
-            name = result.getString("USERNAME");
-            email = result.getString("EMAIL");
-            phone = result.getString("PHONE");
-            password = result.getString("PASSWORD");
-            access = Integer.parseInt(result.getString("ACCESS"));
+            id = result.getString("ID").trim();
+            name = result.getString("USERNAME").trim();
+            email = result.getString("EMAIL").trim();
+            phone = result.getString("PHONE").trim();
+            password = result.getString("USER_PASSWORD").trim();
+            access = Integer.parseInt(result.getString("ACCESS").trim());
         }
     }
 
@@ -91,5 +100,17 @@ public class Account {
     public boolean validAccount() {
         return !(id == null || id.isEmpty() || name == null || name.isEmpty() || email == null || email.isEmpty()
                 || phone == null || phone.isEmpty() || password == null || password.isEmpty() || Access.validAccess(access));
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", access=" + access +
+                '}';
     }
 }
