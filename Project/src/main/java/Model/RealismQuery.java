@@ -45,11 +45,11 @@ public class RealismQuery {
     public static ResultSet select(String sql) throws SQLException {
         Connection connection = ConnectDatabase.C;
         Statement query = connection.createStatement();
+        System.out.println(sql);
         boolean check = query.execute(sql);
         if (check) {
             System.out.println("[RealismQuery-select: sql] >> Có lỗi xảy ra trong tự viết select");
         }
-        ConnectDatabase.closeConnection(connection);
         return query.getResultSet();
     }
 
@@ -67,7 +67,7 @@ public class RealismQuery {
         nameDBs = nameDBs.trim();
 
         String field = convertField(fields);
-        field = field.equals("*") ? field : ("(" + field + ")");
+        field = field.equals("*") ? "" : ("(" + field + ")");
 
         EncryptQuery encryptQuery = encryptValues(values);
         String value = encryptQuery.getQuery();

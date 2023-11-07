@@ -32,6 +32,7 @@ public class AccountDao {
         if (user.getAccess() == Access.ADMIN) {
             return -1;
         }
+        user.setId(user.getPhone() + user.getEmail());
         return RealismQuery.insert(INameDB.USERS, null, new String[]{user.convertToSql()});
     }
 

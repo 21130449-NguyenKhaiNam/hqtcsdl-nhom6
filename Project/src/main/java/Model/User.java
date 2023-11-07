@@ -13,6 +13,14 @@ public class User extends Account {
         super(result);
     }
 
+    public User(String email, String password) {
+        super(email, password);
+    }
+
+    public User(String name, String email, String phone, String password) {
+        super(name, email, phone, password);
+    }
+
     @Override
     public void setAccess(int access) {
         super.setAccess(access);

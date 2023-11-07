@@ -3,7 +3,7 @@ package Model;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import static Model.INameDB.*;
 
 public class Account {
     protected String id, name, email, phone, password;
@@ -11,6 +11,15 @@ public class Account {
     private String code;
     private Date expiredTime;
 
+    // Contructor kiến nghị sử dụng để tạo account
+    public Account(String name, String email, String phone, String password) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+    }
+
+    // Contructor này chỉ sử dụng để test không khuyến cáo sử dụng
     public Account(String id, String name, String email, String phone, String password, int access) {
         this.id = id;
         this.name = name;
@@ -20,15 +29,26 @@ public class Account {
         this.access = access;
     }
 
+    // Tự động thêm các nội dung khi sử dụng query
     public Account(ResultSet result) throws SQLException {
         if (result != null) {
-            id = result.getString("ID").trim();
-            name = result.getString("USERNAME").trim();
-            email = result.getString("EMAIL").trim();
-            phone = result.getString("PHONE").trim();
-            password = result.getString("USER_PASSWORD").trim();
-            access = Integer.parseInt(result.getString("ACCESS").trim());
+            id = result.getString(USER_ID).trim();
+            name = result.getString(USER_USERNAME).trim();
+            email = result.getString(USER_EMAIL).trim();
+            phone = result.getString(USER_PHONE).trim();
+            password = result.getString(USER_PASSWORD).trim();
+            access = Integer.parseInt(result.getString(USER_ACCESS).trim());
         }
+    }
+
+    // Kiểm tra tài khoản
+    public Account(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getId() {
