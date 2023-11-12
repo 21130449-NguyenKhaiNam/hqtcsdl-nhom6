@@ -6,22 +6,29 @@ import java.sql.SQLException;
 
 import static Model.INameDB.*;
 
-public class Order {
-    private String id, idProduct;
-    private Date dateOrder;
-    private Date dateReceipt;
+public class Order implements IRowMapper<Order> {
+	private String id, idProduct;
+	private Date dateOrder;
+	private Date dateReceipt;
+	private int status;
 
-    private int status;
-
-    // Tự động thêm các nội dung khi sử dụng query
-    public Order(ResultSet resultSet) throws SQLException {
-        if(resultSet != null) {
-            this.id = resultSet.getString(ORDER_ID).trim();
-            this.idProduct = resultSet.getString(ORDER_ID_USER).trim();
-            this.dateOrder = resultSet.getDate(ORDER_DATE_ORDER);
-            this.dateReceipt = resultSet.getDate(ORDER_DATE_RECEIPT);
-            this.status = Integer.parseInt(resultSet.getString(ORDER_STATUS_ORDER));
-        }
-    }
+	@Override
+	public Order mapper(ResultSet resultSet) {
+		// TODO Auto-generated method stub
+		Order order = new Order();
+		if (resultSet != null) {
+			try {
+				order.id = resultSet.getString(ORDER_ID).trim();
+				order.idProduct = resultSet.getString(ORDER_ID_USER).trim();
+				order.dateOrder = resultSet.getDate(ORDER_DATE_ORDER);
+				order.dateReceipt = resultSet.getDate(ORDER_DATE_RECEIPT);
+				order.status = Integer.parseInt(resultSet.getString(ORDER_STATUS_ORDER));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return order;
+	}
 
 }

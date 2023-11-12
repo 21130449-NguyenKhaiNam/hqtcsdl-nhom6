@@ -7,8 +7,5 @@ import java.util.List;
 import java.util.Objects;
 
 public class Admin extends Account {
-
-    public Admin(ResultSet result) throws SQLException {
-        super(result);
-    }
+	
 }

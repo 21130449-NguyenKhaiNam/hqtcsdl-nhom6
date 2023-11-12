@@ -8,6 +8,7 @@ import static database.IManagementDB.*;
 
 public class ConnectDatabase {
     public static final Connection C = getConnect(NAME, PORT, NAME_DB, USER, PASS);
+    private static Connection connection = null;
 
     /**
      * Kết nối tới cơ sở dữ liệu. Thông tin nhận vào là name - tên máy kết nối,
@@ -17,17 +18,18 @@ public class ConnectDatabase {
      * @throws SQLException
      */
     private static Connection getConnect(String name, int port, String dbName, String user, String password) {
-        Connection connect = null;
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connect = DriverManager.getConnection("jdbc:sqlserver://" + name + ":" + port + ";databaseName=" + dbName
-                    + ";user=" + user + ";password=" + password + ";encrypt=false");
+           if(connection == null) {
+        	   Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        	   connection = DriverManager.getConnection("jdbc:sqlserver://" + name + ":" + port + ";databaseName=" + dbName
+                       + ";user=" + user + ";password=" + password + ";encrypt=false");
+           }
 
         } catch (ClassNotFoundException | SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return connect;
+        return connection;
     }
 
     /**
@@ -35,8 +37,10 @@ public class ConnectDatabase {
      */
     public static void closeConnection(Connection connect) {
         try {
-            if (connect != null)
+            if (connect != null) {
+            	connection = null;
                 connect.close();
+            }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
