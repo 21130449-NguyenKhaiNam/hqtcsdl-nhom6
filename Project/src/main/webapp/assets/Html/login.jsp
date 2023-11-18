@@ -9,8 +9,8 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="./Style/style.css">
-    <link rel="stylesheet" href="./Style/form.css">
+    <link rel="stylesheet" href="../Style/style.css">
+    <link rel="stylesheet" href="../Style/form.css">
 </head>
 <body>
 <div id="app">
