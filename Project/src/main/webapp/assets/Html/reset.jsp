@@ -9,8 +9,8 @@
 <html>
 <head>
     <title>Đặt lại mật khẩu</title>
-    <link rel="stylesheet" href="./Style/style.css">
-    <link rel="stylesheet" href="./Style/form.css">
+    <link rel="stylesheet" href="../Style/style.css">
+    <link rel="stylesheet" href="../Style/form.css">
 </head>
 <body>
 <div id="app">
