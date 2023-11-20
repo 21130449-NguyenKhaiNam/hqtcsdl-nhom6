@@ -14,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!--fontawesome-->
-    <link rel="stylesheet" href="assets/Font/fontawesome-free-6.4.0-web/css/all.min.css">
+    <link rel="stylesheet" href="../Font/fontawesome-free-6.4.0-web/css/all.min.css">
 
     <!--    google font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,8 +22,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <!--    css-->
-    <link rel="stylesheet" href="assets/Style/slidebar.css">
-    <link rel="stylesheet" href="assets/Style/productDetail.css">
+    <link rel="stylesheet" href="../Style/slidebar.css">
+    <link rel="stylesheet" href="../Style/productDetail.css">
     <title>Product detail</title>
 </head>
 <body>
@@ -35,14 +35,14 @@
 
 <%--            mot hinh anh--%>
                 <div class="sliderbar-item active">
-                    <img src="assets/Image/productDetail/sofa-1.png" alt="">
+                    <img src="../Image/productDetail/sofa-1.png" alt="">
                 </div>
 <%--    --------------------------------------------%>
                 <div class="sliderbar-item ">
-                    <img src="assets/Image/productDetail/sofa-2.png" alt="">
+                    <img src="../Image/productDetail/sofa-2.png" alt="">
                 </div>
                 <div class="sliderbar-item ">
-                    <img src="assets/Image/productDetail/sofa-3.png" alt="">
+                    <img src="../Image/productDetail/sofa-3.png" alt="">
                 </div>
 
             </div>
@@ -111,8 +111,8 @@
     </div>
 </div>
 
-<script src="assets/JavaScript/slidebar.js"> </script>
-<script src="assets/JavaScript/productDetail.js"> </script>
+<script src="../JavaScript/slidebar.js"> </script>
+<script src="../JavaScript/productDetail.js"> </script>
 
 
 </body>
