@@ -8,15 +8,13 @@ function plusQty() {
 }
 
 function minusQty() {
-  // console.log("1");
   const qty = document.querySelector('.product-qty-input');
   let num = parseInt(qty.value);
-  num--;
-  if(num>=0) {
-    qty.value = num;
+  if(num > 1) {
+    qty.value = num - 1;
   }
   else {
-    qty.value = 0;
+    qty.value = 1;
   }
 }
 
