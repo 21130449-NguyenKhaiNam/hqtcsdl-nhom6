@@ -17,20 +17,20 @@
     <div class="container">
         <div class="form-login">
             <h3 class="form-login_header">Đăng nhập</h3>
-            <form class="infor">
+            <form class="infor" action="../../access" method="post">
+                    <input type="hidden" name="action" value="sign-in">
                 <div class="infor_tele">
-                    <input type="hidden" name="action" value="tele">
-                    <input class="input_tele" type="tel" required>
+                    <input class="input_tele" name="tel" type="tel" required>
                     <label class="infor_label-tele">Số điện thoại</label>
                 </div>
                 <div class="infor_password">
-                    <input type="hidden" name="action" value="password">
-                    <input class="input_password" type="password" required>
+                    <input class="input_password" name="pass" type="password" required>
                     <label class="infor_label-password">Mật khẩu</label>
                 </div>
                 <a href="#" class="reset-password">Quên mật khẩu</a>
+                <button class="login-btn">Đăng nhập</button>
             </form>
-            <button class="login-btn">Đăng nhập</button>
+            
             <p class="form-note">
                 Chưa có tài khoản?
                 <a href="#">Đăng ký tài khoản mới</a>
