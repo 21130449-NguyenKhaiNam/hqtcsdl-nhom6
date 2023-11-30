@@ -18,10 +18,10 @@ String status = (String) request.getAttribute("status");
 String note = "";
 switch (status) {
 case "failed-0":
-	note = "Sai thông tin đăng nhập";
+	note = "Kiểm tra thông tin đăng nhập";
 	break;
 case "failed":
-	note = "Đăng nhập không thành công";
+	note = "Thông tin đăng nhập không chính xác";
 	break;
 default:
 	break;

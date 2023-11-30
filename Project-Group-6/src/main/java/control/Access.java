@@ -1,7 +1,6 @@
 package control;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
@@ -11,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import database.ConnectDatabase;
+import dao.AccountDao;
+import model.Account;
 
 @WebServlet("/access")
 public class Access extends HttpServlet {
@@ -28,16 +28,26 @@ public class Access extends HttpServlet {
 		// TODO Auto-generated method stub
 		String action = req.getParameter("action");
 		switch (action) {
-		case "sign-in":
-			if (signin(req.getParameter("tel"), req.getParameter("pass"))) {
-				HttpSession session = req.getSession();
-
+		case "sign-in": {
+			String tel = req.getParameter("tel");
+			String pass = req.getParameter("pass");
+			if (signin(tel, pass)) {
+				Account ac = AccountDao.getAccount(tel, pass);
+				if (ac == null) {
+					req.setAttribute("status", "failed");
+					resp.sendRedirect("hmtl/login.jsp");
+				} else {
+					HttpSession session = req.getSession();
+					session.setAttribute("account", ac);
+					resp.sendRedirect("hmtl/productDetail.jsp");
+				}
 			} else {
 				req.setAttribute("status", "failed-0");
 				resp.sendRedirect("hmtl/login.jsp");
 			}
 			break;
-		case "register":
+		}
+		case "register": {
 			String name = req.getParameter("name");
 			String tel = req.getParameter("tel");
 			String pass = req.getParameter("pass");
@@ -50,6 +60,7 @@ public class Access extends HttpServlet {
 				resp.sendRedirect("hmtl/login.jsp");
 			}
 			break;
+		}
 		case "logout":
 //            logout(req, resp);
 			break;
@@ -61,17 +72,16 @@ public class Access extends HttpServlet {
 
 	// Xử lý đăng ký
 	private boolean register(String name, String tel, String pass, String rePass) {
-		// TODO Auto-generated method stub
 		return isNotNull(name, tel, pass, rePass) && pass.equals(rePass) && isPhone(tel);
 	}
 
 	// Kiểm tra các thông tin đăng nhập
 	private boolean signin(String tel, String pass) {
-		// TODO Auto-generated method stub
 		return isNotNull(tel, pass) && isPhone(tel);
 	}
 
 	// Kiểm tra trường thông tin
+	@SuppressWarnings("null")
 	private boolean isNotNull(String... sts) {
 		for (String s : sts)
 			if (s == null && s.isBlank())

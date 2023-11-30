@@ -6,7 +6,7 @@ package database;
 public interface IManagementDB {
     String NAME = "KHAINAM";
     int PORT = 1433;
-    String NAME_DB = "CSDL";
+    String NAME_DB = "HQTCSDL";
     String USER = "sa";
     String PASS = "123456";
 }
