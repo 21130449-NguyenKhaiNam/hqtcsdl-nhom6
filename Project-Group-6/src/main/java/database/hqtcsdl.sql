@@ -84,7 +84,7 @@ GO
 
 CREATE TABLE products (
 	id int NOT NULL,
-	productsName ntext NOT NULL,
+	productsName varchar(100) NOT NULL,
 	brandID int NOT NULL,
 	productsDescription ntext NOT NULL,
 	categoryID int NOT NULL,
@@ -113,7 +113,7 @@ GO
 CREATE TABLE product_models (
 	id int NOT NULL,
 	productID int NOT NULL,
-	optionValue ntext NOT NULL,
+	optionValue varchar(100) NOT NULL,
 	statusID int NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT product_models_ibfk_1 FOREIGN KEY (productID) REFERENCES products (id),
@@ -125,12 +125,12 @@ CREATE TABLE users (
 	id varchar(20) NOT NULL,
 	email varchar(100) NOT NULL,
 	phone varchar(15) NOT NULL,
-	encryptedPassword ntext NOT NULL,
+	encryptedPassword varchar(100) NOT NULL,
 	fullName varchar(50) NOT NULL,
 	genderID int NOT NULL,
 	dob date DEFAULT NULL,
 	roleID int NOT NULL,
-	usersAddress ntext NOT NULL,
+	usersAddress varchar(100) NOT NULL,
 	statusID int NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT users_ibfk_1 FOREIGN KEY (statusID) REFERENCES user_status (id),
@@ -186,7 +186,7 @@ CREATE TABLE rates (
 	userID varchar(20) NOT NULL,
 	productID int NOT NULL,
 	lastUpdated date NOT NULL,
-	ratePoint int NOT NULL,
+	ratePoint int NOT NULL CHECK (ratePoint >= 1 AND ratePoint <= 5),
 	rateComment varchar(100) DEFAULT NULL,
 	PRIMARY KEY (userID,productID),
 	CONSTRAINT rates_ibfk_1 FOREIGN KEY (userID) REFERENCES users (id),
@@ -208,7 +208,7 @@ CREATE TABLE orders (
 	dateCreated date NOT NULL,
 	lastUpdated date NOT NULL,
 	phone varchar(15) NOT NULL,
-	ordersAddress ntext NOT NULL,
+	ordersAddress varchar(100) NOT NULL,
 	statusID int NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT orders_ibfk_1 FOREIGN KEY (userID) REFERENCES users (id),
@@ -250,14 +250,15 @@ GO
 
 CREATE TABLE posts (
 	id int NOT NULL,
-	decription ntext,
+	decription varchar(100),
 	PRIMARY KEY (id)
 )
 GO
 
-CREATE TABLE advertise (
+CREATE TABLE adv (
 	id int NOT NULL,
 	postsID int
+	CONSTRAINT advertise_ibfk_1 FOREIGN KEY (postsID) REFERENCES posts (id),
 )
 GO
 
@@ -372,9 +373,9 @@ insert into brands (id, brandsName) values (100, 'Ozu');
 GO
 
 INSERT INTO genders VALUES 
-	(1, 'Nam'), 
-	(2, 'Nữ'), 
-	(3, 'Khác')
+	(1, 'Male'), 
+	(2, 'Female'), 
+	(3, 'Other')
 GO
 
 insert into categories (id, categoriesName) values (1, 'Cloned fresh-thinking architecture');
@@ -393,7 +394,7 @@ insert into categories (id, categoriesName) values (13, 'Virtual zero defect mig
 insert into categories (id, categoriesName) values (14, 'Programmable bifurcated core');
 insert into categories (id, categoriesName) values (15, 'Balanced dynamic neural-net');
 insert into categories (id, categoriesName) values (16, 'Operative user-facing extranet');
-insert into categories (id, categoriesName) values (17, 'Future-proofed contextually-based product');
+insert into categories (id, categoriesName) values (17, 'Future-proofed covarchar(100)ually-based product');
 insert into categories (id, categoriesName) values (18, 'De-engineered 3rd generation implementation');
 insert into categories (id, categoriesName) values (19, 'Upgradable content-based solution');
 insert into categories (id, categoriesName) values (20, 'Monitored full-range success');
@@ -413,7 +414,7 @@ insert into categories (id, categoriesName) values (33, 'Team-oriented eco-centr
 insert into categories (id, categoriesName) values (34, 'Compatible object-oriented interface');
 insert into categories (id, categoriesName) values (35, 'Face to face global Graphic Interface');
 insert into categories (id, categoriesName) values (36, 'Inverse empowering ability');
-insert into categories (id, categoriesName) values (37, 'Re-contextualized system-worthy workforce');
+insert into categories (id, categoriesName) values (37, 'Re-covarchar(100)ualized system-worthy workforce');
 insert into categories (id, categoriesName) values (38, 'Focused maximized leverage');
 insert into categories (id, categoriesName) values (39, 'Re-engineered secondary contingency');
 insert into categories (id, categoriesName) values (40, 'Vision-oriented 6th generation structure');
@@ -465,7 +466,7 @@ insert into categories (id, categoriesName) values (85, 'Enhanced web-enabled pa
 insert into categories (id, categoriesName) values (86, 'Decentralized actuating intranet');
 insert into categories (id, categoriesName) values (87, 'Progressive mobile frame');
 insert into categories (id, categoriesName) values (88, 'Compatible value-added capability');
-insert into categories (id, categoriesName) values (89, 'Profound context-sensitive website');
+insert into categories (id, categoriesName) values (89, 'Profound covarchar(100)-sensitive website');
 insert into categories (id, categoriesName) values (90, 'Right-sized regional system engine');
 insert into categories (id, categoriesName) values (91, 'Cloned fault-tolerant paradigm');
 insert into categories (id, categoriesName) values (92, 'Compatible holistic structure');
@@ -506,9 +507,9 @@ INSERT INTO role_user VALUES
 GO
 
 INSERT INTO user_status VALUES
-	(1, 'Actice'),
+	(1, 'Available'),
 	(2, 'Block'),
-	(3, 'Unconfimred')
+	(3, 'Unconfirmed')
 GO
 
 INSERT INTO voucher_scope VALUES
@@ -5536,3 +5537,116 @@ insert into advertise (id, postsid) values (18, 54);
 insert into advertise (id, postsid) values (19, 48);
 insert into advertise (id, postsid) values (20, 57);
 go
+
+----------------------------------------------------------------------------
+-- Phần View
+-- 1. Xem những người dùng khả dụng
+CREATE VIEW vew_available_users AS
+	(SELECT * FROM users WHERE statusID = 
+		(SELECT id FROM user_status WHERE userStatusName = 'Available'))
+GO
+
+-- 2. Xem những người dùng bị chặn
+CREATE VIEW vew_block_users AS
+	(SELECT * FROM users WHERE statusID = 
+		(SELECT id FROM user_status WHERE userStatusName = 'Block'))
+GO
+
+-- 3. Xem những người dùng có vai trò từ admin trở lên
+CREATE VIEW vew_role_high_users AS
+	(SELECT * FROM users WHERE roleID IN 
+		(SELECT id FROM role_user WHERE id <= 2))
+GO
+
+-- 4. Số lượng người dùng có trong hệ thống
+CREATE VIEW vew_count_users AS
+	(SELECT COUNT(*) [SỐ LƯỢNG NGƯỜI DÙNG] FROM users WHERE roleID IN 
+		(SELECT id FROM order))
+GO
+
+-- 5. Số lượng người dùng đã từng mua đồ
+CREATE VIEW vew_count_order_users AS
+	(SELECT COUNT(*) [SỐ LƯỢNG NGƯỜI DÙNG ĐÃ MUA ĐỒ] FROM users WHERE id IN 
+		(SELECT userID FROM orders GROUP BY userID))
+GO
+
+-- 6. Xem các sản phẩm đã hết hàng
+CREATE VIEW view_oos_product AS
+	(SELECT * FROM products WHERE amountSold = 0)
+GO
+
+-- 7. Xem voucher có mức giảm giá hơn 30%
+CREATE VIEW view_discount30_voucher AS
+	(SELECT * FROM vouchers WHERE discount > 0.3)
+GO
+
+-- 8. Xem người dùng giới tính nam
+CREATE VIEW vew_male_users AS
+	(SELECT * FROM users WHERE genderID =
+		(SELECT id FROM genders WHERE gendersName = 'Male'))
+GO
+
+-- 9. Xem người dùng giới tính nữ
+CREATE VIEW vew_male_users AS
+	(SELECT * FROM users WHERE genderID =
+		(SELECT id FROM genders WHERE gendersName = 'Female'))
+GO
+
+-- 10. Xem những voucher đã hết hạn (so với ngày hiện tại)
+CREATE VIEW view_out_voucher AS
+	(SELECT * From vouchers WHERE dateEnd < getDate())
+GO
+
+-- 11. Xem những voucher áp dụng cho các sản phẩm
+CREATE VIEW view_product_voucher AS
+	(SELECT * From vouchers WHERE scopeID = 
+		(SELECT id FROM voucher_scope WHERE voucherScopeName = 'Product'))
+GO
+
+-- 12. Xem những voucher áp dụng nhãn hiệu
+CREATE VIEW view_brand_voucher AS
+	(SELECT * From vouchers WHERE id IN 
+		(SELECT voucherID FROM brand_vouchers GROUP BY voucherID))
+GO
+
+-- 13. Xem những voucher áp dụng cho loại sản phẩm
+CREATE VIEW view_caterogy_voucher AS
+	(SELECT * From vouchers WHERE scopeID = 
+		(SELECT id FROM voucher_scope WHERE voucherScopeName = 'Caterogy'))
+GO
+
+-- 14. Xem những voucher có số lượng giới hạn
+CREATE VIEW view_limit_voucher AS
+	(SELECT * From vouchers WHERE id IN
+		(SELECT voucherID FROM unknown_vouchers GROUP BY voucherID))
+GO
+
+-- 15. Xem những bài đánh giá 1 sao
+CREATE VIEW view_1start_rate AS
+	(SELECT * From rates WHERE ratePoint = 1)
+GO
+
+-- 16. Xem những bài đánh giá 5 sao
+CREATE VIEW view_1start_rate AS
+	(SELECT * FROM rates WHERE ratePoint = 5)
+GO
+
+-- 17. Xem những voucher có hiện khả dụng (kiểm tra ngày và trạng thái)
+CREATE VIEW view_available_product AS
+	(SELECT * FROM vouchers WHERE dateEnd >= getDate() AND statusID = 
+		(SELECT id FROM voucher_status WHERE id = 2))
+GO
+
+-- 18. Xem những voucher đã bị ẩn
+-- 19. Xem những sản phẩm đã bị ẩn
+-- 20. Xem những đơn hàng đã thanh toán và vận chuyển thành công
+-- 21. Xem những đơn hàng bị lỗi (trạng thái báo error)
+-- 22. Xem những đơn hàng bị hoàn trả
+-- 23. Xem những đơn hàng bị hủy
+-- 24. Xem những đơn hàng không thành công
+-- 25. Xem những sản phẩm có nhiều người mua nhất
+-- 26. Xem những sản phẩm có giá cao hơn 2.000.000
+-- 27. Xem tổng sản phẩm khả dụng trong hệ thống
+-- 28. Xem những sản phẩm mới cập nhật gần đây (trong vòng 1 tháng)
+-- 29. Xem những sản phẩm có số lượng tồn kho hơn 100
+-- 30. Xem những sản phẩm do hãng 'Eare' cấp

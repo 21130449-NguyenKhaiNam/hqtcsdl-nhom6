@@ -20,12 +20,27 @@ public class Gender {
 
 	// Chỉ là hàm khởi tạo
 	private Gender(int id, String sex) {
-		// Nothing
+		this.id = id;
+		this.sex = sex;
 	}
 
 	// Lấy ra thuộc tính gender cụ thể
 	public static Gender getGender(int id) {
 		return sexs.get(id);
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @return the sex
+	 */
+	public String getSex() {
+		return sex;
 	}
 
 }

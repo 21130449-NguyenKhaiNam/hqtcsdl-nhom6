@@ -19,12 +19,33 @@ public class AccountRole {
 		roles.put(++i, new AccountRole(5, "Guest"));
 	}
 
+	/**
+	 * @param id
+	 * @param name
+	 */
 	private AccountRole(int id, String name) {
-		// Nothing
+		super();
+		this.id = id;
+		this.name = name;
 	}
 
 	// Lấy ra vai trò của tài khoản
 	public static AccountRole getRole(int id) {
 		return roles.get(id);
 	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
 }

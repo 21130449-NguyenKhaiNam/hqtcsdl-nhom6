@@ -16,7 +16,7 @@ public class Account {
 	LocalDate dob;
 	AccountRole role;
 	String usersAddress;
-	AccoutStatus status;
+	AccountStatus status;
 
 	/**
 	 * @param id
@@ -31,7 +31,7 @@ public class Account {
 	 * @param status
 	 */
 	public Account(String id, String email, String phone, String password, String fullName, Gender gender,
-			LocalDate dob, AccountRole role, String usersAddress, AccoutStatus status) {
+			LocalDate dob, AccountRole role, String usersAddress, AccountStatus status) {
 		this.id = id;
 		this.email = email;
 		this.phone = phone;
@@ -49,7 +49,7 @@ public class Account {
 		if (rs != null) {
 			this.id = rs.getString(ID);
 			this.role = AccountRole.getRole(rs.getInt(ROLE));
-			this.status = AccoutStatus.getStatus(rs.getInt(STATUS));
+			this.status = AccountStatus.getStatus(rs.getInt(STATUS));
 		}
 	}
 
