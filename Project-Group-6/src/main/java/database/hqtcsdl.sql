@@ -5638,15 +5638,78 @@ CREATE VIEW view_available_product AS
 GO
 
 -- 18. Xem những voucher đã bị ẩn
+CREATE VIEW view_hidden_voucher AS
+	(SELECT * FROM vouchers WHERE statusID = 
+		(SELECT id FROM voucher_status WHERE voucherStatusName = 'Hidden'))
+GO
+
 -- 19. Xem những sản phẩm đã bị ẩn
+CREATE VIEW view_hidden_product AS
+	(SELECT * FROM products WHERE statusID = 
+		(SELECT id FROM product_status WHERE productStatusName = 'Hidden'))
+GO
+
 -- 20. Xem những đơn hàng đã thanh toán và vận chuyển thành công
+CREATE VIEW view_success_order AS
+	(SELECT * FROM orders WHERE statusID = 
+		(SELECT id FROM order_status WHERE orderStatusName = 'Success'))
+GO
+
 -- 21. Xem những đơn hàng bị lỗi (trạng thái báo error)
+CREATE VIEW view_success_order AS
+	(SELECT * FROM orders WHERE statusID = 
+		(SELECT id FROM order_status WHERE orderStatusName = 'Order error'))
+GO
+
 -- 22. Xem những đơn hàng bị hoàn trả
+CREATE VIEW view_return_order AS
+	(SELECT * FROM orders WHERE statusID = 
+		(SELECT id FROM order_status WHERE orderStatusName = 'Return'))
+GO
+
 -- 23. Xem những đơn hàng bị hủy
+CREATE VIEW view_cancelled_order AS
+	(SELECT * FROM orders WHERE statusID = 
+		(SELECT id FROM order_status WHERE orderStatusName = 'Cancelled'))
+GO
+
 -- 24. Xem những đơn hàng không thành công
--- 25. Xem những sản phẩm có nhiều người mua nhất
+CREATE VIEW view_unsuccess_order AS
+	(SELECT * FROM orders WHERE statusID = 
+		(SELECT id FROM order_status WHERE orderStatusName = 'Unsuccessful'))
+GO
+
+-- 25. Xem những sản phẩm có người mua
+CREATE VIEW view_order_product AS
+	(SELECT * FROM products WHERE id IN 
+		(SELECT productID FROM product_models WHERE id IN 
+			(SELECT modelID FROM order_details WHERE orderID IN
+				(SELECT id FROM orders WHERE statusID = 
+					(SELECT id FROM order_status WHERE orderStatusName = 'Success')))))
+GO
 -- 26. Xem những sản phẩm có giá cao hơn 2.000.000
+CREATE VIEW view_price2m_product AS
+	(SELECT * FROM products WHERE price > 2000000)
+GO
+
 -- 27. Xem tổng sản phẩm khả dụng trong hệ thống
+CREATE VIEW view_availiable_product AS
+	(SELECT * FROM products WHERE statusID IN 
+		(SELECT id FROM product_status WHERE id <= 3))
+GO
+
 -- 28. Xem những sản phẩm mới cập nhật gần đây (trong vòng 1 tháng)
+CREATE VIEW view_availiable_product AS
+	(SELECT * FROM products WHERE DATEDIFF(MONTH, lastUpdated, GETDATE()) <= 1)
+GO
+
 -- 29. Xem những sản phẩm có số lượng tồn kho hơn 100
+CREATE VIEW view_sold_product AS
+	(SELECT * FROM products WHERE amountSold > 100)
+GO
+
 -- 30. Xem những sản phẩm do hãng 'Eare' cấp
+CREATE VIEW view_brandEare_product AS
+	(SELECT * FROM products WHERE brandID = 
+		(SELECT id FROM brands WHERE brandsName = 'Eare'))
+GO
