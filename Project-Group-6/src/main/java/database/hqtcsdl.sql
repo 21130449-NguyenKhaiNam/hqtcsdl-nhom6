@@ -5713,3 +5713,192 @@ CREATE VIEW view_brandEare_product AS
 	(SELECT * FROM products WHERE brandID = 
 		(SELECT id FROM brands WHERE brandsName = 'Eare'))
 GO
+
+-------------------------------------------------------------
+-- Procedures
+-- 1. Lấy ra những voucher có % dưới % được truyền vào
+CREATE PROC proc_price_voucher (@p_discount FLOAT) AS
+BEGIN
+	-- Kiểm soát giá trị nhập vào phải là thập phân
+	IF @p_discount > 1
+	BEGIN
+		SET @p_discount = @p_discount / 100
+	END
+	SELECT * FROM vouchers WHERE discount <= @p_discount
+END
+GO
+
+-- 2. Lấy những sản phẩm được cập nhật trước ngày được truyền vào 
+CREATE PROC proc_updated_product (@p_lastUpdated DATE) AS
+BEGIN
+	SELECT * FROM products WHERE lastUpdated <= @p_lastUpdated
+END
+GO
+
+-- 3. Xem những hóa đơn có giá lớn hơn giá được truyền vào
+CREATE PROC proc_high_order (@p_price FLOAT) AS
+BEGIN
+	SELECT * FROM orders WHERE id IN 
+		(SELECT orderID FROM order_details GROUP BY orderID HAVING SUM(price) > @p_price)
+END
+GO
+
+-- 4. Xem những hóa đơn có giá bé hơn giá được truyền vào
+CREATE PROC proc_low_order (@p_price FLOAT) AS
+BEGIN
+	SELECT * FROM orders WHERE id IN 
+		(SELECT orderID FROM order_details GROUP BY orderID HAVING SUM(price) <= @p_price)
+END
+GO
+
+-- 5. Xem những hóa đơn có số lượng hàng mua (tổng) lớn hơn số lượng truyền vào
+CREATE PROC proc_amount_product (@p_amout INT) AS
+BEGIN
+	SELECT * FROM orders WHERE id IN 
+		(SELECT orderID FROM order_details GROUP BY orderID HAVING SUM(quantity) <= @p_amout)
+END
+GO
+
+-- 6. Xem các sản phẩm của hãng được truyền vào
+CREATE PROC proc_brand_product (@p_brand VARCHAR(50)) AS
+BEGIN
+	SELECT * FROM products WHERE brandID = 
+		(SELECT id FROM brands WHERE brandsName = @p_brand)
+END
+GO
+
+-- 7. In ra thông tin những người vi phạm
+-- Cách in: ID | Tên | Email | Phone
+CREATE PROC proc_block_user AS
+BEGIN
+	DECLARE cursor_user CURSOR FOR (SELECT id, email, phone, fullName FROM users WHERE statusID = 
+		(SELECT id FROM user_status WHERE userStatusName = 'Block'))
+	OPEN cursor_user
+	DECLARE @ID VARCHAR(20)
+	DECLARE @FULLNAME VARCHAR(50)
+	DECLARE @EMAIL VARCHAR(100)
+	DECLARE @PHONE VARCHAR(15)
+	FETCH NEXT FROM cursor_user INTO @ID, @EMAIL, @PHONE, @FULLNAME
+	PRINT 'ID	|	FULLNAME	|	EMAIL	|	PHONE'
+	WHILE @@FETCH_STATUS <> -1
+	BEGIN
+		PRINT @ID + '	|	' + @FULLNAME + '	|	' + @EMAIL + '	|	' + @PHONE
+		FETCH NEXT FROM cursor_user INTO @ID, @EMAIL, @PHONE, @FULLNAME
+	END
+	CLOSE cursor_user
+END
+GO
+
+-- 8. Xem danh sách người dùng sắp theo tên (bảng chữ cái)
+CREATE PROC proc_sort_user AS
+BEGIN
+	SELECT * FROM users ORDER BY fullName ASC
+END
+GO
+
+-- 9. Xem danh sách nhãn hàng sắp theo tên
+CREATE PROC proc_sort_brand AS
+BEGIN
+	SELECT * FROM brands ORDER BY brandsName ASC
+END
+GO
+
+-- 10. Xem người dùng có email được truyền vào
+CREATE PROC proc_email_user (@p_email VARCHAR(100)) AS
+BEGIN
+	SELECT * FROM users WHERE email = @p_email
+END
+GO
+
+-- 11. Xem người dùng có số điện thoại được truyền vào
+CREATE PROC proc_phone_user (@p_phone VARCHAR(15)) AS
+BEGIN
+	SELECT * FROM users WHERE phone = @p_phone
+END
+GO
+
+-- 12. Xem voucher có mã được truyền vào
+CREATE PROC proc_code_voucher (@p_code VARCHAR(20)) AS
+BEGIN
+	SELECT * FROM vouchers WHERE voucherCode = @p_code
+END
+GO
+
+-- 13. Xem sản phẩm có điểm đánh giá bằng điểm được truyền vào, báo lỗi nếu có
+CREATE PROC proc_rate_rates (@p_score INT) AS
+BEGIN
+	IF @p_score >= 1 AND @p_score <= 5
+	BEGIN
+		SELECT * FROM products WHERE id IN 
+			(SELECT productID FROM rates WHERE ratePoint = @p_score)
+	END
+	ELSE
+		PRINT 'Điểm không hợp lệ'
+END
+GO
+
+-- 14. Kiểm tra tên loại có tồn tại bằng cách in ra
+--		|Có tồn tại|	|Không tồn tại|
+CREATE PROC proc_exist_product (@p_category VARCHAR(50)) AS
+BEGIN
+	IF EXISTS (SELECT * FROM categories WHERE categoriesName = @p_category)
+		print '|Có tồn tại|'
+	ELSE 
+		print '|Không tồn tại|'
+END
+GO
+
+-- 15. Xem sản phẩm có nội dung chứa nội dung được truyền vào 
+ALTER PROC proc_description_product (@p_description NTEXT) AS
+BEGIN
+    SET @p_description = '%' + CAST(@p_description AS NVARCHAR(MAX)) + '%';
+    SELECT * FROM products WHERE productsDescription LIKE @p_description;
+END
+GO
+
+-- 16. Xem sản phẩm có giá được giảm hiện tại nhiều hơn giá được truyền vào
+CREATE PROC proc_sale_product (@p_discount FLOAT) AS
+BEGIN
+	SELECT * FROM products WHERE (price * discount) < @p_discount
+END
+GO
+
+-- 17. Xem những người dùng có tên bắt đầu bằng tên được truyền vào
+CREATE PROC proc_name_user (@p_name VARCHAR(50)) AS
+BEGIN
+	SET @p_name = @p_name + '%'
+	SELECT * FROM users WHERE fullName LIKE @p_name
+END
+GO
+
+-- 18. Xem những người dùng đã bình luận nội dung gần với nội dung được truyền vào và 
+-- có đánh giá bằng với điểm được truyền vào, báo các lỗi liên quan nếu có
+ALTER PROC proc_comment_rates (@p_comment VARCHAR(100), @p_score INT) AS
+BEGIN
+	IF @p_score >= 1 AND @p_score <= 5
+		BEGIN
+			SET @p_comment = '%' + @p_comment + '%'
+			IF EXISTS (SELECT * FROM rates WHERE rateComment LIKE @p_comment AND ratePoint = @p_score)
+				SELECT * FROM rates WHERE rateComment LIKE @p_comment AND ratePoint = @p_score;
+			ELSE
+				PRINT 'Không tồn tại'
+		END
+	ELSE
+		PRINT 'Điểm không hợp lệ'
+END
+GO
+
+-- 19. Xem bài viết có nội dung gần với nội dung được truyền vào
+CREATE PROC proc_post_posts (@p_decription VARCHAR(100))AS
+BEGIN
+	SET @p_decription = '%' + @p_decription + '%'
+	SELECT * FROM posts WHERE decription LIKE @p_decription
+END
+GO
+
+-- 20. Lấy ra những hóa đơn trong khoảng thời gian được truyền vào
+CREATE PROC proc_time_order (@p_timeStart DATE, @p_timeEnd DATE) AS
+BEGIN
+	SELECT * FROM orders WHERE @p_timeStart <= dateCreated AND lastUpdated <= @p_timeEnd
+END
+GO
