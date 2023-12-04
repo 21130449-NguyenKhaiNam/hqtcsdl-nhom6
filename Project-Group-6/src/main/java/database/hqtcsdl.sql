@@ -4,6 +4,7 @@ GO
 USE HQTCSDL;
 GO
 
+----------------------------------------------
 -- Khởi tạo các bảng 
 CREATE TABLE attributes (
 	id int NOT NULL,
@@ -136,6 +137,14 @@ CREATE TABLE users (
 	CONSTRAINT users_ibfk_1 FOREIGN KEY (statusID) REFERENCES user_status (id),
 	CONSTRAINT users_ibfk_2 FOREIGN KEY (genderID) REFERENCES genders (id),
 	CONSTRAINT users_ibfk_3 FOREIGN KEY (roleID) REFERENCES role_user (id)
+)
+GO
+
+CREATE TABLE notification_user (
+	id INT NOT NULL,
+	userID varchar(20) NOT NULL,
+	decription ntext,
+	PRIMARY KEY (id)
 )
 GO
 
@@ -1913,7 +1922,6 @@ insert into product_details (productID, attributeID, productDetailsValue) values
 insert into product_details (productID, attributeID, productDetailsValue) values (141, 1, '15 x 15 x 25');
 insert into product_details (productID, attributeID, productDetailsValue) values (318, 3, '15 x 15 x 25');
 insert into product_details (productID, attributeID, productDetailsValue) values (989, 2, '15 x 15 x 25');
-insert into product_details (productID, attributeID, productDetailsValue) values (862, 1, 'Ash wood - Ash veneer MDF');
 insert into product_details (productID, attributeID, productDetailsValue) values (687, 1, 'Side Table, Living Room');
 insert into product_details (productID, attributeID, productDetailsValue) values (868, 1, '15 x 15 x 25');
 insert into product_details (productID, attributeID, productDetailsValue) values (606, 1, 'Ash wood - Ash veneer MDF');
@@ -2268,7 +2276,6 @@ insert into product_details (productID, attributeID, productDetailsValue) values
 insert into product_details (productID, attributeID, productDetailsValue) values (977, 1, 'Side Table, Living Room');
 insert into product_details (productID, attributeID, productDetailsValue) values (62, 2, '23 x 16 x 18');
 insert into product_details (productID, attributeID, productDetailsValue) values (48, 3, 'Ash wood - Ash veneer MDF');
-insert into product_details (productID, attributeID, productDetailsValue) values (609, 3, '23 x 16 x 18');
 insert into product_details (productID, attributeID, productDetailsValue) values (224, 2, 'Side Table, Living Room');
 insert into product_details (productID, attributeID, productDetailsValue) values (530, 2, '23 x 16 x 18');
 insert into product_details (productID, attributeID, productDetailsValue) values (890, 3, 'Ash wood - Ash veneer MDF');
@@ -3881,7 +3888,508 @@ insert into users (id, email, phone, encryptedPassword, fullName, genderID, dob,
 insert into users (id, email, phone, encryptedPassword, fullName, genderID, dob, roleID, usersAddress, statusID) values (998, 'cwisedalerp@vimeo.com', '521-629-2457', '$2a$04$SJAdVAtpKxDzBjQVeIcBIOWzBaV0hulNWEuWPaCMitXVy5Rcg4GV6', 'Cyrillus Wisedale', 2, '1996-02-15', 3, '3189 Sommers Court', 2);
 insert into users (id, email, phone, encryptedPassword, fullName, genderID, dob, roleID, usersAddress, statusID) values (999, 'fdabbesrq@go.com', '746-438-8945', '$2a$04$fcjMzNk9E4CznqnZzAed8.2/RmCWCU7p64X0yzXg5bUCRA7qxhYd6', 'Finn Dabbes', 1, '1990-01-15', 4, '0 Nelson Pass', 2);
 insert into users (id, email, phone, encryptedPassword, fullName, genderID, dob, roleID, usersAddress, statusID) values (1000, 'fcornilsrr@ovh.net', '450-860-9770', '$2a$04$fZOep1Rim8D.vWdDDzrY6e4TK9r0hoy7z1aoEaQjT.G26L7Iygf6q', 'Fidela Cornils', 2, '1983-12-16', 4, '835 Donald Lane', 3);
+GO
 
+insert into notification_user (id, userid, decription) values (1, 466, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (2, 11, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (3, 556, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (4, 375, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (5, 597, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (6, 924, 'New arrivals');
+insert into notification_user (id, userid, decription) values (7, 756, 'New arrivals');
+insert into notification_user (id, userid, decription) values (8, 877, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (9, 596, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (10, 789, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (11, 114, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (12, 970, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (13, 125, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (14, 85, 'New arrivals');
+insert into notification_user (id, userid, decription) values (15, 766, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (16, 426, 'Special discount');
+insert into notification_user (id, userid, decription) values (17, 973, 'Special discount');
+insert into notification_user (id, userid, decription) values (18, 560, 'Special discount');
+insert into notification_user (id, userid, decription) values (19, 863, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (20, 170, 'Special discount');
+insert into notification_user (id, userid, decription) values (21, 878, 'Special discount');
+insert into notification_user (id, userid, decription) values (22, 456, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (23, 295, 'New arrivals');
+insert into notification_user (id, userid, decription) values (24, 828, 'Special discount');
+insert into notification_user (id, userid, decription) values (25, 836, 'New arrivals');
+insert into notification_user (id, userid, decription) values (26, 873, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (27, 124, 'New arrivals');
+insert into notification_user (id, userid, decription) values (28, 968, 'Special discount');
+insert into notification_user (id, userid, decription) values (29, 488, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (30, 573, 'Special discount');
+insert into notification_user (id, userid, decription) values (31, 58, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (32, 98, 'Special discount');
+insert into notification_user (id, userid, decription) values (33, 871, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (34, 79, 'Special discount');
+insert into notification_user (id, userid, decription) values (35, 507, 'New arrivals');
+insert into notification_user (id, userid, decription) values (36, 599, 'Special discount');
+insert into notification_user (id, userid, decription) values (37, 294, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (38, 943, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (39, 621, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (40, 162, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (41, 965, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (42, 318, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (43, 382, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (44, 584, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (45, 790, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (46, 25, 'Special discount');
+insert into notification_user (id, userid, decription) values (47, 203, 'Special discount');
+insert into notification_user (id, userid, decription) values (48, 705, 'New arrivals');
+insert into notification_user (id, userid, decription) values (49, 572, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (50, 567, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (51, 104, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (52, 136, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (53, 833, 'Special discount');
+insert into notification_user (id, userid, decription) values (54, 989, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (55, 411, 'Special discount');
+insert into notification_user (id, userid, decription) values (56, 322, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (57, 126, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (58, 922, 'Special discount');
+insert into notification_user (id, userid, decription) values (59, 295, 'Special discount');
+insert into notification_user (id, userid, decription) values (60, 752, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (61, 483, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (62, 540, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (63, 163, 'Special discount');
+insert into notification_user (id, userid, decription) values (64, 589, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (65, 152, 'Special discount');
+insert into notification_user (id, userid, decription) values (66, 996, 'New arrivals');
+insert into notification_user (id, userid, decription) values (67, 12, 'New arrivals');
+insert into notification_user (id, userid, decription) values (68, 672, 'Special discount');
+insert into notification_user (id, userid, decription) values (69, 835, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (70, 991, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (71, 453, 'New arrivals');
+insert into notification_user (id, userid, decription) values (72, 429, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (73, 563, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (74, 923, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (75, 726, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (76, 236, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (77, 897, 'New arrivals');
+insert into notification_user (id, userid, decription) values (78, 163, 'Special discount');
+insert into notification_user (id, userid, decription) values (79, 726, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (80, 146, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (81, 224, 'New arrivals');
+insert into notification_user (id, userid, decription) values (82, 39, 'Special discount');
+insert into notification_user (id, userid, decription) values (83, 336, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (84, 76, 'Special discount');
+insert into notification_user (id, userid, decription) values (85, 669, 'Special discount');
+insert into notification_user (id, userid, decription) values (86, 893, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (87, 206, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (88, 611, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (89, 28, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (90, 593, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (91, 588, 'Special discount');
+insert into notification_user (id, userid, decription) values (92, 490, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (93, 418, 'New arrivals');
+insert into notification_user (id, userid, decription) values (94, 95, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (95, 399, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (96, 943, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (97, 904, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (98, 622, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (99, 811, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (100, 887, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (101, 951, 'New arrivals');
+insert into notification_user (id, userid, decription) values (102, 625, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (103, 273, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (104, 152, 'New arrivals');
+insert into notification_user (id, userid, decription) values (105, 896, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (106, 661, 'Special discount');
+insert into notification_user (id, userid, decription) values (107, 239, 'New arrivals');
+insert into notification_user (id, userid, decription) values (108, 915, 'New arrivals');
+insert into notification_user (id, userid, decription) values (109, 280, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (110, 452, 'New arrivals');
+insert into notification_user (id, userid, decription) values (111, 153, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (112, 635, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (113, 35, 'New arrivals');
+insert into notification_user (id, userid, decription) values (114, 66, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (115, 240, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (116, 445, 'New arrivals');
+insert into notification_user (id, userid, decription) values (117, 861, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (118, 32, 'New arrivals');
+insert into notification_user (id, userid, decription) values (119, 478, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (120, 424, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (121, 55, 'Special discount');
+insert into notification_user (id, userid, decription) values (122, 364, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (123, 281, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (124, 956, 'New arrivals');
+insert into notification_user (id, userid, decription) values (125, 722, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (126, 881, 'New arrivals');
+insert into notification_user (id, userid, decription) values (127, 999, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (128, 724, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (129, 368, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (130, 567, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (131, 436, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (132, 436, 'Special discount');
+insert into notification_user (id, userid, decription) values (133, 724, 'Special discount');
+insert into notification_user (id, userid, decription) values (134, 640, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (135, 265, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (136, 540, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (137, 465, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (138, 33, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (139, 120, 'New arrivals');
+insert into notification_user (id, userid, decription) values (140, 831, 'New arrivals');
+insert into notification_user (id, userid, decription) values (141, 424, 'Special discount');
+insert into notification_user (id, userid, decription) values (142, 533, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (143, 683, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (144, 750, 'New arrivals');
+insert into notification_user (id, userid, decription) values (145, 27, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (146, 644, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (147, 895, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (148, 577, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (149, 795, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (150, 739, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (151, 1000, 'New arrivals');
+insert into notification_user (id, userid, decription) values (152, 830, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (153, 303, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (154, 334, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (155, 812, 'Special discount');
+insert into notification_user (id, userid, decription) values (156, 566, 'Special discount');
+insert into notification_user (id, userid, decription) values (157, 641, 'Special discount');
+insert into notification_user (id, userid, decription) values (158, 336, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (159, 637, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (160, 713, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (161, 796, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (162, 501, 'Special discount');
+insert into notification_user (id, userid, decription) values (163, 320, 'New arrivals');
+insert into notification_user (id, userid, decription) values (164, 170, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (165, 582, 'Special discount');
+insert into notification_user (id, userid, decription) values (166, 656, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (167, 299, 'Special discount');
+insert into notification_user (id, userid, decription) values (168, 602, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (169, 798, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (170, 549, 'Special discount');
+insert into notification_user (id, userid, decription) values (171, 83, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (172, 665, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (173, 578, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (174, 653, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (175, 476, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (176, 264, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (177, 233, 'New arrivals');
+insert into notification_user (id, userid, decription) values (178, 120, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (179, 545, 'New arrivals');
+insert into notification_user (id, userid, decription) values (180, 265, 'New arrivals');
+insert into notification_user (id, userid, decription) values (181, 473, 'Special discount');
+insert into notification_user (id, userid, decription) values (182, 517, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (183, 460, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (184, 474, 'Special discount');
+insert into notification_user (id, userid, decription) values (185, 733, 'Special discount');
+insert into notification_user (id, userid, decription) values (186, 149, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (187, 720, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (188, 796, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (189, 127, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (190, 521, 'Special discount');
+insert into notification_user (id, userid, decription) values (191, 228, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (192, 142, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (193, 292, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (194, 836, 'Special discount');
+insert into notification_user (id, userid, decription) values (195, 738, 'New arrivals');
+insert into notification_user (id, userid, decription) values (196, 696, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (197, 454, 'Special discount');
+insert into notification_user (id, userid, decription) values (198, 701, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (199, 898, 'New arrivals');
+insert into notification_user (id, userid, decription) values (200, 375, 'New arrivals');
+insert into notification_user (id, userid, decription) values (201, 954, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (202, 266, 'Special discount');
+insert into notification_user (id, userid, decription) values (203, 964, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (204, 369, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (205, 391, 'New arrivals');
+insert into notification_user (id, userid, decription) values (206, 355, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (207, 976, 'New arrivals');
+insert into notification_user (id, userid, decription) values (208, 922, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (209, 888, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (210, 123, 'New arrivals');
+insert into notification_user (id, userid, decription) values (211, 341, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (212, 284, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (213, 874, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (214, 305, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (215, 988, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (216, 138, 'Special discount');
+insert into notification_user (id, userid, decription) values (217, 950, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (218, 472, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (219, 191, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (220, 416, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (221, 45, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (222, 158, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (223, 467, 'New arrivals');
+insert into notification_user (id, userid, decription) values (224, 218, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (225, 21, 'Special discount');
+insert into notification_user (id, userid, decription) values (226, 908, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (227, 555, 'Special discount');
+insert into notification_user (id, userid, decription) values (228, 264, 'New arrivals');
+insert into notification_user (id, userid, decription) values (229, 120, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (230, 254, 'New arrivals');
+insert into notification_user (id, userid, decription) values (231, 949, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (232, 260, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (233, 400, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (234, 604, 'Special discount');
+insert into notification_user (id, userid, decription) values (235, 645, 'New arrivals');
+insert into notification_user (id, userid, decription) values (236, 301, 'Special discount');
+insert into notification_user (id, userid, decription) values (237, 7, 'Special discount');
+insert into notification_user (id, userid, decription) values (238, 159, 'Special discount');
+insert into notification_user (id, userid, decription) values (239, 802, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (240, 586, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (241, 87, 'Special discount');
+insert into notification_user (id, userid, decription) values (242, 430, 'New arrivals');
+insert into notification_user (id, userid, decription) values (243, 454, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (244, 47, 'Special discount');
+insert into notification_user (id, userid, decription) values (245, 704, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (246, 291, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (247, 529, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (248, 472, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (249, 557, 'New arrivals');
+insert into notification_user (id, userid, decription) values (250, 448, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (251, 219, 'New arrivals');
+insert into notification_user (id, userid, decription) values (252, 694, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (253, 741, 'Special discount');
+insert into notification_user (id, userid, decription) values (254, 24, 'New arrivals');
+insert into notification_user (id, userid, decription) values (255, 702, 'New arrivals');
+insert into notification_user (id, userid, decription) values (256, 491, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (257, 748, 'Special discount');
+insert into notification_user (id, userid, decription) values (258, 225, 'Special discount');
+insert into notification_user (id, userid, decription) values (259, 398, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (260, 855, 'Special discount');
+insert into notification_user (id, userid, decription) values (261, 602, 'New arrivals');
+insert into notification_user (id, userid, decription) values (262, 187, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (263, 260, 'Special discount');
+insert into notification_user (id, userid, decription) values (264, 754, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (265, 433, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (266, 17, 'Special discount');
+insert into notification_user (id, userid, decription) values (267, 735, 'New arrivals');
+insert into notification_user (id, userid, decription) values (268, 499, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (269, 551, 'Special discount');
+insert into notification_user (id, userid, decription) values (270, 300, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (271, 76, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (272, 651, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (273, 534, 'Special discount');
+insert into notification_user (id, userid, decription) values (274, 404, 'Special discount');
+insert into notification_user (id, userid, decription) values (275, 660, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (276, 595, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (277, 78, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (278, 759, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (279, 444, 'Special discount');
+insert into notification_user (id, userid, decription) values (280, 38, 'New arrivals');
+insert into notification_user (id, userid, decription) values (281, 950, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (282, 511, 'New arrivals');
+insert into notification_user (id, userid, decription) values (283, 96, 'New arrivals');
+insert into notification_user (id, userid, decription) values (284, 439, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (285, 614, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (286, 737, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (287, 362, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (288, 493, 'Special discount');
+insert into notification_user (id, userid, decription) values (289, 390, 'New arrivals');
+insert into notification_user (id, userid, decription) values (290, 406, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (291, 518, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (292, 633, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (293, 524, 'New arrivals');
+insert into notification_user (id, userid, decription) values (294, 5, 'Special discount');
+insert into notification_user (id, userid, decription) values (295, 789, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (296, 716, 'New arrivals');
+insert into notification_user (id, userid, decription) values (297, 56, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (298, 280, 'Special discount');
+insert into notification_user (id, userid, decription) values (299, 372, 'Special discount');
+insert into notification_user (id, userid, decription) values (300, 770, 'New arrivals');
+insert into notification_user (id, userid, decription) values (301, 264, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (302, 495, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (303, 708, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (304, 451, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (305, 589, 'New arrivals');
+insert into notification_user (id, userid, decription) values (306, 560, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (307, 151, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (308, 536, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (309, 912, 'New arrivals');
+insert into notification_user (id, userid, decription) values (310, 623, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (311, 41, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (312, 551, 'Special discount');
+insert into notification_user (id, userid, decription) values (313, 942, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (314, 196, 'Special discount');
+insert into notification_user (id, userid, decription) values (315, 863, 'New arrivals');
+insert into notification_user (id, userid, decription) values (316, 501, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (317, 563, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (318, 748, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (319, 959, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (320, 890, 'Special discount');
+insert into notification_user (id, userid, decription) values (321, 775, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (322, 750, 'Special discount');
+insert into notification_user (id, userid, decription) values (323, 193, 'Special discount');
+insert into notification_user (id, userid, decription) values (324, 274, 'Special discount');
+insert into notification_user (id, userid, decription) values (325, 913, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (326, 236, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (327, 202, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (328, 709, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (329, 491, 'Special discount');
+insert into notification_user (id, userid, decription) values (330, 369, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (331, 621, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (332, 695, 'Special discount');
+insert into notification_user (id, userid, decription) values (333, 858, 'New arrivals');
+insert into notification_user (id, userid, decription) values (334, 438, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (335, 355, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (336, 607, 'Special discount');
+insert into notification_user (id, userid, decription) values (337, 135, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (338, 568, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (339, 828, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (340, 80, 'New arrivals');
+insert into notification_user (id, userid, decription) values (341, 524, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (342, 659, 'New arrivals');
+insert into notification_user (id, userid, decription) values (343, 439, 'Special discount');
+insert into notification_user (id, userid, decription) values (344, 5, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (345, 441, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (346, 348, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (347, 47, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (348, 219, 'New arrivals');
+insert into notification_user (id, userid, decription) values (349, 153, 'Special discount');
+insert into notification_user (id, userid, decription) values (350, 207, 'New arrivals');
+insert into notification_user (id, userid, decription) values (351, 442, 'New arrivals');
+insert into notification_user (id, userid, decription) values (352, 434, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (353, 633, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (354, 878, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (355, 771, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (356, 787, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (357, 904, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (358, 519, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (359, 516, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (360, 305, 'Special discount');
+insert into notification_user (id, userid, decription) values (361, 148, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (362, 806, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (363, 806, 'Special discount');
+insert into notification_user (id, userid, decription) values (364, 220, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (365, 663, 'New arrivals');
+insert into notification_user (id, userid, decription) values (366, 439, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (367, 440, 'Special discount');
+insert into notification_user (id, userid, decription) values (368, 345, 'New arrivals');
+insert into notification_user (id, userid, decription) values (369, 584, 'New arrivals');
+insert into notification_user (id, userid, decription) values (370, 315, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (371, 547, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (372, 856, 'New arrivals');
+insert into notification_user (id, userid, decription) values (373, 298, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (374, 873, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (375, 466, 'Special discount');
+insert into notification_user (id, userid, decription) values (376, 537, 'Special discount');
+insert into notification_user (id, userid, decription) values (377, 551, 'New arrivals');
+insert into notification_user (id, userid, decription) values (378, 576, 'New arrivals');
+insert into notification_user (id, userid, decription) values (379, 228, 'New arrivals');
+insert into notification_user (id, userid, decription) values (380, 758, 'New arrivals');
+insert into notification_user (id, userid, decription) values (381, 699, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (382, 135, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (383, 899, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (384, 643, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (385, 436, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (386, 548, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (387, 391, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (388, 176, 'Special discount');
+insert into notification_user (id, userid, decription) values (389, 23, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (390, 431, 'Special discount');
+insert into notification_user (id, userid, decription) values (391, 908, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (392, 14, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (393, 754, 'Special discount');
+insert into notification_user (id, userid, decription) values (394, 627, 'Special discount');
+insert into notification_user (id, userid, decription) values (395, 11, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (396, 775, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (397, 181, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (398, 554, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (399, 451, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (400, 408, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (401, 380, 'Special discount');
+insert into notification_user (id, userid, decription) values (402, 827, 'Special discount');
+insert into notification_user (id, userid, decription) values (403, 76, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (404, 660, 'New arrivals');
+insert into notification_user (id, userid, decription) values (405, 483, 'New arrivals');
+insert into notification_user (id, userid, decription) values (406, 585, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (407, 351, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (408, 657, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (409, 610, 'New arrivals');
+insert into notification_user (id, userid, decription) values (410, 209, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (411, 909, 'New arrivals');
+insert into notification_user (id, userid, decription) values (412, 794, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (413, 694, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (414, 184, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (415, 732, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (416, 708, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (417, 723, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (418, 591, 'New arrivals');
+insert into notification_user (id, userid, decription) values (419, 3, 'New arrivals');
+insert into notification_user (id, userid, decription) values (420, 386, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (421, 73, 'New arrivals');
+insert into notification_user (id, userid, decription) values (422, 942, 'New arrivals');
+insert into notification_user (id, userid, decription) values (423, 117, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (424, 785, 'New arrivals');
+insert into notification_user (id, userid, decription) values (425, 907, 'New arrivals');
+insert into notification_user (id, userid, decription) values (426, 664, 'New arrivals');
+insert into notification_user (id, userid, decription) values (427, 151, 'New arrivals');
+insert into notification_user (id, userid, decription) values (428, 380, 'New arrivals');
+insert into notification_user (id, userid, decription) values (429, 666, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (430, 570, 'New arrivals');
+insert into notification_user (id, userid, decription) values (431, 709, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (432, 196, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (433, 326, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (434, 94, 'Special discount');
+insert into notification_user (id, userid, decription) values (435, 526, 'New arrivals');
+insert into notification_user (id, userid, decription) values (436, 101, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (437, 687, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (438, 8, 'New arrivals');
+insert into notification_user (id, userid, decription) values (439, 694, 'Special discount');
+insert into notification_user (id, userid, decription) values (440, 981, 'New arrivals');
+insert into notification_user (id, userid, decription) values (441, 966, 'Special discount');
+insert into notification_user (id, userid, decription) values (442, 758, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (443, 536, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (444, 336, 'New arrivals');
+insert into notification_user (id, userid, decription) values (445, 597, 'New arrivals');
+insert into notification_user (id, userid, decription) values (446, 569, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (447, 3, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (448, 673, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (449, 287, 'Special discount');
+insert into notification_user (id, userid, decription) values (450, 792, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (451, 432, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (452, 889, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (453, 906, 'Special discount');
+insert into notification_user (id, userid, decription) values (454, 413, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (455, 837, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (456, 804, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (457, 450, 'Special discount');
+insert into notification_user (id, userid, decription) values (458, 343, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (459, 173, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (460, 700, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (461, 388, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (462, 837, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (463, 383, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (464, 726, 'Special discount');
+insert into notification_user (id, userid, decription) values (465, 839, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (466, 67, 'New arrivals');
+insert into notification_user (id, userid, decription) values (467, 336, 'Special discount');
+insert into notification_user (id, userid, decription) values (468, 794, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (469, 940, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (470, 276, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (471, 344, 'Special discount');
+insert into notification_user (id, userid, decription) values (472, 77, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (473, 498, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (474, 408, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (475, 811, 'Special discount');
+insert into notification_user (id, userid, decription) values (476, 413, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (477, 747, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (478, 523, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (479, 799, 'New arrivals');
+insert into notification_user (id, userid, decription) values (480, 410, 'Special discount');
+insert into notification_user (id, userid, decription) values (481, 932, 'New arrivals');
+insert into notification_user (id, userid, decription) values (482, 791, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (483, 667, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (484, 15, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (485, 456, 'Exclusive sale');
+insert into notification_user (id, userid, decription) values (486, 565, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (487, 549, 'Special discount');
+insert into notification_user (id, userid, decription) values (488, 261, 'Special discount');
+insert into notification_user (id, userid, decription) values (489, 263, 'New arrivals');
+insert into notification_user (id, userid, decription) values (490, 202, 'Special discount');
+insert into notification_user (id, userid, decription) values (491, 608, 'Special discount');
+insert into notification_user (id, userid, decription) values (492, 46, 'Special discount');
+insert into notification_user (id, userid, decription) values (493, 928, 'Special discount');
+insert into notification_user (id, userid, decription) values (494, 402, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (495, 940, 'Limited time offer');
+insert into notification_user (id, userid, decription) values (496, 449, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (497, 319, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (498, 481, 'Clearance sale');
+insert into notification_user (id, userid, decription) values (499, 499, 'New arrivals');
+insert into notification_user (id, userid, decription) values (500, 523, 'Limited time offer');
 GO
 
 insert into vouchers (id, voucherCode, dateStart, dateEnd, discount, typeID, scopeID, statusID) values (1, 'VTUK', '2022-12-13', '2024-09-02', 0.1, 1, 1, 4);
@@ -5900,5 +6408,299 @@ GO
 CREATE PROC proc_time_order (@p_timeStart DATE, @p_timeEnd DATE) AS
 BEGIN
 	SELECT * FROM orders WHERE @p_timeStart <= dateCreated AND lastUpdated <= @p_timeEnd
+END
+GO
+
+-------------------------------------------------------------------------
+-- Functions
+-- 1. Tính giá giảm của sản phẩm khi được áp dụng voucher nếu có (nhận vào: id sản phẩm),
+-- đây là giá giảm bởi voucher không liên quan đến tự bản thân sản phẩm được giảm
+CREATE FUNCTION f_sold_voucher (@f_id INT)
+RETURNS FLOAT
+AS
+BEGIN
+	IF NOT EXISTS (SELECT * FROM product_vouchers WHERE productID = @f_id)
+		BEGIN
+			-- Sản phẩm không được hỗ trợ giảm bởi voucher
+			RETURN 0.0
+		END
+	RETURN (SELECT (p.price * v.discount) FROM products p 
+		JOIN product_vouchers pv ON p.id = pv.productID AND p.id = @f_id
+		JOIN vouchers v ON v.id = pv.voucherID)
+END
+GO
+
+-- 2. Tính tổng các giá phải chi trả cho các sản phẩm nếu được áp dụng voucher
+CREATE FUNCTION f_total_price ()
+RETURNS FLOAT
+AS
+BEGIN
+	RETURN (SELECT SUM(p.price * v.discount) FROM products p 
+		JOIN product_vouchers pv ON p.id = pv.productID
+		JOIN vouchers v ON v.id = pv.voucherID)
+END
+GO
+
+-- 3. Tính tổng giá hàng đã bán được
+CREATE FUNCTION f_total_order ()
+RETURNS FLOAT
+AS
+BEGIN
+	RETURN (SELECT SUM(price) FROM order_details WHERE orderID IN
+		(SELECT id FROM orders WHERE statusID IN 
+			(SELECT id FROM order_status WHERE orderStatusName = 'Success')))
+END
+GO
+
+-- 4. Tính tổng giá đã giảm trên toàn hóa đơn đã hoàn thành (gồm: giá sản phẩm, giá voucher)
+CREATE FUNCTION f_total_sold_order ()
+RETURNS FLOAT
+AS
+BEGIN
+	RETURN (SELECT SUM(v.discount * p.price + p.discount) FROM products p JOIN product_models pm ON p.id = pm.productID
+		JOIN order_details od ON od.modelID = pm.id JOIN orders o ON o.id = od.orderID
+			JOIN product_vouchers pv ON pv.productID = p.id JOIN vouchers v ON pv.voucherID = v.id
+				WHERE o.statusID = (SELECT id FROM order_status WHERE orderStatusName = 'Success'))
+END
+GO
+
+-- 5. Tính chi phí thu được nếu bán hết toàn bộ hàng của một sản phẩm bất kỳ,
+--	tính luôn cả voucher nếu có (nhận vào: id sản phẩm)
+ALTER FUNCTION f_total1_product (@f_id INT)
+RETURNS FLOAT
+AS
+BEGIN
+	RETURN (SELECT (p.price - (v.discount * p.price + p.discount))* p.amountSold FROM products p 
+		JOIN product_vouchers pv ON pv.productID = p.id
+			JOIN vouchers v ON pv.voucherID = v.id WHERE p.id = @f_id)
+END
+GO
+
+-- 6. Lấy ra các hóa đơn của người dùng (id được truyền vào)
+CREATE FUNCTION f_order_user (@f_id VARCHAR(20))
+RETURNS TABLE
+AS
+	RETURN SELECT * FROM orders WHERE userID = @f_id
+GO
+
+-- 7. Tính độ tuổi của một người dùng bất kỳ (nhận vào id người dùng)
+CREATE FUNCTION f_age_user (@f_id VARCHAR(20))
+RETURNS INT
+AS
+BEGIN
+	RETURN (SELECT DATEDIFF(year, dob, GETDATE()) FROM users WHERE id = @f_id)
+END
+GO
+
+-- 8. Kiểm tra địa chỉ của một người dùng có hợp lệ (nhận vào id), 
+-- là hợp lệ nếu không chứa toàn số
+ALTER FUNCTION f_addess_user (@f_id VARCHAR(20))
+RETURNS NVARCHAR(25)
+AS
+BEGIN
+	IF (SELECT ISNUMERIC(usersAddress) FROM users WHERE id = @f_id) <> 0
+		RETURN 'Địa chỉ không hợp lệ'
+	RETURN 'Địa chỉ có thể chấp nhận'
+END
+GO
+
+-- 9. Đánh giá mật khẩu của một người dùng (nhận vào id) trả về là số điểm đánh giá, càng cao càng tốt
+CREATE FUNCTION f_check_password (@f_id VARCHAR(20))
+RETURNS INT
+AS
+BEGIN
+	DECLARE @COUNT INT
+	DECLARE @PASSWORD VARCHAR(100)
+	SET @PASSWORD = (SELECT encryptedPassword FROM users WHERE id = @f_id)
+	IF LEN(@PASSWORD) >= 30
+		SET @COUNT = 1
+	IF @PASSWORD LIKE '%[^a-zA-Z0-9]%'
+		SET @COUNT = @COUNT + 1
+	RETURN @COUNT
+END
+GO
+
+-- 10. Kiểm tra số điện thoại của một người dùng (nhận vào id)
+CREATE FUNCTION f_phone_user (@f_id VARCHAR(20))
+RETURNS VARCHAR(40)
+AS
+BEGIN
+	DECLARE @PHONE VARCHAR(15)
+	SET @PHONE = (SELECT phone FROM users WHERE id = @f_id)
+	IF @PHONE LIKE '%[^a-zA-Z0-9]%' AND @PHONE LIKE '%[0-9]%'
+		RETURN 'Số không hợp lệ'
+	RETURN 'Số hợp lệ'
+END
+GO
+
+-- 11. Kiểm tra sự vi phạm mua hàng của người dùng (nhận vào id) vi phạm khi hủy hoặc không nhận hàng quá 10 lần
+CREATE FUNCTION f_violate_user (@f_id VARCHAR(20))
+RETURNS VARCHAR(50)
+AS
+BEGIN
+	IF (SELECT SUM(statusID) AS COUNT FROM orders WHERE userID = @f_id AND statusID IN
+		(SELECT id FROM order_status WHERE orderStatusName = 'Cancelled' OR orderStatusName = 'Return')) > 10
+		RETURN 'Vi phạm'
+	RETURN 'Không vi phạm'
+END
+GO
+
+-- 12. Kiểm tra khách hàng có từng mua hàng trên n lần chưa (chỉ tính giao hàng thành công, nhận vào là id người dùng)
+CREATE FUNCTION f_count_order (@f_id VARCHAR(20), @N INT)
+RETURNS VARCHAR(50)
+AS
+BEGIN
+	IF (SELECT COUNT(*) FROM orders WHERE userID = @f_id) > @N
+		RETURN 'Khách mua trên ' + CAST(@N AS VARCHAR(5))
+	RETURN 'Khách chưa mua trên ' + CAST(@N AS VARCHAR(5))
+END
+GO
+
+-- 13. Đếm số lần tung ra voucher của một nhãn hàng (nhận vào id nhãn hàng)
+CREATE FUNCTION f_count_brand_voucher (@f_id INT)
+RETURNS INT
+AS
+BEGIN
+	RETURN (SELECT COUNT(*) FROM brand_vouchers WHERE brandID = 77)
+END
+GO
+
+-- 14. Lấy ra loại sản phẩm nhận được nhiều voucher nhất
+CREATE FUNCTION f_product_voucher ()
+RETURNS TABLE
+AS
+	RETURN (SELECT * FROM products WHERE id IN 
+		(SELECT productID FROM product_vouchers GROUP BY productID HAVING COUNT(*) >=ALL 
+			(SELECT COUNT(*) FROM product_vouchers GROUP BY productID)))
+GO
+
+-- 15. Lấy ra những sản phẩm nhận được đánh giá tốt nhất
+CREATE FUNCTION f_higihRate_product ()
+RETURNS TABLE
+AS
+	RETURN (SELECT * FROM products WHERE id IN 
+		(SELECT productID FROM rates WHERE ratePoint >= (SELECT MAX(ratePoint) FROM rates)))
+GO
+
+-- 16. Lấy ra những khách hàng tích cực bình luận nhất (nhận vào số lần được xem là tích cực bình luận)
+CREATE FUNCTION f_positive_comment (@f_num INT)
+RETURNS TABLE
+AS
+	RETURN (SELECT * FROM users WHERE id IN 
+		(SELECT userID FROM rates GROUP BY userID HAVING COUNT(*) > @f_num))
+GO
+
+-- 17. Kiểm tra một sản phẩm có còn hàng (nhận vào id sản phẩm), không còn hàng khi số lượng = 0
+CREATE FUNCTION f_inventory_product (@f_id INT)
+RETURNS VARCHAR(50)
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM products WHERE id = @f_id AND amountSold = 0)
+		RETURN 'Hết hàng'
+	RETURN 'Còn hàng'
+END
+GO
+
+-- 18. Sản phẩm có bị ẩn đi (nhận vào id)
+CREATE FUNCTION f_hidden_product (@f_id INT)
+RETURNS VARCHAR(50)
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM products WHERE id = @f_id AND statusID = 
+		(SELECT id FROM product_status WHERE productStatusName = 'Hidden'))
+		RETURN 'Sản phẩm đã bị ẩn'
+	RETURN 'Sản phẩm không bị ẩn'
+END
+GO
+
+-- 19. Người dùng có bị chặn (nhận vào id)
+CREATE FUNCTION f_block_status (@f_id VARCHAR(20))
+RETURNS VARCHAR(50)
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM users WHERE id = @f_id AND statusID = 
+		(SELECT id FROM user_status WHERE userStatusName = 'Block'))
+		RETURN 'Người dùng bị chặn'
+	RETURN 'Không bị chặn'
+END
+GO
+
+-- 20. Lấy ra hóa đơn được mua trong khoảng thời gian tính bằng tháng (nhận vào thời gian tính, số lượng tháng)
+CREATE FUNCTION f_payTime_order (@f_date DATE, @f_month INT)
+RETURNS TABLE
+AS
+	RETURN (SELECT * FROM orders WHERE ABS(DATEDIFF(MONTH, @f_date, dateCreated)) = @f_month)
+GO
+
+-- 21. Hóa đơn có bị điều chỉnh (nhận vào id)
+CREATE FUNCTION f_edit_order (@f_id INT)
+RETURNS VARCHAR(100)
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM orders WHERE id = @f_id AND dateCreated != lastUpdated)
+		RETURN 'Hóa đơn bị điều chỉnh'
+	RETURN 'Hóa đơn chưa bị điều chỉnh'
+END
+GO
+
+-- 22. Số tháng đã thêm sản phẩm (nhận vào id)
+CREATE FUNCTION f_month_product (@f_id INT)
+RETURNS INT
+AS
+BEGIN
+	RETURN (SELECT DATEDIFF(MONTH, lastUpdated, GETDATE()) FROM products WHERE id = @f_id)
+END
+GO
+
+-- 23. Sản phẩm có các thuộc tính bổ sung
+CREATE FUNCTION f_additional_product ()
+RETURNS VARCHAR(200)
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM product_details WHERE attributeID IS NOT NULL)
+		RETURN 'Sản phẩm có thuộc tính bổ sung'
+	RETURN 'Sản phẩm không có thuộc tính bổ sung'
+END
+GO
+
+-- 24. Giá trị của một voucher khi được áp dụng với sản phẩm (nhận vào id sản phẩm và id voucher), 
+--	tất cả chỉ là giả định
+CREATE FUNCTION f_apply_product (@f_product INT, @f_voucher INT)
+RETURNS FLOAT
+AS
+BEGIN
+	RETURN (SELECT v.discount * p.price FROM product p JOIN voucher v 
+		ON v.id = @f_voucher AND p.id = @f_product)
+END
+GO
+
+-- 25. Kiểm tra thông báo đã gửi tới người dùng chưa (nhận vào id thông báo, id người dùng)
+CREATE FUNCTION f_notification (@f_id INT, @f_user VARCHAR(20))
+RETURNS VARCHAR(100)
+AS
+BEGIN
+	IF NOT EXISTS (SELECT * FROM notification_user WHERE id = @f_id AND userID = @f_user)
+		RETURN 'Chưa được gửi'
+	RETURN 'Đã được gửi'
+END
+GO
+
+-- 26. Kiểm tra một thuộc tính có thuộc một sản phẩm (nhận vào id sản phẩm và id thuộc tính)
+CREATE FUNCTION f_include_product (@f_product INT, @f_attribute INT)
+RETURNS VARCHAR(50)
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM product_details WHERE productID = @f_product AND attributeID = @f_attribute)
+END
+GO
+
+-- 27. Lấy ra giá cao nhất trong toàn bộ hóa đơn 
+-- 28. Lấy ra giá trị mua trung bình của các hóa đơn
+-- 29. Điểm đánh giá trung bình của một sản phẩm (nhận vào id sản phẩm)
+-- 30. Lây ra các sản phẩm có tên gần với tên được truyền
+CREATE FUNCTION f_ ()
+RETURNS 
+AS
+BEGIN
 END
 GO
