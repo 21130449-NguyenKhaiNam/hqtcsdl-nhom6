@@ -87,7 +87,7 @@ CREATE TABLE products (
 	id int NOT NULL,
 	productsName varchar(100) NOT NULL,
 	brandID int NOT NULL,
-	productsDescription ntext NOT NULL,
+	productsDescription varchar(max) NOT NULL,
 	categoryID int NOT NULL,
 	price float NOT NULL,
 	discount float NOT NULL,
@@ -5875,7 +5875,6 @@ insert into personal_vouchers (voucherID, userID) values (75, 147);
 insert into personal_vouchers (voucherID, userID) values (82, 396);
 insert into personal_vouchers (voucherID, userID) values (91, 423);
 insert into personal_vouchers (voucherID, userID) values (52, 112);
-insert into personal_vouchers (voucherID, userID) values (81, 484);
 insert into personal_vouchers (voucherID, userID) values (42, 13);
 insert into personal_vouchers (voucherID, userID) values (98, 312);
 insert into personal_vouchers (voucherID, userID) values (23, 371);
@@ -5894,7 +5893,6 @@ insert into personal_vouchers (voucherID, userID) values (76, 947);
 insert into personal_vouchers (voucherID, userID) values (8, 629);
 insert into personal_vouchers (voucherID, userID) values (47, 242);
 insert into personal_vouchers (voucherID, userID) values (58, 510);
-insert into personal_vouchers (voucherID, userID) values (87, 147);
 insert into personal_vouchers (voucherID, userID) values (85, 556);
 insert into personal_vouchers (voucherID, userID) values (64, 408);
 insert into personal_vouchers (voucherID, userID) values (27, 655);
@@ -5904,8 +5902,6 @@ insert into personal_vouchers (voucherID, userID) values (50, 988);
 insert into personal_vouchers (voucherID, userID) values (1, 673);
 insert into personal_vouchers (voucherID, userID) values (94, 874);
 insert into personal_vouchers (voucherID, userID) values (8, 547);
-insert into personal_vouchers (voucherID, userID) values (85, 492);
-insert into personal_vouchers (voucherID, userID) values (53, 688);
 insert into personal_vouchers (voucherID, userID) values (18, 900);
 insert into personal_vouchers (voucherID, userID) values (49, 254);
 insert into personal_vouchers (voucherID, userID) values (72, 562);
@@ -5921,7 +5917,6 @@ insert into personal_vouchers (voucherID, userID) values (4, 581);
 insert into personal_vouchers (voucherID, userID) values (79, 28);
 insert into personal_vouchers (voucherID, userID) values (12, 7);
 insert into personal_vouchers (voucherID, userID) values (86, 504);
-insert into personal_vouchers (voucherID, userID) values (83, 25);
 insert into personal_vouchers (voucherID, userID) values (89, 705);
 go
 
@@ -6798,20 +6793,141 @@ IF EXISTS (SELECT * FROM inserted WHERE statusID <>
 GO
 
 -- 9. Kiểm tra một đánh giá có để lại điểm và điểm có phù hợp
--- 10. Khi thêm một hóa đơn kiểm tra ngày chỉnh sửa và ngày tạo có bằng nhau
--- 11. Khi thêm hóa đơn số điện thoại có phù hợp 
--- 12. Khi thêm hóa đơn có số điện thoại và địa chỉ chưa
--- 13. Khi thông báo tới người dùng thì thông báo có nội dung chưa
--- 14. Kiểm tra số lượng đặt có hợp lệ (bé hơn 999)
--- 15. Kiểm tra voucher ngày kết thúc có lớn hơn hoặc bằng ngày bắt đầu
--- 16. Khi thêm voucher kiểm tra giá giảm có bé hơn 70%
--- 17. Khi áp dụng voucher cho số lượng người thì số lượng này có bé hơn số lượng người dùng hiện có và phải lớn hơn 0
--- 18. Kiểm tra khi đánh giá ngày tạo có bé hơn ngày hiện tại
--- 19. Kiểm tra các thông tin bắt buộc người dùng có nhập khi tạo tài khoản
--- 20. Kiểm tra mô tả của một sản phẩm có rỗng
-CREATE TRIGGER t_ ON FOR INSERT, UPDATE
+CREATE TRIGGER t_point_rate ON rates FOR INSERT, UPDATE
 AS
-IF EXISTS (SELECT * FROM inserted)
+IF EXISTS (SELECT * FROM rates WHERE ratePoint IS NULL OR ratePoint = 0 
+	OR (ratePoint < 1 AND ratePoint  > 5))
 	BEGIN
+		RAISERROR('Điểm đánh giá không phù hợp', 10, 1)
+		ROLLBACK
 	END
 GO
+
+-- 10. Khi thêm một hóa đơn kiểm tra ngày chỉnh sửa và ngày tạo có bằng nhau
+CREATE TRIGGER t_create_order ON orders FOR INSERT
+AS
+IF EXISTS (SELECT * FROM inserted WHERE dateCreated <> lastUpdated)
+	BEGIN
+		RAISERROR('Ngày không phù hợp', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 11. Khi thêm hóa đơn số điện thoại có phù hợp 
+CREATE TRIGGER t_edit_order ON orders FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE phone NOT LIKE '%[^a-zA-Z0-9]%' AND phone NOT LIKE '%[a-zA-Z]%')
+	BEGIN
+		RAISERROR('Số điện thoại không phù hợp', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 12. Khi thêm hóa đơn có số điện thoại và địa chỉ chưa
+CREATE TRIGGER t_check_order ON orders FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE phone IS NULL OR oredersAddress IS NULL)
+	BEGIN
+		RAISERROR('Nhập số điện thoại và địa chỉ', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 13. Khi thông báo tới người dùng thì thông báo có nội dung chưa
+CREATE TRIGGER t_notification_user ON notification_user FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE decription IS NULL)
+	BEGIN
+		RAISERROR('Nội dung bị trống', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 14. Kiểm tra số lượng đặt có hợp lệ (bé hơn 999)
+CREATE TRIGGER t_amount_order ON order_details FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE quantity <= 0 OR quantity > 999)
+	BEGIN
+		RAISERROR('Số lượng không hợp lệ', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 15. Kiểm tra voucher ngày kết thúc có bé hơn hoặc bằng ngày bắt đầu
+CREATE TRIGGER t_check_voucher ON vouchers FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE dateEnd > dateStart)
+	BEGIN
+		RAISERROR('Ngày kết thúc không hợp lệ', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 16. Khi thêm voucher kiểm tra giá giảm có bé hơn 70%
+CREATE TRIGGER t_discount_voucher ON vouchers FOR INSERT
+AS
+IF EXISTS (SELECT * FROM inserted WHERE discount > 0.7)
+	BEGIN
+		RAISERROR('Giá giảm không phù hợp', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 17. Khi áp dụng voucher cho số lượng người thì số lượng này có bé 
+--	hơn số lượng người dùng hiện có và phải lớn hơn 0
+CREATE TRIGGER t_remain_voucher ON unknown_vouchers FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE remain <= 0 OR remain > 
+	(SELECT COUNT(*) FROM users))
+	BEGIN
+		RAISERROR('Số lượng không phù hợp', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 18. Kiểm tra khi đánh giá, ngày tạo có khác ngày hiện tại
+CREATE TRIGGER t_dateCreate_rate ON rates FOR INSERT
+AS
+IF EXISTS (SELECT * FROM inserted WHERE lastUpdated <> GETDATE())
+	BEGIN
+		RAISERROR('Ngày không phù hợp', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 19. Kiểm tra các thông tin bắt buộc người dùng có nhập khi tạo tài khoản
+CREATE TRIGGER t_validate_user ON users FOR INSERT
+AS
+IF EXISTS (SELECT * FROM inserted WHERE email IS NULL OR phone IS NULL OR fullName IS NULL OR dob IS NULL)
+	BEGIN
+		RAISERROR('Thông tin nhập chưa đầy đủ', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 20. Kiểm tra mô tả của một sản phẩm có rỗng
+CREATE TRIGGER t_deacription_product ON products FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE productsDescription IS NULL)
+	BEGIN
+		RAISERROR('Mô tả sản phẩm không hợp lệ', 10, 1)
+		ROLLBACK
+	END
+GO
+
+---------------------------------------------------
+-- 5. Quản lý người dùng 
+-- a. Tạo người dùng 
+CREATE LOGIN NguyenKhaiNam
+WITH PASSWORD = 'NguyenKhaiNam'
+GO
+
+CREATE USER NguyenKhaiNam FOR LOGIN NguyenKhaiNam
+GO
+
+
+CREATE PROC createUser(@name VARCHAR(20), @pass VARCHAR(20))
+SELECT name, type_desc, is_disabled
+FROM sys.database_principals
+WHERE type_desc IN ('SQL_USER', 'WINDOWS_USER', 'WINDOWS_GROUP')
+      AND is_disabled = 0;
