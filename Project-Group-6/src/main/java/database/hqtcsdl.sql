@@ -6917,17 +6917,98 @@ GO
 
 ---------------------------------------------------
 -- 5. Quản lý người dùng 
--- a. Tạo người dùng 
-CREATE LOGIN NguyenKhaiNam
-WITH PASSWORD = 'NguyenKhaiNam'
+-- Câu 1: Tạo/ Xóa/ Thay đổi user
+-- Tạo người dùng 
+ALTER PROC createUser (@user varchar(max), @pass varchar(max))
+AS
+BEGIN
+	BEGIN
+		DECLARE @sql1 NVARCHAR(max)
+		SET @sql1 = 'IF NOT EXISTS (SELECT 1 FROM sys.sql_logins WHERE name = ' + QUOTENAME(@user, '''') + ')
+						CREATE LOGIN ' + QUOTENAME(@user) + ' WITH PASSWORD = ' + QUOTENAME(@pass, '''')
+		EXEC sp_executesql @sql1
+	END
+
+	DECLARE @sql2 NVARCHAR(max)
+	SET @sql2 = 'IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = ' + QUOTENAME(@user, '''') + ')
+					CREATE USER ' + QUOTENAME(@user) + ' FOR LOGIN ' + QUOTENAME(@user)
+	EXEC sp_executesql @sql2
+END
 GO
 
-CREATE USER NguyenKhaiNam FOR LOGIN NguyenKhaiNam
+-- Xóa người dùng
+CREATE PROC deleteUser (@user varchar(max))
+AS
+BEGIN
+IF EXISTS (SELECT 1 FROM sys.database_principals WHERE name = @user)
+		BEGIN
+			DECLARE @sql NVARCHAR(max)
+			SET @sql = 'DROP USER IF EXISTS ' + QUOTENAME(@user)
+			EXEC sp_executesql @sql
+		END
+	ELSE
+		BEGIN
+			PRINT 'Người dùng không tồn tại hoặc tên cần truyền trong ngoặc ''.'
+		END
+END
 GO
 
+-- Thay đổi thông tin người dùng 
+CREATE PROCEDURE alterUser (@name VARCHAR(max), @new_name VARCHAR(max))
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM sys.database_principals WHERE name = @name)
+    BEGIN
+        DECLARE @sql NVARCHAR(max)
+        SET @sql = 'ALTER USER ' +  QUOTENAME(@name) + ' WITH NAME = ' + QUOTENAME(@new_name)
+        EXEC sp_executesql @sql
+    END
+    ELSE
+    BEGIN
+        PRINT 'Người dùng không tồn tại hoặc tên cần truyền trong ngoặc đơn.'
+    END
+END
+GO
 
-CREATE PROC createUser(@name VARCHAR(20), @pass VARCHAR(20))
-SELECT name, type_desc, is_disabled
-FROM sys.database_principals
-WHERE type_desc IN ('SQL_USER', 'WINDOWS_USER', 'WINDOWS_GROUP')
-      AND is_disabled = 0;
+-- b. Tạo/xóa/thay đổi role
+-- Cập nhật role người dùng: Mỗi lần chỉ được cập nhật 1 role vì 
+--	tránh tình trạng cập nhật không kiểm soát
+CREATE PROC createRoleUser (@user VARCHAR(max), @role VARCHAR(max), @table VARCHAR(max))
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM sys.database_principals WHERE name = @user)
+		BEGIN
+			DECLARE @sql NVARCHAR(max)
+			SET @sql = 'GRANT ' + @role + ' ON ' + @table + ' TO ' + @user
+			EXEC sp_executesql @sql
+		END
+    ELSE
+		BEGIN
+			PRINT 'Người dùng không tồn tại hoặc tên cần truyền trong ngoặc ''.'
+		END
+END
+GO
+
+------------------------------------------------------------------------
+-- Kiểm tra với một người dùng giả
+-- Tạo
+EXEC createUser NguoiDungGia, NguoiDungGia
+GO
+-- Xem
+Sp_helplogins NguoiDungGia
+GO
+-- Sửa tên
+-- Cấp quyền
+EXEC alterRoleUser 'NguoiDungGia', 'SELECT', 'users'
+GO
+-- Xem quyền
+SELECT * FROM sys.database_permissions WHERE grantee_principal_id = DATABASE_PRINCIPAL_ID('NguoiDungGia')
+GO
+-- Xóa người dùng
+EXEC deleteUser NguoiDungGia
+GO
+-- Xem: Lúc này chỉ còn lại login
+Sp_helplogins NguoiDungGia
+GO
+-------------------------------------------------
+
