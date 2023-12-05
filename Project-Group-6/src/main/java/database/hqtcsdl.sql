@@ -144,7 +144,8 @@ CREATE TABLE notification_user (
 	id INT NOT NULL,
 	userID varchar(20) NOT NULL,
 	decription ntext,
-	PRIMARY KEY (id)
+	PRIMARY KEY (id),
+	CONSTRAINT notification_user_ibfk_1 FOREIGN KEY (userID) REFERENCES users (id)
 )
 GO
 
@@ -5867,28 +5868,21 @@ insert into personal_vouchers (voucherID, userID) values (51, 547);
 insert into personal_vouchers (voucherID, userID) values (81, 640);
 insert into personal_vouchers (voucherID, userID) values (73, 390);
 insert into personal_vouchers (voucherID, userID) values (54, 238);
-insert into personal_vouchers (voucherID, userID) values (51, 627);
 insert into personal_vouchers (voucherID, userID) values (70, 493);
-insert into personal_vouchers (voucherID, userID) values (81, 167);
-insert into personal_vouchers (voucherID, userID) values (51, 910);
 insert into personal_vouchers (voucherID, userID) values (6, 701);
 insert into personal_vouchers (voucherID, userID) values (61, 165);
 insert into personal_vouchers (voucherID, userID) values (75, 147);
 insert into personal_vouchers (voucherID, userID) values (82, 396);
-insert into personal_vouchers (voucherID, userID) values (70, 218);
 insert into personal_vouchers (voucherID, userID) values (91, 423);
 insert into personal_vouchers (voucherID, userID) values (52, 112);
-insert into personal_vouchers (voucherID, userID) values (51, 604);
 insert into personal_vouchers (voucherID, userID) values (81, 484);
 insert into personal_vouchers (voucherID, userID) values (42, 13);
-insert into personal_vouchers (voucherID, userID) values (81, 258);
 insert into personal_vouchers (voucherID, userID) values (98, 312);
 insert into personal_vouchers (voucherID, userID) values (23, 371);
 insert into personal_vouchers (voucherID, userID) values (37, 958);
 insert into personal_vouchers (voucherID, userID) values (99, 545);
 insert into personal_vouchers (voucherID, userID) values (63, 207);
 insert into personal_vouchers (voucherID, userID) values (93, 674);
-insert into personal_vouchers (voucherID, userID) values (81, 159);
 insert into personal_vouchers (voucherID, userID) values (55, 792);
 insert into personal_vouchers (voucherID, userID) values (35, 15);
 insert into personal_vouchers (voucherID, userID) values (45, 33);
@@ -5906,8 +5900,6 @@ insert into personal_vouchers (voucherID, userID) values (64, 408);
 insert into personal_vouchers (voucherID, userID) values (27, 655);
 insert into personal_vouchers (voucherID, userID) values (53, 628);
 insert into personal_vouchers (voucherID, userID) values (5, 996);
-insert into personal_vouchers (voucherID, userID) values (75, 888);
-insert into personal_vouchers (voucherID, userID) values (34, 54);
 insert into personal_vouchers (voucherID, userID) values (50, 988);
 insert into personal_vouchers (voucherID, userID) values (1, 673);
 insert into personal_vouchers (voucherID, userID) values (94, 874);
@@ -5917,24 +5909,15 @@ insert into personal_vouchers (voucherID, userID) values (53, 688);
 insert into personal_vouchers (voucherID, userID) values (18, 900);
 insert into personal_vouchers (voucherID, userID) values (49, 254);
 insert into personal_vouchers (voucherID, userID) values (72, 562);
-insert into personal_vouchers (voucherID, userID) values (87, 304);
-insert into personal_vouchers (voucherID, userID) values (5, 971);
 insert into personal_vouchers (voucherID, userID) values (96, 626);
-insert into personal_vouchers (voucherID, userID) values (34, 56);
 insert into personal_vouchers (voucherID, userID) values (83, 662);
-insert into personal_vouchers (voucherID, userID) values (49, 388);
 insert into personal_vouchers (voucherID, userID) values (10, 801);
 insert into personal_vouchers (voucherID, userID) values (46, 956);
 insert into personal_vouchers (voucherID, userID) values (31, 315);
 insert into personal_vouchers (voucherID, userID) values (24, 241);
 insert into personal_vouchers (voucherID, userID) values (67, 655);
-insert into personal_vouchers (voucherID, userID) values (73, 552);
 insert into personal_vouchers (voucherID, userID) values (15, 689);
 insert into personal_vouchers (voucherID, userID) values (4, 581);
-insert into personal_vouchers (voucherID, userID) values (34, 148);
-insert into personal_vouchers (voucherID, userID) values (77, 934);
-insert into personal_vouchers (voucherID, userID) values (85, 356);
-insert into personal_vouchers (voucherID, userID) values (50, 234);
 insert into personal_vouchers (voucherID, userID) values (79, 28);
 insert into personal_vouchers (voucherID, userID) values (12, 7);
 insert into personal_vouchers (voucherID, userID) values (86, 504);
@@ -6069,7 +6052,7 @@ GO
 -- 4. Số lượng người dùng có trong hệ thống
 CREATE VIEW vew_count_users AS
 	(SELECT COUNT(*) [SỐ LƯỢNG NGƯỜI DÙNG] FROM users WHERE roleID IN 
-		(SELECT id FROM order))
+		(SELECT id FROM orders))
 GO
 
 -- 5. Số lượng người dùng đã từng mua đồ
@@ -6527,7 +6510,7 @@ AS
 BEGIN
 	DECLARE @PHONE VARCHAR(15)
 	SET @PHONE = (SELECT phone FROM users WHERE id = @f_id)
-	IF @PHONE LIKE '%[^a-zA-Z0-9]%' AND @PHONE LIKE '%[0-9]%'
+	IF @PHONE NOT LIKE '%[^a-zA-Z0-9]%' AND @PHONE NOT LIKE '%[a-zA-Z]%'
 		RETURN 'Số không hợp lệ'
 	RETURN 'Số hợp lệ'
 END
@@ -6691,16 +6674,144 @@ RETURNS VARCHAR(50)
 AS
 BEGIN
 	IF EXISTS (SELECT * FROM product_details WHERE productID = @f_product AND attributeID = @f_attribute)
+		RETURN 'Có thuộc'
+	RETURN 'Không thuộc'
 END
 GO
 
--- 27. Lấy ra giá cao nhất trong toàn bộ hóa đơn 
--- 28. Lấy ra giá trị mua trung bình của các hóa đơn
--- 29. Điểm đánh giá trung bình của một sản phẩm (nhận vào id sản phẩm)
--- 30. Lây ra các sản phẩm có tên gần với tên được truyền
-CREATE FUNCTION f_ ()
-RETURNS 
+-- 27. Lấy ra giá cao nhất trong toàn bộ hóa đơn, tính luôn cả giảm giá
+CREATE FUNCTION f_high_order ()
+RETURNS FLOAT
 AS
 BEGIN
+	RETURN (SELECT (price - discount) FROM order_details WHERE (price - discount) >= ALL 
+			(SELECT (price - discount) FROM order_details))
 END
+GO
+
+-- 28. Lấy ra giá trị mua trung bình của các hóa đơn
+CREATE FUNCTION f_avg_order ()
+RETURNS FLOAT
+AS
+BEGIN
+	RETURN (SELECT AVG(price - discount) FROM order_details)
+END
+GO
+
+-- 29. Điểm đánh giá trung bình của một sản phẩm (nhận vào id sản phẩm)
+CREATE FUNCTION f_avg_rate ()
+RETURNS FLOAT
+AS
+BEGIN
+	RETURN (SELECT AVG(ratePoint) FROM rates)
+END
+GO
+
+-- 30. Lấy ra các sản phẩm có tên gần với tên được truyền
+CREATE FUNCTION f_name_product (@f_name VARCHAR(100))
+RETURNS TABLE
+AS
+	RETURN (SELECT * FROM products WHERE productsName LIKE ('%' + @f_name + '%'))
+GO
+
+--------------------------------------------------------------
+-- Trigger
+-- 1. Kiểm tra số điện thoại nhập vào của người dùng
+CREATE TRIGGER t_phone_user ON users FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE phone NOT LIKE '%[^a-zA-Z0-9]%' AND phone NOT LIKE '%[a-zA-Z]%')
+	BEGIN
+		RAISERROR('Lỗi số điện thoại', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 2. Kiểm tra email nhập vào của người dùng
+CREATE TRIGGER t_email_user ON users FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE email = '' AND email LIKE '_%@__%.__%')
+	BEGIN
+		RAISERROR('Lỗi email', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 3. Kiểm tra độ tuổi của người dùng (từ 18 trở lên)
+CREATE TRIGGER t_age_user ON users FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE DATEDIFF(YEAR, dob, GETDATE()) < 18)
+	BEGIN
+		RAISERROR('Tuổi không hợp lệ', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 4. Kiểm tra giá bán của sản phẩm có hợp lệ (lớn hơn 0)
+CREATE TRIGGER t_price_product ON products FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE price <= 0)
+	BEGIN
+		RAISERROR('Giá bán không hợp lệ', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 5. Kiểm tra ngày cập nhật khi mới tạo sản phẩm có phải hôm nay
+CREATE TRIGGER t_created_poduct ON products FOR INSERT
+AS
+IF EXISTS (SELECT * FROM inserted WHERE lastUpdated <> GETDATE())
+	BEGIN
+		RAISERROR('Ngày không hợp lệ', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 6. Kiểm tra giảm giá của sản phẩm có phù hợp (bé hơn 70% giá sản phẩm)
+CREATE TRIGGER t_discount_product ON products FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE (disocunt / price)  > 0.7)
+	BEGIN
+		RAISERROR('Số tiền giảm quá lớn', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 7. Kiểm tra số lượng trong kho của sản phẩm có lớn hơn 0
+CREATE TRIGGER t_amount_product ON products FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted WHERE amountSold <= 0)
+	BEGIN
+		RAISERROR('Số lượng trong kho quá ít', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 8. Kiểm tra trạng thái khi mới tạo tài khoản có phải là yêu cầu xác thực tài 
+CREATE TRIGGER t_create_user ON users FOR INSERT
+AS
+IF EXISTS (SELECT * FROM inserted WHERE statusID <> 
+	(SELECT id FROM user_status WHERE userStatusName = 'Unconfirmed'))
+	BEGIN
+		RAISERROR('Yêu cầu xác thực tài khoản', 10, 1)
+		ROLLBACK
+	END
+GO
+
+-- 9. Kiểm tra một đánh giá có để lại điểm và điểm có phù hợp
+-- 10. Khi thêm một hóa đơn kiểm tra ngày chỉnh sửa và ngày tạo có bằng nhau
+-- 11. Khi thêm hóa đơn số điện thoại có phù hợp 
+-- 12. Khi thêm hóa đơn có số điện thoại và địa chỉ chưa
+-- 13. Khi thông báo tới người dùng thì thông báo có nội dung chưa
+-- 14. Kiểm tra số lượng đặt có hợp lệ (bé hơn 999)
+-- 15. Kiểm tra voucher ngày kết thúc có lớn hơn hoặc bằng ngày bắt đầu
+-- 16. Khi thêm voucher kiểm tra giá giảm có bé hơn 70%
+-- 17. Khi áp dụng voucher cho số lượng người thì số lượng này có bé hơn số lượng người dùng hiện có và phải lớn hơn 0
+-- 18. Kiểm tra khi đánh giá ngày tạo có bé hơn ngày hiện tại
+-- 19. Kiểm tra các thông tin bắt buộc người dùng có nhập khi tạo tài khoản
+-- 20. Kiểm tra mô tả của một sản phẩm có rỗng
+CREATE TRIGGER t_ ON FOR INSERT, UPDATE
+AS
+IF EXISTS (SELECT * FROM inserted)
+	BEGIN
+	END
 GO
