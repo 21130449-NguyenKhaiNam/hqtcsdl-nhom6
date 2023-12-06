@@ -8,86 +8,86 @@ GO
 -- Khởi tạo các bảng 
 CREATE TABLE attributes (
 	id int NOT NULL,
-	attributesName varchar(50) NOT NULL,
+	attributesName VARCHAR(50) NOT NULL,
 	PRIMARY KEY (id)
 )
 GO
 
 CREATE TABLE brands(
 	id int NOT NULL,
-	brandsName varchar(50) NOT NULL,
+	brandsName VARCHAR(50) NOT NULL,
 	PRIMARY KEY (id)
 )
 GO
 
 CREATE TABLE genders (
 	id int NOT NULL,
-	gendersName varchar(50) NOT NULL,
+	gendersName VARCHAR(50) NOT NULL,
 	PRIMARY KEY (id)
 )
 GO
 
 CREATE TABLE categories (
 	id int NOT NULL,
-	categoriesName varchar(50) NOT NULL,
+	categoriesName VARCHAR(50) NOT NULL,
 	PRIMARY KEY (id)
 )
 GO
 
 CREATE TABLE order_status (
 	id int NOT NULL,
-	orderStatusName varchar(50) NOT NULL,
+	orderStatusName VARCHAR(50) NOT NULL,
 	PRIMARY KEY (id)
 )
 GO
 
 CREATE TABLE product_status (
 	id int NOT NULL ,
-	productStatusName varchar(50) NOT NULL,
+	productStatusName VARCHAR(50) NOT NULL,
 	PRIMARY KEY (id)
 )
 GO
 
 CREATE TABLE role_user (
 	id int NOT NULL ,
-	roleUserName varchar(50) NOT NULL,
+	roleUserName VARCHAR(50) NOT NULL,
 	PRIMARY KEY (id)
 )
 GO
 
 CREATE TABLE user_status (
 	id int NOT NULL ,
-	userStatusName varchar(50) NOT NULL,
+	userStatusName VARCHAR(50) NOT NULL,
 	PRIMARY KEY (id)
 )
 GO
 
 CREATE TABLE voucher_scope (
 	id int NOT NULL ,
-	voucherScopeName varchar(20) NOT NULL,
+	voucherScopeName VARCHAR(20) NOT NULL,
 	PRIMARY KEY (id)
 )
 GO
 
 CREATE TABLE voucher_status (
 	id int NOT NULL ,
-	voucherStatusName varchar(20) NOT NULL,
+	voucherStatusName VARCHAR(20) NOT NULL,
 	PRIMARY KEY (id)
 )
 GO
 
 CREATE TABLE voucher_type (
 	id int NOT NULL ,
-	voucherTypeName varchar(20) NOT NULL,
+	voucherTypeName VARCHAR(20) NOT NULL,
 	PRIMARY KEY (id)
 )
 GO
 
 CREATE TABLE products (
 	id int NOT NULL,
-	productsName varchar(100) NOT NULL,
+	productsName VARCHAR(100) NOT NULL,
 	brandID int NOT NULL,
-	productsDescription varchar(max) NOT NULL,
+	productsDescription VARCHAR(max) NOT NULL,
 	categoryID int NOT NULL,
 	price float NOT NULL,
 	discount float NOT NULL,
@@ -104,7 +104,7 @@ GO
 CREATE TABLE product_details (
 	productID int NOT NULL,
 	attributeID int NOT NULL,
-	productDetailsValue varchar(50) NOT NULL,
+	productDetailsValue VARCHAR(50) NOT NULL,
 	PRIMARY KEY (productID,attributeID),
 	CONSTRAINT product_details_ibfk_1 FOREIGN KEY (productID) REFERENCES products (id),
 	CONSTRAINT product_details_ibfk_2 FOREIGN KEY (attributeID) REFERENCES attributes (id)
@@ -114,7 +114,7 @@ GO
 CREATE TABLE product_models (
 	id int NOT NULL,
 	productID int NOT NULL,
-	optionValue varchar(100) NOT NULL,
+	optionValue VARCHAR(100) NOT NULL,
 	statusID int NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT product_models_ibfk_1 FOREIGN KEY (productID) REFERENCES products (id),
@@ -123,15 +123,15 @@ CREATE TABLE product_models (
 GO
 
 CREATE TABLE users (
-	id varchar(20) NOT NULL,
-	email varchar(100) NOT NULL,
-	phone varchar(15) NOT NULL,
-	encryptedPassword varchar(100) NOT NULL,
-	fullName varchar(50) NOT NULL,
+	id VARCHAR(20) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	phone VARCHAR(15) NOT NULL,
+	encryptedPassword VARCHAR(100) NOT NULL,
+	fullName VARCHAR(50) NOT NULL,
 	genderID int NOT NULL,
 	dob date DEFAULT NULL,
 	roleID int NOT NULL,
-	usersAddress varchar(100) NOT NULL,
+	usersAddress VARCHAR(100) NOT NULL,
 	statusID int NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT users_ibfk_1 FOREIGN KEY (statusID) REFERENCES user_status (id),
@@ -142,7 +142,7 @@ GO
 
 CREATE TABLE notification_user (
 	id INT NOT NULL,
-	userID varchar(20) NOT NULL,
+	userID VARCHAR(20) NOT NULL,
 	decription ntext,
 	PRIMARY KEY (id),
 	CONSTRAINT notification_user_ibfk_1 FOREIGN KEY (userID) REFERENCES users (id)
@@ -151,7 +151,7 @@ GO
 
 CREATE TABLE vouchers (
 	id int NOT NULL ,
-	voucherCode varchar(20) NOT NULL,
+	voucherCode VARCHAR(20) NOT NULL,
 	dateStart date NOT NULL,
 	dateEnd date NOT NULL,
 	discount float NOT NULL DEFAULT 0,
@@ -193,11 +193,11 @@ CREATE TABLE product_vouchers (
 GO
 
 CREATE TABLE rates (
-	userID varchar(20) NOT NULL,
+	userID VARCHAR(20) NOT NULL,
 	productID int NOT NULL,
 	lastUpdated date NOT NULL,
 	ratePoint int NOT NULL CHECK (ratePoint >= 1 AND ratePoint <= 5),
-	rateComment varchar(100) DEFAULT NULL,
+	rateComment VARCHAR(100) DEFAULT NULL,
 	PRIMARY KEY (userID,productID),
 	CONSTRAINT rates_ibfk_1 FOREIGN KEY (userID) REFERENCES users (id),
 	CONSTRAINT rates_ibfk_2 FOREIGN KEY (productID) REFERENCES products (id)
@@ -214,11 +214,11 @@ GO
 
 CREATE TABLE orders (
 	id int NOT NULL ,
-	userID varchar(20) DEFAULT NULL,
+	userID VARCHAR(20) DEFAULT NULL,
 	dateCreated date NOT NULL,
 	lastUpdated date NOT NULL,
-	phone varchar(15) NOT NULL,
-	ordersAddress varchar(100) NOT NULL,
+	phone VARCHAR(15) NOT NULL,
+	ordersAddress VARCHAR(100) NOT NULL,
 	statusID int NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT orders_ibfk_1 FOREIGN KEY (userID) REFERENCES users (id),
@@ -227,7 +227,7 @@ CREATE TABLE orders (
 GO
 
 CREATE TABLE used_vouchers (
-	userID varchar(20) NOT NULL,
+	userID VARCHAR(20) NOT NULL,
 	voucherID int NOT NULL,
 	orderID int NOT NULL,
 	PRIMARY KEY (userID,voucherID),
@@ -251,7 +251,7 @@ GO
 
 CREATE TABLE personal_vouchers (
 	voucherID int NOT NULL,
-	userID varchar(20) NOT NULL,
+	userID VARCHAR(20) NOT NULL,
 	PRIMARY KEY (voucherID),
 	CONSTRAINT personal_vouchers_ibfk_1 FOREIGN KEY (voucherID) REFERENCES vouchers (id),
 	CONSTRAINT personal_vouchers_ibfk_2 FOREIGN KEY (userID) REFERENCES users (id)
@@ -260,7 +260,7 @@ GO
 
 CREATE TABLE posts (
 	id int NOT NULL,
-	decription varchar(100),
+	decription VARCHAR(100),
 	PRIMARY KEY (id)
 )
 GO
@@ -6916,10 +6916,109 @@ IF EXISTS (SELECT * FROM inserted WHERE productsDescription IS NULL)
 GO
 
 ---------------------------------------------------
--- 5. Quản lý người dùng 
--- Câu 1: Tạo/ Xóa/ Thay đổi user
--- Tạo người dùng 
-ALTER PROC createUser (@user varchar(max), @pass varchar(max))
+-- 5. Quản lý người dùng: Các câu không để đúng thứ tự vì trong một số câu có sử dụng câu trước
+-- b. Tạo/xóa/thay đổi role
+-- Tạo role
+CREATE PROC createRole (@role VARCHAR(max))
+AS
+BEGIN
+	DECLARE @sql NVARCHAR(max)
+	IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = @role)
+		BEGIN
+			BEGIN
+				SET @sql = 'CREATE ROLE ' + @role
+				EXEC sp_executesql @sql
+			END
+		END
+	ELSE 
+		PRINT 'Role đã tồn tại'
+END
+GO
+
+-- Xóa role
+CREATE PROC deleteRole (@role VARCHAR(max))
+AS 
+BEGIN
+	DECLARE @sql NVARCHAR(max)
+	IF EXISTS (SELECT 1 FROM sys.database_principals WHERE name = @role)
+		BEGIN
+			SET @sql = 'DROP ROLE ' + @role
+			EXEC sp_executesql @sql
+		END
+	ELSE
+		PRINT 'Không tồn tại role'
+END
+GO
+
+-- Thay đổi role
+CREATE PROC alterRole (@role VARCHAR(max), @new_name VARCHAR(max))
+AS
+BEGIN
+	DECLARE @sql NVARCHAR(max)
+	IF EXISTS (SELECT 1 FROM sys.database_principals WHERE name = @role)
+		BEGIN
+			SET @sql = 'ALTER ROLE ' + @role + ' WITH NAME = ' + @new_name
+			EXEC sp_executesql @sql
+		END
+	ELSE
+		PRINT 'Không tồn tại role'
+END
+GO
+
+-- c. Gán/thu hồi quyền/role trên user/role
+-- Gán quyền role
+CREATE PROC grantRole (@role VARCHAR(max), @dml VARCHAR(max))
+AS
+BEGIN
+	DECLARE @sql NVARCHAR(max)
+	IF EXISTS (SELECT 1 FROM sys.database_principals WHERE name = @role)
+		BEGIN	
+			SET @sql = 'GRANT ' + @dml + ' TO ' + @role
+			EXEC sp_executesql @sql
+		END
+	ELSE
+		PRINT 'Không tồn tại role'
+END
+GO
+
+-- Thu hồi quyền role
+CREATE PROC revokeRole (@role VARCHAR(max), @dml VARCHAR(max))
+AS
+BEGIN
+	DECLARE @sql NVARCHAR(max)
+	IF EXISTS (SELECT 1 FROM sys.database_principals WHERE name = @role)
+		BEGIN	
+			SET @sql = 'Revoke ' + @dml + ' TO ' + @role
+			EXEC sp_executesql @sql
+		END
+	ELSE
+		PRINT 'Không tồn tại role'
+END
+GO
+
+-- Gán quyền role trên user
+CREATE PROC addRoleUser (@role VARCHAR(max), @user VARCHAR(max))
+AS
+BEGIN
+	DECLARE @sql NVARCHAR(max)
+	SET @sql = 'EXEC Sp_addRoleMember ' + @role + ', ' + @user
+	EXEC sp_executesql @sql
+END
+GO
+
+-- Thu hồi quyền role trên user
+CREATE PROC removeRoleUser (@role VARCHAR(max), @user VARCHAR(max))
+AS
+BEGIN
+	DECLARE @sql NVARCHAR(max)
+	SET @sql = 'EXEC Sp_droprolemember  ' + @role + ', ' +  @user
+	EXEC sp_executesql @sql
+END
+GO
+
+-- a. Tạo/ Xóa/ Thay đổi user
+-- Tạo người dùng
+CREATE PROC createUser (@user VARCHAR(max), @pass VARCHAR(max), @role VARCHAR(max))
 AS
 BEGIN
 	BEGIN
@@ -6929,15 +7028,22 @@ BEGIN
 		EXEC sp_executesql @sql1
 	END
 
-	DECLARE @sql2 NVARCHAR(max)
-	SET @sql2 = 'IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = ' + QUOTENAME(@user, '''') + ')
-					CREATE USER ' + QUOTENAME(@user) + ' FOR LOGIN ' + QUOTENAME(@user)
-	EXEC sp_executesql @sql2
+	BEGIN
+		DECLARE @sql2 NVARCHAR(max)
+		SET @sql2 = 'IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = ' + QUOTENAME(@user, '''') + ')
+						CREATE USER ' + QUOTENAME(@user) + ' FOR LOGIN ' + QUOTENAME(@user)
+		EXEC sp_executesql @sql2
+	END
+
+	IF @role IS NOT NULL AND @role NOT LIKE ''
+		BEGIN
+			EXEC grantRoleUser @role, @user
+		END
 END
 GO
 
 -- Xóa người dùng
-CREATE PROC deleteUser (@user varchar(max))
+CREATE PROC deleteUser (@user VARCHAR(max))
 AS
 BEGIN
 IF EXISTS (SELECT 1 FROM sys.database_principals WHERE name = @user)
@@ -6954,14 +7060,23 @@ END
 GO
 
 -- Thay đổi thông tin người dùng 
-CREATE PROCEDURE alterUser (@name VARCHAR(max), @new_name VARCHAR(max))
+CREATE PROCEDURE alterUser (@name VARCHAR(max), @new_name VARCHAR(max), @new_pass VARCHAR(max))
 AS
 BEGIN
     IF EXISTS (SELECT 1 FROM sys.database_principals WHERE name = @name)
     BEGIN
         DECLARE @sql NVARCHAR(max)
-        SET @sql = 'ALTER USER ' +  QUOTENAME(@name) + ' WITH NAME = ' + QUOTENAME(@new_name)
+
+        SET @sql = 'ALTER USER ' +  QUOTENAME(@name) + ' WITH NAME = ' + @new_name
+		print @sql
         EXEC sp_executesql @sql
+
+		IF @new_pass IS NOT NULL AND @new_pass NOT LIKE ''
+			BEGIN
+				SET @sql = 'ALTER USER ' +  QUOTENAME(@name) + ' WITH PASSWORD = ' + @new_pass
+						print @sql
+				EXEC sp_executesql @sql
+			END
     END
     ELSE
     BEGIN
@@ -6970,45 +7085,103 @@ BEGIN
 END
 GO
 
--- b. Tạo/xóa/thay đổi role
--- Cập nhật role người dùng: Mỗi lần chỉ được cập nhật 1 role vì 
---	tránh tình trạng cập nhật không kiểm soát
-CREATE PROC createRoleUser (@user VARCHAR(max), @role VARCHAR(max), @table VARCHAR(max))
-AS
-BEGIN
-    IF EXISTS (SELECT 1 FROM sys.database_principals WHERE name = @user)
-		BEGIN
-			DECLARE @sql NVARCHAR(max)
-			SET @sql = 'GRANT ' + @role + ' ON ' + @table + ' TO ' + @user
-			EXEC sp_executesql @sql
-		END
-    ELSE
-		BEGIN
-			PRINT 'Người dùng không tồn tại hoặc tên cần truyền trong ngoặc ''.'
-		END
-END
-GO
-
 ------------------------------------------------------------------------
 -- Kiểm tra với một người dùng giả
 -- Tạo
-EXEC createUser NguoiDungGia, NguoiDungGia
+EXEC createUser NguoiDungGia, NguoiDungGia, ''
 GO
+
 -- Xem
 Sp_helplogins NguoiDungGia
 GO
--- Sửa tên
--- Cấp quyền
-EXEC alterRoleUser 'NguoiDungGia', 'SELECT', 'users'
-GO
--- Xem quyền
-SELECT * FROM sys.database_permissions WHERE grantee_principal_id = DATABASE_PRINCIPAL_ID('NguoiDungGia')
-GO
--- Xóa người dùng
+
+-- Xóa
 EXEC deleteUser NguoiDungGia
 GO
--- Xem: Lúc này chỉ còn lại login
+
+-- Xem: Lúc này chỉ còn login
 Sp_helplogins NguoiDungGia
 GO
--------------------------------------------------
 
+-- Tạo thêm người dùng
+EXEC createUser NguoiDungGia1, NguoiDungGia1, ''
+GO
+
+-- Xem
+Sp_helplogins NguoiDungGia1
+GO
+
+-- Cập nhật thông tin
+EXEC alterUser NguoiDungGia1, NguoiDungGia2, NguoiDungGia2 -- có lỗi ở password
+GO
+
+-- Xem: Sau khi điều chỉnh thông tin
+Sp_helplogins NguoiDungGia1
+GO
+
+-- Tạo role
+EXEC createRole role1
+GO
+
+-- Xem role
+Sp_helpRole role1
+GO
+
+-- Xóa role
+EXEC deleteRole role1
+GO
+
+-- Xem role có còn tồn tại
+Sp_helpRole role1
+GO
+
+-- Tạo role
+EXEC createRole role2
+GO
+
+-- Xem role
+Sp_helpRole role2
+GO
+
+-- Chỉnh sửa role
+EXEC alterRole role2, role3
+GO
+
+-- Xem role
+Sp_helpRole role3
+GO
+
+-- Gán quyền cho role
+EXEC grantRole role3, 'SELECT, INSERT'
+GO
+
+-- Xem quyền role khi thêm quyền select và insert
+SELECT * FROM sys.database_permissions WHERE grantee_principal_id = 
+	(SELECT principal_id FROM sys.database_principals WHERE name = 'role3')
+GO
+
+-- Thu quyền của role
+EXEC revokeRole role3, 'INSERT'
+GO
+
+-- Xem quyền role sau khi thu bớt insert
+SELECT * FROM sys.database_permissions WHERE grantee_principal_id = 
+	(SELECT principal_id FROM sys.database_principals WHERE name = 'role3')
+GO
+
+-- Gán quyền role cho user
+EXEC addRoleUser role3, NguoiDungGia2
+GO
+
+-- Xem sau khi gán quyền
+Sp_helplogins NguoiDungGia1
+GO
+
+-- Thu quyền 
+EXEC removeRoleUser role3, NguoiDungGia2
+GO
+
+-- Xem sau khi gán quyền
+Sp_helplogins NguoiDungGia1
+GO
+------------------------------------------------------------------------
