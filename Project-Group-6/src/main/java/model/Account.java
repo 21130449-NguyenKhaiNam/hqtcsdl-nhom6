@@ -86,4 +86,39 @@ public class Account {
 		return fullName;
 	}
 
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+
+	/**
+	 * @return the role
+	 */
+	public AccountRole getRole() {
+		return role;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public AccountStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
 }

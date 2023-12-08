@@ -24,6 +24,9 @@ if(status != null) {
 	case "failed":
 		note = "Thông tin đăng nhập không chính xác";
 		break;
+	case "success":
+		note = "Đăng ký thành công";
+		break;
 	default:
 		break;
 	}

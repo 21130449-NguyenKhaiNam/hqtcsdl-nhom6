@@ -7,6 +7,8 @@ import java.util.Random;
 
 import database.ConnectDatabase;
 import model.Account;
+import model.Gender;
+
 import static database.ITableUser.*;
 
 public class AccountDao {
@@ -19,8 +21,8 @@ public class AccountDao {
 	public static Account getAccount(String tel, String pass) {
 		// TODO Auto-generated method stub
 		try {
-			String query = "SELECT " + ID + ", " + FULL_NAME + ", " +ROLE + ", " + STATUS + " FROM " + NAME_TABLE + " WHERE " + PHONE
-					+ "=? AND " + PASS + "= ?";
+			String query = "SELECT " + ID + ", " + FULL_NAME + ", " + ROLE + ", " + STATUS + " FROM " + NAME_TABLE
+					+ " WHERE " + PHONE + "=? AND " + PASS + "= ?";
 			PreparedStatement ps = ConnectDatabase.C.prepareStatement(query);
 			ps.setString(1, tel);
 			ps.setString(2, pass);
@@ -35,10 +37,28 @@ public class AccountDao {
 	}
 
 	public static int insertAccount(Account ac) {
-		
-		return 0;
+		try {
+			String query = "INSERT INTO " + NAME_TABLE + " VALUES (?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement ps = ConnectDatabase.C.prepareStatement(query);
+			ps.setString(1, ac.getId());
+			ps.setString(2, ac.getFullName() + "@gmail.com");
+			ps.setString(3, ac.getPhone());
+			ps.setString(4, ac.getPassword());
+			ps.setString(5, ac.getFullName());
+			ps.setInt(6, Gender.getGender(1).getId());
+			ps.setDate(7, null);
+			ps.setInt(8, ac.getRole().getId());
+			ps.setString(9, "...");
+			ps.setInt(10, ac.getStatus().getId());
+			int rs = ps.executeUpdate();
+			return rs;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
 	}
-	
+
 	public static String generateCode(int length) {
 		String characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 

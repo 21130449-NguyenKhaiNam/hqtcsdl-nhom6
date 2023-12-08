@@ -131,7 +131,7 @@ CREATE TABLE users (
 	genderID int NOT NULL,
 	dob date DEFAULT NULL,
 	roleID int NOT NULL,
-	usersAddress VARCHAR(100) NOT NULL,
+	usersAddress VARCHAR(100),
 	statusID int NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT users_ibfk_1 FOREIGN KEY (statusID) REFERENCES user_status (id),
@@ -269,9 +269,30 @@ CREATE TABLE advertise (
 	id int NOT NULL,
 	postsID int
 	CONSTRAINT advertise_ibfk_1 FOREIGN KEY (postsID) REFERENCES posts (id),
+	PRIMARY KEY (id)
 )
 GO
 
+CREATE TABLE img_advertise (
+	advertiseID int NOT NULL,
+	img varchar(max),
+	PRIMARY KEY (advertiseID)
+)
+GO
+
+CREATE TABLE img_products (
+	productID int NOT NULL,
+	img varchar(max),
+	PRIMARY KEY (productID)
+)
+GO
+
+CREATE TABLE img_user (
+	userID varchar(20) NOT NULL,
+	img varchar(max),
+	PRIMARY KEY (userID)
+)
+GO
 -------------------------------------------------------------------------------------------------------------
 -- Tiến hành insert các dữ liệu
 insert into attributes values 

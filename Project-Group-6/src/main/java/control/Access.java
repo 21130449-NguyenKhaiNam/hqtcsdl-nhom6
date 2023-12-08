@@ -54,8 +54,13 @@ public class Access extends HttpServlet {
 			String rePass = req.getParameter("rePass");
 
 			if (register(name, tel, pass, rePass)) {
-				Account ac = new Account(AccountDao.generateCode(5), name, tel, pass, AccountRole.getRole(4), AccountStatus.getStatus(1));
-				int i = AccountDao.insertAccount(ac);
+				Account ac = new Account(AccountDao.generateCode(5), name, tel, pass, AccountRole.getRole(4),
+						AccountStatus.getStatus(1));
+				if (AccountDao.insertAccount(ac) > 0) {
+					resp.sendRedirect("login.jsp?status=success");
+				} else {
+					req.getRequestDispatcher("register.jsp?status=failed").forward(req, resp);
+				}
 			} else {
 				req.getRequestDispatcher("register.jsp?status=failed-0");
 			}

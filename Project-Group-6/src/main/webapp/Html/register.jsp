@@ -37,8 +37,8 @@ if (status != null) {
 			<div class="form-login">
 				<h3 class="form-login_header">Đăng ký tài khoản</h3>
 				<form class="infor" action="../Html/access" method="post">
-					<span><%=note%></span> <input type="hidden" name="action"
-						value="register">
+					<span class="text-danger text-justify"><%=note%></span> <input
+						type="hidden" name="action" value="register">
 					<div class="infor_name">
 						<input class="input_name" type="text" name="name" required>
 						<label class="infor_label-name">Họ và tên</label>
@@ -56,15 +56,15 @@ if (status != null) {
 						<label class="infor_label-password" required>Nhập lại mật
 							khẩu</label>
 					</div>
+					<div class="form-policy">
+						<p>Bằng việc tiếp tục, bạn đã đọc và đồng ý với Điều khoản sử
+							dụng và Chính sách bảo mật của</p>
+					</div>
+					<button class="register-btn">Đăng ký</button>
+					<p class="form-note">
+						Đã có tài khoản? <a href="login.jsp">Đăng nhập ngay</a>
+					</p>
 				</form>
-				<div class="form-policy">
-					<p>Bằng việc Đăng ký, bạn đã đọc và đồng ý với Điều khoản sử
-						dụng và Chính sách bảo mật của</p>
-				</div>
-				<button class="register-btn">Đăng ký</button>
-				<p class="form-note">
-					Đã có tài khoản? <a href="login.jsp">Đăng nhập ngay</a>
-				</p>
 			</div>
 		</div>
 	</div>
