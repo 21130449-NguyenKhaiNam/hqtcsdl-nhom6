@@ -143,7 +143,7 @@ GO
 CREATE TABLE notification_user (
 	id INT NOT NULL,
 	userID VARCHAR(20) NOT NULL,
-	decription ntext,
+	decription NVARCHAR(max),
 	PRIMARY KEY (id),
 	CONSTRAINT notification_user_ibfk_1 FOREIGN KEY (userID) REFERENCES users (id)
 )
@@ -265,7 +265,7 @@ CREATE TABLE posts (
 )
 GO
 
-CREATE TABLE adv (
+CREATE TABLE advertise (
 	id int NOT NULL,
 	postsID int
 	CONSTRAINT advertise_ibfk_1 FOREIGN KEY (postsID) REFERENCES posts (id),
@@ -2888,7 +2888,7 @@ insert into product_models (id, productID, optionValue, statusID) values (498, 2
 insert into product_models (id, productID, optionValue, statusID) values (499, 925, 'Đỏ - Xanh - Trắng', 3);
 insert into product_models (id, productID, optionValue, statusID) values (500, 106, 'Giao siêu tốc - Bình thường', 4);
 GO
-
+insert into users (id, email, phone, encryptedPassword, fullName, genderID, dob, roleID, usersAddress, statusID) values (0, 'group6@gmail.com', '012345678', 'matkhaudamahoa', 'Group 6 Hqtcsdl', 1, '2023-08-12', 1, 'Nong Lam University', 1);
 insert into users (id, email, phone, encryptedPassword, fullName, genderID, dob, roleID, usersAddress, statusID) values (1, 'mvon0@nydailynews.com', '193-976-1748', '$2a$04$bdi6wcJpOnlj5pORInWYI.eUm997ZyXm9v0BSjvDMnpo6VF.FsrxW', 'Malachi Von Welden', 2, '1987-02-02', 2, '89833 Mayer Park', 3);
 insert into users (id, email, phone, encryptedPassword, fullName, genderID, dob, roleID, usersAddress, statusID) values (2, 'fhaszard1@google.nl', '855-513-4368', '$2a$04$IgUritY8/lGtL.D4gDFfRu3MZ/BLXCFjyy59OWfMNFI6apHaUJS2G', 'Frasier Haszard', 3, '1982-01-30', 2, '0 Forest Lane', 2);
 insert into users (id, email, phone, encryptedPassword, fullName, genderID, dob, roleID, usersAddress, statusID) values (3, 'ddee2@eventbrite.com', '281-328-9498', '$2a$04$NTc/q7LdJpmjXvRREnUz1ebAPA2W.BHT.xzXg4MCpzvIdkM/v1Z26', 'Dee dee Conradie', 3, '1989-11-30', 2, '00 North Pass', 1);
@@ -5892,7 +5892,6 @@ insert into personal_vouchers (voucherID, userID) values (77, 492);
 insert into personal_vouchers (voucherID, userID) values (76, 947);
 insert into personal_vouchers (voucherID, userID) values (8, 629);
 insert into personal_vouchers (voucherID, userID) values (47, 242);
-insert into personal_vouchers (voucherID, userID) values (58, 510);
 insert into personal_vouchers (voucherID, userID) values (85, 556);
 insert into personal_vouchers (voucherID, userID) values (64, 408);
 insert into personal_vouchers (voucherID, userID) values (27, 655);
@@ -6073,7 +6072,7 @@ CREATE VIEW vew_male_users AS
 GO
 
 -- 9. Xem người dùng giới tính nữ
-CREATE VIEW vew_male_users AS
+CREATE VIEW vew_female_users AS
 	(SELECT * FROM users WHERE genderID =
 		(SELECT id FROM genders WHERE gendersName = 'Female'))
 GO
@@ -6113,7 +6112,7 @@ CREATE VIEW view_1start_rate AS
 GO
 
 -- 16. Xem những bài đánh giá 5 sao
-CREATE VIEW view_1start_rate AS
+CREATE VIEW view_5start_rate AS
 	(SELECT * FROM rates WHERE ratePoint = 5)
 GO
 
@@ -6142,7 +6141,7 @@ CREATE VIEW view_success_order AS
 GO
 
 -- 21. Xem những đơn hàng bị lỗi (trạng thái báo error)
-CREATE VIEW view_success_order AS
+CREATE VIEW view_error_order AS
 	(SELECT * FROM orders WHERE statusID = 
 		(SELECT id FROM order_status WHERE orderStatusName = 'Order error'))
 GO
@@ -6185,7 +6184,7 @@ CREATE VIEW view_availiable_product AS
 GO
 
 -- 28. Xem những sản phẩm mới cập nhật gần đây (trong vòng 1 tháng)
-CREATE VIEW view_availiable_product AS
+CREATE VIEW view_new_product AS
 	(SELECT * FROM products WHERE DATEDIFF(MONTH, lastUpdated, GETDATE()) <= 1)
 GO
 
@@ -6335,7 +6334,7 @@ END
 GO
 
 -- 15. Xem sản phẩm có nội dung chứa nội dung được truyền vào 
-ALTER PROC proc_description_product (@p_description NTEXT) AS
+ALTER PROC proc_description_products (@p_description NTEXT) AS
 BEGIN
     SET @p_description = '%' + CAST(@p_description AS NVARCHAR(MAX)) + '%';
     SELECT * FROM products WHERE productsDescription LIKE @p_description;
@@ -6359,7 +6358,7 @@ GO
 
 -- 18. Xem những người dùng đã bình luận nội dung gần với nội dung được truyền vào và 
 -- có đánh giá bằng với điểm được truyền vào, báo các lỗi liên quan nếu có
-ALTER PROC proc_comment_rates (@p_comment VARCHAR(100), @p_score INT) AS
+CREATE PROC proc_comment_rates (@p_comment VARCHAR(100), @p_score INT) AS
 BEGIN
 	IF @p_score >= 1 AND @p_score <= 5
 		BEGIN
@@ -6444,7 +6443,7 @@ GO
 
 -- 5. Tính chi phí thu được nếu bán hết toàn bộ hàng của một sản phẩm bất kỳ,
 --	tính luôn cả voucher nếu có (nhận vào: id sản phẩm)
-ALTER FUNCTION f_total1_product (@f_id INT)
+CREATE FUNCTION f_total1_product (@f_id INT)
 RETURNS FLOAT
 AS
 BEGIN
@@ -6472,7 +6471,7 @@ GO
 
 -- 8. Kiểm tra địa chỉ của một người dùng có hợp lệ (nhận vào id), 
 -- là hợp lệ nếu không chứa toàn số
-ALTER FUNCTION f_addess_user (@f_id VARCHAR(20))
+CREATE FUNCTION f_addess_user (@f_id VARCHAR(20))
 RETURNS NVARCHAR(25)
 AS
 BEGIN
@@ -6764,7 +6763,7 @@ GO
 -- 6. Kiểm tra giảm giá của sản phẩm có phù hợp (bé hơn 70% giá sản phẩm)
 CREATE TRIGGER t_discount_product ON products FOR INSERT, UPDATE
 AS
-IF EXISTS (SELECT * FROM inserted WHERE (disocunt / price)  > 0.7)
+IF EXISTS (SELECT * FROM inserted WHERE (discount / price)  > 0.7)
 	BEGIN
 		RAISERROR('Số tiền giảm quá lớn', 10, 1)
 		ROLLBACK
@@ -6826,7 +6825,7 @@ GO
 -- 12. Khi thêm hóa đơn có số điện thoại và địa chỉ chưa
 CREATE TRIGGER t_check_order ON orders FOR INSERT, UPDATE
 AS
-IF EXISTS (SELECT * FROM inserted WHERE phone IS NULL OR oredersAddress IS NULL)
+IF EXISTS (SELECT * FROM inserted WHERE phone IS NULL OR ordersAddress IS NULL)
 	BEGIN
 		RAISERROR('Nhập số điện thoại và địa chỉ', 10, 1)
 		ROLLBACK

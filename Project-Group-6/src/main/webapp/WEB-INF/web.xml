@@ -4,6 +4,26 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>NewFile</servlet-name>
+  	<display-name>NewFile</display-name>
+  	<description></description>
+  	<servlet-class>NewFile</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>New</servlet-name>
+  	<display-name>New</display-name>
+  	<description></description>
+  	<servlet-class>New</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>NewFile</servlet-name>
+  	<url-pattern>/NewFile</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>New</servlet-name>
+  	<url-pattern>/New</url-pattern>
+  </servlet-mapping>
   <welcome-file-list>
   	<welcome-file>index.jsp</welcome-file>
   </welcome-file-list>

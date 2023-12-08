@@ -12,8 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import dao.AccountDao;
 import model.Account;
+import model.AccountRole;
+import model.AccountStatus;
 
-@WebServlet("/access")
+@WebServlet("/Html/access")
 public class Access extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -34,16 +36,14 @@ public class Access extends HttpServlet {
 			if (signin(tel, pass)) {
 				Account ac = AccountDao.getAccount(tel, pass);
 				if (ac == null) {
-					req.setAttribute("status", "failed");
-					resp.sendRedirect("hmtl/login.jsp");
+					req.getRequestDispatcher("login.jsp?status=failed").forward(req, resp);
 				} else {
 					HttpSession session = req.getSession();
 					session.setAttribute("account", ac);
-					resp.sendRedirect("hmtl/productDetail.jsp");
+					resp.sendRedirect("productDetail.jsp");
 				}
 			} else {
-				req.setAttribute("status", "failed-0");
-				resp.sendRedirect("hmtl/login.jsp");
+				req.getRequestDispatcher("login.jsp?status=failed-0").forward(req, resp);
 			}
 			break;
 		}
@@ -54,10 +54,10 @@ public class Access extends HttpServlet {
 			String rePass = req.getParameter("rePass");
 
 			if (register(name, tel, pass, rePass)) {
-
+				Account ac = new Account(AccountDao.generateCode(5), name, tel, pass, AccountRole.getRole(4), AccountStatus.getStatus(1));
+				int i = AccountDao.insertAccount(ac);
 			} else {
-				req.setAttribute("status", "failed-0");
-				resp.sendRedirect("hmtl/login.jsp");
+				req.getRequestDispatcher("register.jsp?status=failed-0");
 			}
 			break;
 		}
@@ -91,6 +91,6 @@ public class Access extends HttpServlet {
 
 	// Kiểm tra có là số điện thoại
 	private boolean isPhone(String phone) {
-		return Pattern.compile("^\\d{10}$").matcher(phone).matches();
+		return Pattern.compile("^\\d{1,}$").matcher(phone).matches();
 	}
 }

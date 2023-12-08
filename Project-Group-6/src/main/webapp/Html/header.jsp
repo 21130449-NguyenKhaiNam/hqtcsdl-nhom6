@@ -1,5 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="vn">
 <html>
 <head>
 <meta charset="UTF-8">
@@ -13,15 +14,34 @@
 <link rel="stylesheet" href="../Style/index.css">
 <title>Header</title>
 </head>
+<%@ page import="model.Account"%>
+<%
+Account ac = (Account) request.getSession().getAttribute("account");
+%>
+
 <body>
 	<div class="header">
-		<a href="../Html/productDetail.jsp" class="logo_page"><img src="../Image/general/logo.png" alt=""></a>
+		<a href="../Html/productDetail.jsp" class="logo_page"><img
+			src="../Image/general/logo.png" alt=""></a>
 
+		<%
+		if (ac == null) {
+		%>
 		<!-- phần đăng nhập hoặc đăng ký của header -->
 		<div class="header_login_signin">
 			<a href="login.jsp" class="log_in">Đăng nhập</a>
 			<div class="line"></div>
 			<a href="register.jsp" class="sign_in">Đăng ký</a>
 		</div>
+		<%
+		} else {
+		%>
+		<div class="header_login_signin">
+			<span class="text-white">Xin chào, <span> <%= ac.getFullName() %> </span> </span>
+		</div>
+		<%
+		}
+		%>
 	</div>
+</body>
 </html>

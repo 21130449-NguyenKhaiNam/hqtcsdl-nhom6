@@ -14,17 +14,21 @@
 </head>
 
 <%
-String status = (String) request.getAttribute("status");
+String status = (String) request.getParameter("status");
 String note = "";
-switch (status) {
-case "failed-0":
-	note = "Kiểm tra thông tin đăng nhập";
-	break;
-case "failed":
-	note = "Thông tin đăng nhập không chính xác";
-	break;
-default:
-	break;
+if(status != null) {
+	switch (status) {
+	case "failed-0":
+		note = "Kiểm tra thông tin đăng nhập";
+		break;
+	case "failed":
+		note = "Thông tin đăng nhập không chính xác";
+		break;
+	default:
+		break;
+	}
+} else {
+	note = "";
 }
 %>
 
@@ -33,8 +37,8 @@ default:
 		<div class="container">
 			<div class="form-login">
 				<h3 class="form-login_header">Đăng nhập</h3>
-				<form class="infor" action="../../access" method="post">
-					<span><%= note %></span>
+				<form class="infor" action="../Html/access" method="post">
+					<span class="text-danger text-justify"><%= note %></span>
 					<input type="hidden" name="action" value="sign-in">
 					<div class="infor_tele">
 						<input class="input_tele" name="tel" type="tel" required>
@@ -49,7 +53,7 @@ default:
 				</form>
 
 				<p class="form-note">
-					Chưa có tài khoản? <a href="#">Đăng ký tài khoản mới</a>
+					Chưa có tài khoản? <a href="register.jsp">Đăng ký tài khoản mới</a>
 				</p>
 			</div>
 		</div>

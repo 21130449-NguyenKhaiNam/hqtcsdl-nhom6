@@ -30,7 +30,7 @@
 <title>Product detail</title>
 </head>
 <body>
-	<jsp:include page="header.html" />
+	<jsp:include page="header.jsp" />
 
 	<div class="proDe_container">
 		<div class="proDe_main">
