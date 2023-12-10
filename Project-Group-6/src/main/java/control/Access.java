@@ -15,7 +15,7 @@ import model.Account;
 import model.AccountRole;
 import model.AccountStatus;
 
-@WebServlet("/Html/access")
+@WebServlet("/login-form-20/access")
 public class Access extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -36,14 +36,14 @@ public class Access extends HttpServlet {
 			if (signin(tel, pass)) {
 				Account ac = AccountDao.getAccount(tel, pass);
 				if (ac == null) {
-					req.getRequestDispatcher("login.jsp?status=failed").forward(req, resp);
+					req.getRequestDispatcher("index.jsp?status=failed").forward(req, resp);
 				} else {
 					HttpSession session = req.getSession();
 					session.setAttribute("account", ac);
-					resp.sendRedirect("productDetail.jsp");
+					resp.sendRedirect("../templatemo_571_hexashop/index.jsp");
 				}
 			} else {
-				req.getRequestDispatcher("login.jsp?status=failed-0").forward(req, resp);
+				req.getRequestDispatcher("index.jsp?status=failed-0").forward(req, resp);
 			}
 			break;
 		}
