@@ -11,7 +11,6 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
 	rel="stylesheet">
-
 <title>Cửa hàng</title>
 
 
@@ -36,8 +35,23 @@ https://templatemo.com/tm-571-hexashop
 -->
 </head>
 <%@ page import="model.Account"%>
+<%@ page import="model.Cart"%>
+<%@ page import="model.Product"%>
+<%@ page import="java.util.*"%>
 <%
 Account ac = (Account) request.getSession().getAttribute("account");
+Cart cart = (Cart) request.getSession().getAttribute("cart");
+List<Product> products = (List<Product>) request.getAttribute("product");
+request.getSession().setAttribute("product", products);
+int i = 0;
+if (cart == null) {
+	cart = new Cart(ac);
+	request.getSession().setAttribute("cart", cart);
+}
+
+if (cart == null) {
+	products = new ArrayList<>();
+}
 %>
 
 <body>
@@ -89,7 +103,8 @@ Account ac = (Account) request.getSession().getAttribute("account");
 							<%
 							}
 							%>
-							<li class="scroll-to-section"><a href="#"><img alt="" src="assets/images/cart.png">0</a></li>
+							<li class="scroll-to-section"><a href="#"><img alt=""
+									src="assets/images/cart.png"><%=cart.getSize()%></a></li>
 						</ul>
 						<a class='menu-trigger'> <span>Danh mục</span>
 						</a>
@@ -231,19 +246,24 @@ Account ac = (Account) request.getSession().getAttribute("account");
 								<div class="thumb">
 									<div class="hover-content">
 										<ul>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-eye"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-star"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-shopping-cart"></i></a></li>
 										</ul>
 									</div>
-									<img src="assets/images/men-01.jpg" alt="">
+									<% String path = "assets/images/men-02.jpg";
+									products.get(i).setPath(path);									%>
+									<img src="<%= path %>" alt="">
 								</div>
 								<div class="down-content">
-									<h4>Cho nhà ở</h4>
-									<span>$120.00</span>
+									<h4><%=products.get(i).getName()%></h4>
+									<span><%=products.get(i++).getPrice()%> VND</span>
 									<ul class="stars">
 										<li><i class="fa fa-star"></i></li>
 										<li><i class="fa fa-star"></i></li>
@@ -257,19 +277,24 @@ Account ac = (Account) request.getSession().getAttribute("account");
 								<div class="thumb">
 									<div class="hover-content">
 										<ul>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-eye"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-star"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-shopping-cart"></i></a></li>
 										</ul>
 									</div>
-									<img src="assets/images/men-02.jpg" alt="">
+									<% path = "assets/images/men-01.jpg";
+									products.get(i).setPath(path);									%>
+									<img src="<%= path %>" alt="">
 								</div>
 								<div class="down-content">
-									<h4>Cho phòng bếp</h4>
-									<span>$90.00</span>
+									<h4><%=products.get(i).getName()%></h4>
+									<span><%=products.get(i++).getPrice()%> VND</span>
 									<ul class="stars">
 										<li><i class="fa fa-star"></i></li>
 										<li><i class="fa fa-star"></i></li>
@@ -283,19 +308,24 @@ Account ac = (Account) request.getSession().getAttribute("account");
 								<div class="thumb">
 									<div class="hover-content">
 										<ul>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-eye"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-star"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-shopping-cart"></i></a></li>
 										</ul>
 									</div>
-									<img src="assets/images/men-03.jpg" alt="">
+									<% path = "assets/images/men-02.jpg";
+									products.get(i).setPath(path);									%>
+									<img src="<%= path %>" alt="">
 								</div>
 								<div class="down-content">
-									<h4>Mọi không gian</h4>
-									<span>$150.00</span>
+									<h4><%=products.get(i).getName()%></h4>
+									<span><%=products.get(i++).getPrice()%> VND</span>
 									<ul class="stars">
 										<li><i class="fa fa-star"></i></li>
 										<li><i class="fa fa-star"></i></li>
@@ -309,19 +339,24 @@ Account ac = (Account) request.getSession().getAttribute("account");
 								<div class="thumb">
 									<div class="hover-content">
 										<ul>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-eye"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-star"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-shopping-cart"></i></a></li>
 										</ul>
 									</div>
-									<img src="assets/images/men-01.jpg" alt="">
+									<% path = "assets/images/kid-01.jpg";
+									products.get(i).setPath(path);									%>
+									<img src="<%= path %>" alt="">
 								</div>
 								<div class="down-content">
-									<h4>Cho nhà ở</h4>
-									<span>$120.00</span>
+									<h4><%=products.get(i).getName()%></h4>
+									<span><%=products.get(i++).getPrice()%> VND</span>
 									<ul class="stars">
 										<li><i class="fa fa-star"></i></li>
 										<li><i class="fa fa-star"></i></li>
@@ -360,19 +395,24 @@ Account ac = (Account) request.getSession().getAttribute("account");
 								<div class="thumb">
 									<div class="hover-content">
 										<ul>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-eye"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-star"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-shopping-cart"></i></a></li>
 										</ul>
 									</div>
-									<img src="assets/images/kid-01.jpg" alt="">
+											<%  path = "assets/images/kid-02.jpg";
+									products.get(i).setPath(path);									%>
+									<img src="<%= path %>" alt="">
 								</div>
 								<div class="down-content">
-									<h4>Nhập khẩu từ mỹ</h4>
-									<span>$80.00</span>
+									<h4><%=products.get(i).getName()%></h4>
+									<span><%=products.get(i++).getPrice()%> VND</span>
 									<ul class="stars">
 										<li><i class="fa fa-star"></i></li>
 										<li><i class="fa fa-star"></i></li>
@@ -386,19 +426,24 @@ Account ac = (Account) request.getSession().getAttribute("account");
 								<div class="thumb">
 									<div class="hover-content">
 										<ul>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-eye"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-star"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-shopping-cart"></i></a></li>
 										</ul>
 									</div>
-									<img src="assets/images/kid-02.jpg" alt="">
+											<% path = "assets/images/service-01.jpg";
+									products.get(i).setPath(path);									%>
+									<img src="<%= path %>" alt="">
 								</div>
 								<div class="down-content">
-									<h4>Xuất xứ tại Việt</h4>
-									<span>$12.00</span>
+									<h4><%=products.get(i).getName()%></h4>
+									<span><%=products.get(i++).getPrice()%> VND</span>
 									<ul class="stars">
 										<li><i class="fa fa-star"></i></li>
 										<li><i class="fa fa-star"></i></li>
@@ -412,19 +457,24 @@ Account ac = (Account) request.getSession().getAttribute("account");
 								<div class="thumb">
 									<div class="hover-content">
 										<ul>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-eye"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-star"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-shopping-cart"></i></a></li>
 										</ul>
 									</div>
-									<img src="assets/images/kid-03.jpg" alt="">
+									<% path = "assets/images/service-02.jpg";
+									products.get(i).setPath(path);									%>
+									<img src="<%= path %>" alt="">
 								</div>
 								<div class="down-content">
-									<h4>Tại Đài Loan</h4>
-									<span>$30.00</span>
+									<h4><%=products.get(i).getName()%></h4>
+									<span><%=products.get(i++).getPrice()%> VND</span>
 									<ul class="stars">
 										<li><i class="fa fa-star"></i></li>
 										<li><i class="fa fa-star"></i></li>
@@ -438,19 +488,24 @@ Account ac = (Account) request.getSession().getAttribute("account");
 								<div class="thumb">
 									<div class="hover-content">
 										<ul>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-eye"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-star"></i></a></li>
-											<li><a href="single-product.jsp"><i
+											<li><a
+												href="single-product?product-id=<%=products.get(i).getId()%>"><i
 													class="fa fa-shopping-cart"></i></a></li>
 										</ul>
 									</div>
-									<img src="assets/images/kid-01.jpg" alt="">
+									<% path = "assets\\images\\women-01.jpg";
+									products.get(i).setPath(path);									%>
+									<img src="<%= path %>" alt="">
 								</div>
 								<div class="down-content">
-									<h4>Cho nhà ở</h4>
-									<span>$120.00</span>
+									<h4><%=products.get(i).getName()%></h4>
+									<span><%=products.get(i++).getPrice()%> VND</span>
 									<ul class="stars">
 										<li><i class="fa fa-star"></i></li>
 										<li><i class="fa fa-star"></i></li>

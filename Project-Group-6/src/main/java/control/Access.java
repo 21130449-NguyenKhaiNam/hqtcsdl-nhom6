@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,8 @@ import dao.AccountDao;
 import model.Account;
 import model.AccountRole;
 import model.AccountStatus;
+import model.Cart;
+import model.Product;
 
 @WebServlet("/login-form-20/access")
 public class Access extends HttpServlet {
@@ -38,12 +41,15 @@ public class Access extends HttpServlet {
 				if (ac == null) {
 					req.getRequestDispatcher("index.jsp?status=failed").forward(req, resp);
 				} else {
+					Cart cart = new Cart(ac);
 					HttpSession session = req.getSession();
 					session.setAttribute("account", ac);
+					session.setAttribute("cart", cart);
 					resp.sendRedirect("../templatemo_571_hexashop/index.jsp");
 				}
 			} else {
-				req.getRequestDispatcher("index.jsp?status=failed-0").forward(req, resp);
+				req.getRequestDispatcher("index.jsp?status=failed-0").
+				forward(req, resp);
 			}
 			break;
 		}

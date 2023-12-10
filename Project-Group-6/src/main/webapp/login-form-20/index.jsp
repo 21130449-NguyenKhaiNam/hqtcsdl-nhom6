@@ -17,7 +17,6 @@
 
 <link rel="stylesheet" href="css/style.css">
 </head>
-
 <%
 String status = request.getParameter("status");
 String note = "";

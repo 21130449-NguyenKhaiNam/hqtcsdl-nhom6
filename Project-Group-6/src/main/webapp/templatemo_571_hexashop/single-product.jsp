@@ -35,6 +35,19 @@ https://templatemo.com/tm-571-hexashop
 
 -->
 </head>
+<%@ page import="model.Account"%>
+<%@ page import="model.Cart"%>
+<%@ page import="model.Product"%>
+<%
+Account ac = (Account) request.getSession().getAttribute("account");
+Cart cart = (Cart) request.getSession().getAttribute("cart");
+Product p = (Product) request.getAttribute("single-product");
+if (cart == null) {
+	cart = new Cart(ac);
+	request.getSession().setAttribute("cart", cart);
+}
+%>
+
 <body>
 	<!-- ***** Preloader Start ***** -->
 	<div id="preloader">
@@ -60,29 +73,34 @@ https://templatemo.com/tm-571-hexashop
 						<!-- ***** Logo End ***** -->
 						<!-- ***** Menu Start ***** -->
 						<ul class="nav">
-							<li class="scroll-to-section"><a href="index.jsp"
-								class="active">Home</a></li>
-							<li class="scroll-to-section"><a href="index.jsp">Men's</a></li>
-							<li class="scroll-to-section"><a href="index.jsp">Women's</a></li>
-							<li class="scroll-to-section"><a href="index.jsp">Kid's</a></li>
-							<li class="submenu"><a href="javascript:;">Pages</a>
+							<li class="scroll-to-section"><a href="#top" class="active">Trang
+									chủ</a></li>
+							<li class="scroll-to-section"><a
+								href="../browny-v1.0/index.jsp">Giới thiệu</a></li>
+							<li class="submenu"><a href="javascript:;">Các trang</a>
 								<ul>
-									<li><a href="about.jsp">About Us</a></li>
-									<li><a href="products.jsp">Products</a></li>
-									<li><a href="single-product.jsp">Single Product</a></li>
-									<li><a href="contact.jsp">Contact Us</a></li>
+									<li><a href="../browny-v1.0/index.jsp">Về chúng tôi</a></li>
+									<li><a href="products.jsp">Sản phẩm</a></li>
+									<li><a href="contact.jsp">Liên lạc</a></li>
 								</ul></li>
-							<li class="submenu"><a href="javascript:;">Features</a>
-								<ul>
-									<li><a href="#">Features Page 1</a></li>
-									<li><a href="#">Features Page 2</a></li>
-									<li><a href="#">Features Page 3</a></li>
-									<li><a rel="nofollow" href="https://templatemo.com/page/4"
-										target="_blank">Template Page 4</a></li>
-								</ul></li>
-							<li class="scroll-to-section"><a href="index.jsp">Explore</a></li>
+							<li class="scroll-to-section"><a href="#explore">Các sản
+									phẩm mới</a></li>
+							<%
+							if (ac == null) {
+							%>
+							<li class="scroll-to-section"><a
+								href="../login-form-20/index.jsp">Đăng nhập</a></li>
+							<%
+							} else {
+							%>
+							<li class="scroll-to-section"><a href="#"><%=ac.getFullName()%></a></li>
+							<%
+							}
+							%>
+							<li class="scroll-to-section"><a href="#"><img alt=""
+									src="assets/images/cart.png"><%=cart.getSize()%></a></li>
 						</ul>
-						<a class='menu-trigger'> <span>Menu</span>
+						<a class='menu-trigger'> <span>Danh mục</span>
 						</a>
 						<!-- ***** Menu End ***** -->
 					</nav>
@@ -98,8 +116,8 @@ https://templatemo.com/tm-571-hexashop
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="inner-content">
-						<h2>Single Product Page</h2>
-						<span>Awesome &amp; Creative HTML CSS layout by TemplateMo</span>
+						<h2>Chi tiết sản phẩm</h2>
+						<span>Uy tín làm nên thương hiệu</span>
 					</div>
 				</div>
 			</div>
@@ -114,14 +132,14 @@ https://templatemo.com/tm-571-hexashop
 			<div class="row">
 				<div class="col-lg-8">
 					<div class="left-images">
-						<img src="assets/images/single-product-01.jpg" alt=""> <img
-							src="assets/images/single-product-02.jpg" alt="">
+						<img src="<%= p.getPath() %>" alt=""> <img
+							src="<%= p.getPath() %>" alt="">
 					</div>
 				</div>
 				<div class="col-lg-4">
 					<div class="right-content">
-						<h4>New Green Jacket</h4>
-						<span class="price">$75.00</span>
+						<h4><%= p.getName() %></h4>
+						<span class="price"><%= p.getPrice() %> VND</span>
 						<ul class="stars">
 							<li><i class="fa fa-star"></i></li>
 							<li><i class="fa fa-star"></i></li>
@@ -129,12 +147,10 @@ https://templatemo.com/tm-571-hexashop
 							<li><i class="fa fa-star"></i></li>
 							<li><i class="fa fa-star"></i></li>
 						</ul>
-						<span>Lorem ipsum dolor sit amet, consectetur adipiscing
-							elit, sed do eiusmod kon tempor incididunt ut labore.</span>
+						<span>Sản phẩm đảm bảo được giao ngay trong ngày.</span>
 						<div class="quote">
 							<i class="fa fa-quote-left"></i>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-								sed do eiuski smod.</p>
+							<p>Thời hạn đổi trả trong trọn đời</p>
 						</div>
 						<div class="quantity-content">
 							<div class="left-content">
@@ -151,9 +167,9 @@ https://templatemo.com/tm-571-hexashop
 							</div>
 						</div>
 						<div class="total">
-							<h4>Total: $210.00</h4>
+							<h4>Total:<span><%= p.getPrice() %> / 1 sản phẩm</span></h4>
 							<div class="main-border-button">
-								<a href="#">Add To Cart</a>
+								<a href="cart?product1=<%= p.getId() %>">Thêm vào giỏ hàng</a>
 							</div>
 						</div>
 					</div>

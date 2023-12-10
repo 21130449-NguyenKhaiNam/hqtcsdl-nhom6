@@ -4,6 +4,16 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <filter>
+  	<filter-name>ProductsFilter</filter-name>
+  	<display-name>ProductsFilter</display-name>
+  	<description></description>
+  	<filter-class>control.ProductsFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>ProductsFilter</filter-name>
+  	<url-pattern>/ProductsFilter</url-pattern>
+  </filter-mapping>
   <servlet>
   	<servlet-name>NewFile</servlet-name>
   	<display-name>NewFile</display-name>
@@ -16,6 +26,24 @@
   	<description></description>
   	<servlet-class>New</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>Products</servlet-name>
+  	<display-name>Products</display-name>
+  	<description></description>
+  	<servlet-class>control.Products</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>Product</servlet-name>
+  	<display-name>Product</display-name>
+  	<description></description>
+  	<servlet-class>control.Product</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>Cart</servlet-name>
+  	<display-name>Cart</display-name>
+  	<description></description>
+  	<servlet-class>control.Cart</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>NewFile</servlet-name>
   	<url-pattern>/NewFile</url-pattern>
@@ -23,6 +51,18 @@
   <servlet-mapping>
   	<servlet-name>New</servlet-name>
   	<url-pattern>/New</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Products</servlet-name>
+  	<url-pattern>/Products</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Product</servlet-name>
+  	<url-pattern>/Product</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Cart</servlet-name>
+  	<url-pattern>/Cart</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
   	<welcome-file>index.jsp</welcome-file>

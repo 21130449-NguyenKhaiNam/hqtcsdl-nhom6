@@ -276,21 +276,24 @@ GO
 CREATE TABLE img_advertise (
 	advertiseID int NOT NULL,
 	img varchar(max),
-	PRIMARY KEY (advertiseID)
+	PRIMARY KEY (advertiseID),
+	CONSTRAINT img_advertise_ibfk_1 FOREIGN KEY (advertiseID) REFERENCES advertise (id)
 )
 GO
 
 CREATE TABLE img_products (
 	productID int NOT NULL,
 	img varchar(max),
-	PRIMARY KEY (productID)
+	PRIMARY KEY (productID),
+	CONSTRAINT img_products_ibfk_1 FOREIGN KEY (productID) REFERENCES products (id)
 )
 GO
 
 CREATE TABLE img_user (
 	userID varchar(20) NOT NULL,
 	img varchar(max),
-	PRIMARY KEY (userID)
+	PRIMARY KEY (userID),
+	CONSTRAINT img_user_ibfk_1 FOREIGN KEY (userID) REFERENCES users (id)
 )
 GO
 -------------------------------------------------------------------------------------------------------------
@@ -5756,7 +5759,6 @@ insert into order_details (orderID, modelID, price, discount, quantity) values (
 insert into order_details (orderID, modelID, price, discount, quantity) values (60, 274, 42078515, 245922, 62);
 insert into order_details (orderID, modelID, price, discount, quantity) values (9, 176, 13992278, 228464, 13);
 insert into order_details (orderID, modelID, price, discount, quantity) values (52, 280, 39842084, 110628, 77);
-insert into order_details (orderID, modelID, price, discount, quantity) values (110, 108, 44654452, 130202, 76);
 insert into order_details (orderID, modelID, price, discount, quantity) values (89, 190, 30876344, 147917, 62);
 insert into order_details (orderID, modelID, price, discount, quantity) values (77, 328, 35092550, 209100, 2);
 insert into order_details (orderID, modelID, price, discount, quantity) values (184, 133, 48907017, 201988, 86);
@@ -5787,7 +5789,6 @@ insert into order_details (orderID, modelID, price, discount, quantity) values (
 insert into order_details (orderID, modelID, price, discount, quantity) values (238, 403, 15214520, 185252, 5);
 insert into order_details (orderID, modelID, price, discount, quantity) values (82, 301, 5784052, 247195, 75);
 insert into order_details (orderID, modelID, price, discount, quantity) values (229, 450, 30419501, 105964, 84);
-insert into order_details (orderID, modelID, price, discount, quantity) values (259, 148, 45873661, 141570, 41);
 insert into order_details (orderID, modelID, price, discount, quantity) values (48, 116, 8477410, 210479, 1);
 insert into order_details (orderID, modelID, price, discount, quantity) values (104, 243, 38836388, 121309, 59);
 insert into order_details (orderID, modelID, price, discount, quantity) values (153, 285, 21515588, 131806, 97);
@@ -5921,7 +5922,6 @@ insert into personal_vouchers (voucherID, userID) values (5, 996);
 insert into personal_vouchers (voucherID, userID) values (50, 988);
 insert into personal_vouchers (voucherID, userID) values (1, 673);
 insert into personal_vouchers (voucherID, userID) values (94, 874);
-insert into personal_vouchers (voucherID, userID) values (8, 547);
 insert into personal_vouchers (voucherID, userID) values (18, 900);
 insert into personal_vouchers (voucherID, userID) values (49, 254);
 insert into personal_vouchers (voucherID, userID) values (72, 562);
@@ -6355,7 +6355,7 @@ END
 GO
 
 -- 15. Xem sản phẩm có nội dung chứa nội dung được truyền vào 
-ALTER PROC proc_description_products (@p_description NTEXT) AS
+CREATE PROC proc_description_products (@p_description NTEXT) AS
 BEGIN
     SET @p_description = '%' + CAST(@p_description AS NVARCHAR(MAX)) + '%';
     SELECT * FROM products WHERE productsDescription LIKE @p_description;
