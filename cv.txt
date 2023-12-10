@@ -34,3 +34,31 @@ Tuần 1:
 + Yêu cầu - ok
 + Thời hạn - ok
 + Nói về quy tắc đã đưa trên github - ok
+
+Tuần 2:
+- Tiếp tục xử lý giao diện
+- Kiểm tra và hoàn tất dữ liệu
+- Tiếp tục xử lý các chức năng liên quan
+- Tìm hiểu một số công nghệ giúp tạo các dữ liệu giả
+
+Tuần 3: 
+- Phân tích và thống nhất lại database
+- Đưa thêm các yêu và qui định của từng nhóm khi làm
+- Tiếp tục làm data
+
+Tuần 4: 
+- Hoàn tất việc xử lý cơ bản
+- Hoàn tất database
+- Hoàn tất xử liệu
+
+Tuần 5: 
+- Xử lý các yêu cầu:
+	+ Câu trigger: 20 câu
+	+ Câu proc: 20 câu
+	+ Câu view: 30 câu
+	+ Câu function: 30 câu
+- Hoàn tất các yêu cầu về thiết lập tài khoản
+
+Tuần 6: 
+- Viết word
+- Gôm các thư mục, nội dung liên quan quá trình làm
